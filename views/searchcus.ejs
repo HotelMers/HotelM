@@ -4,9 +4,9 @@
       <nav class="left-nav">
         <div class="left-top">
           <a href="/manage">回到首页</a>
-          <a href="#">查询客房</a>
+          <a href="/searchroom">查询客房</a>
           <a href="/addroom">添加客房</a>
-          <a href="/searchcus">查询会员</a>
+          <a href="#">查询会员</a>
           <a href="/addcus">添加会员</a>
           <a href="#">登记入住</a>
           <a href="#">预订客房</a>
@@ -24,9 +24,9 @@
                     <div class="eight wide column">
                       <form class="ui form segment" method="post">
                         <div class="field required">
-                          <label>房间号</label>
-                          <input placeholder="房间号" type="number" name="roomnumber">
-                        </div>
+                            <label>身份证号</label>
+                            <input placeholder="身份证号" type="text" name="id">
+                          </div>
                         <input type="submit" class="ui button fluid" value="查询">
                       </form>  
                     </div>
@@ -50,5 +50,3 @@
       </div>
     </div>
 <%- include('footer') %>
-
-

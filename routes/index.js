@@ -8,4 +8,6 @@ module.exports = function (app) {
     app.use('/signup', require('./signup'))
     app.use('/searchroom', require('./searchroom'))
     app.use('/addroom', require('./addroom'))
+    app.use('/addcus', require('./addcus'))
+    app.use('/searchcus', require('./searchcus'))
 }

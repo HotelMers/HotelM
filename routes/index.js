@@ -6,4 +6,6 @@ module.exports = function (app) {
     app.use('/signout', require('./signout'))
     app.use('/manage', require('./manage'))
     app.use('/signup', require('./signup'))
+    app.use('/searchroom', require('./searchroom'))
+    app.use('/addroom', require('./addroom'))
 }

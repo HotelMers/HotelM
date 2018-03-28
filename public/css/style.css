@@ -142,13 +142,13 @@ body {
   
   .left-top a {
     float: left;
-    padding:10px 0;
+    padding:10px 5px;
     width: 100%;
     
     color:white;
     text-align: center;
     text-decoration: none;
-    font-size:2em;
+    font-size:1.2em;
     text-shadow:0 1px 0 red;
      
   }

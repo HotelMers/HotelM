@@ -3,8 +3,8 @@
     <!--  左边导航栏start  -->
       <nav class="left-nav">
         <div class="left-top">
-          <a href="#">回到首页</a>
-          <a href="/searchroom">查询客房</a>
+          <a href="/manage">回到首页</a>
+          <a href="#">查询客房</a>
           <a href="/addroom">添加客房</a>
           <a href="#">管理宾客</a>
           <a href="#">登记入住</a>
@@ -18,6 +18,19 @@
     <!--  左边导航栏end  -->
     <!--  主要内容区start  -->
       <div class="main">
+            <div class="ui grid">
+                    <div class="four wide column"></div>
+                    <div class="eight wide column">
+                      <form class="ui form segment" method="post">
+                        <div class="field required">
+                          <label>房间号</label>
+                          <input placeholder="房间号" type="number" name="roomnumber">
+                        </div>
+                        <input type="submit" class="ui button fluid" value="查询">
+                      </form>  
+                    </div>
+                  </div>
+          </div>
     <!--   左侧边样 start  -->
         <div class="left-side">
           <div class="left-aside">
@@ -36,3 +49,5 @@
       </div>
     </div>
 <%- include('footer') %>
+
+

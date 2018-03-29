@@ -10,4 +10,10 @@ module.exports = function (app) {
     app.use('/addroom', require('./addroom'))
     app.use('/addcus', require('./addcus'))
     app.use('/searchcus', require('./searchcus'))
+    // 404 page
+    app.use(function (req, res) {
+      if (!res.headersSent) {
+        res.status(404).render('404')
+      }
+    })
 }

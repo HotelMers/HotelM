@@ -28,7 +28,7 @@ router.post('/', checkLogin, function (req, res, next) {
           req.flash('error', '房间不存在')
           return res.redirect('/searchroom')
         }
-        req.flash('success', '查询成功')
+        req.flash('success', '查询成功! 房间号: ', room.number,' 房间类型: ', room.type)
         res.redirect('/searchroom')
       })
       .catch(next)

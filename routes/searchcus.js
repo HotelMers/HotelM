@@ -27,7 +27,7 @@ router.post('/', checkLogin, function (req, res, next) {
           req.flash('error', '会员不存在')
           return res.redirect('/searchcus')
         }
-        req.flash('success', '查询成功')
+        req.flash('success', '查询成功! 会员名： ',customer.name, ' 会员号:', customer.id , ' 类型: ',customer.type)
         res.redirect('/searchcus')
       })
       .catch(next)

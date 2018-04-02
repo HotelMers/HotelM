@@ -11,6 +11,7 @@ router.get('/', checkLogin, function (req, res, next) {
 router.post('/', checkLogin, function (req, res, next) {
     const name = req.fields.name
     const id = req.fields.id
+    const gender = req.fields.gender
   
     // 校验参数
     try {
@@ -19,6 +20,12 @@ router.post('/', checkLogin, function (req, res, next) {
       }
       if (!id.length) {
         throw new Error('请填写身份证号')
+      }
+      if (!gender.length) {
+        throw new Error('请填写性别')
+      }
+      if (id.length != 18) {
+        throw new Error('请输入正确的身份证号')
       }
     } catch (e) {
       req.flash('error', e.message)
@@ -29,13 +36,14 @@ router.post('/', checkLogin, function (req, res, next) {
     let customer = {
       id: id,
       name : name,
+      gender : gender,
       expenditure : 0,
       type: "normal",
     }
     // 客户信息写入数据库
     CusModel.create(customer)
       .then(function (result) {
-        req.flash('success', '添加成功')
+        req.flash('success', '添加成功!会员名：', customer.name, '身份证号：', customer.id)
         res.redirect('/addcus')
       })
       .catch(function (e) {

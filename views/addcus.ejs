@@ -2,6 +2,7 @@
 <div class="wrapper">
     <!--  左边导航栏start  -->
       <nav class="left-nav">
+        <div class="left-top-img"></div>
         <div class="left-top">
           <a href="/manage">回到首页</a>
           <a href="/searchroom">查询客房</a>
@@ -30,7 +31,12 @@
                         <div class="field required">
                             <label>身份证号</label>
                             <input placeholder="身份证号" type="text" name="id">
-                          </div>
+                        </div>
+                        <div class="field required">
+                          <label>性别</label>
+                          <input type="radio" name="gender" value="female">女
+                          <input type="radio" name="gender" value="male">男
+                        </div>
                         <input type="submit" class="ui button fluid" value="添加">
                       </form>  
                     </div>

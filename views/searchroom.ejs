@@ -2,6 +2,7 @@
 <div class="wrapper">
     <!--  左边导航栏start  -->
       <nav class="left-nav">
+        <div class="left-top-img"></div>
         <div class="left-top">
           <a href="/manage">回到首页</a>
           <a href="#">查询客房</a>
@@ -27,6 +28,14 @@
                           <label>房间号</label>
                           <input placeholder="房间号" type="number" name="roomnumber">
                         </div>
+                        <div class="field required">
+                            <label>房间类型</label>
+                            <select>
+                                <option value="single">单人房</option>
+                                <option value="double">双人房</option>
+                                <option value="big">大床房</option>
+                              </select>
+                          </div>
                         <input type="submit" class="ui button fluid" value="查询">
                       </form>  
                     </div>

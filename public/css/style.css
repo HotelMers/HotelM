@@ -34,6 +34,16 @@ body {
     display: inline-block;
     margin: 10px 0;
   }
+
+  .nav-image {
+    background: url(https://image.flaticon.com/icons/svg/34/34914.svg);
+    background-size: 100px 100px;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 0;
+    right: 429px;
+  }
   
   /* ---------- nav-setting ---------- */
   
@@ -125,41 +135,51 @@ body {
     top: 0;
     left: 0;
     bottom:0;
-    width: 45px;
-    
-    background: #2a2a2a;
+    width: 120px;
+    background-color:white;
   /*   border:1px solid; */
    
   }
   
   .left-top { 
-   
     float: left;
     top: 0;
     left: 0;
     width: 100%;
+    background-color:#eaf7f1;
+    border: turquoise;
+    border-radius: 20px;
   }
   
+  .left-top-img {
+    background: url(https://www.flaticon.com/premium-icon/icons/png/512/227/227720.png);
+    background-size:120px 120px;
+    background-color: white;
+    margin-bottom: 10px;
+    height: 120px;
+    width: 120px;
+  }
   .left-top a {
     float: left;
-    padding:10px 5px;
+    padding:10px 10px;
     width: 100%;
-    
-    color:white;
+    margin-bottom: 5px;
+    margin-top: 5px;
     text-align: center;
     text-decoration: none;
+    font-weight: bold;
     font-size:1.2em;
-    text-shadow:0 1px 0 red;
-     
   }
   
-  .left-top a:first-child {
+  .left-top a:first-child:hover {
     background: #e78170;
+    border-radius: 20px;
   }
   
   .left-top a:hover {
-    background: #e78170;
-  }
+    background-color: #e78170;
+    border-radius: 20px;
+  } 
   
   .left-bottom {
     position: absolute;
@@ -173,16 +193,19 @@ body {
   .left-bottom a {
     float: left;
     width: 100%;
-    padding: 10px 0;
+    padding: 10px 10px;
     text-align: center;
     text-decoration: none;
-    font-size:20px;
-    color:gray;
-    
+    font-size:1.2em;
+    font-weight: bold;
+    background-color:#eaf7f1;
+    color: green;
+    border-radius: 20px;
+    margin-bottom: 10px;
   }
   
   .left-bottom a:hover {
-    color:white;
+    background-color: #e78170;
   }
   
   /* 主要内容区 */

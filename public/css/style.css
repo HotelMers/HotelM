@@ -469,3 +469,66 @@ body {
     line-height: 1.5;
     color:gray;
   }
+
+/* 对查询结果的样式进行设计 */
+  .footer-l {
+    padding-top: 60px;
+    width: 900px;
+    height: 200px;
+    margin-left:-200px;
+    margin-top: 30px;
+    border-top-style: outset;
+    border-bottom-style: outset;
+  }
+
+  .footer-2 {
+    padding-top: 50px;
+    width: 900px;
+    height: 160px;
+    margin-left:-200px;
+    margin-top: 40px;
+    border-top-style: outset;
+    border-bottom-style: outset;
+  }
+
+  #searchroom, #searchcus {
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    width:80%;
+    height: 70%;
+    border-collapse:collapse;
+    border-radius:5px;
+    margin-left: 50px;
+    margin-top: 10px;
+  }
+
+#searchroom td, #searchcus td,#searchroom th,  #searchcus th 
+  {
+  font-size:1.1em;
+  border:1px solid #98bf21;
+  padding:3px 7px 2px 7px;
+  text-align: center;
+  }
+
+#searchroom th, #searchcus th 
+  {
+  font-size:1.2em;
+  text-align:left;
+  padding-top:5px;
+  padding-bottom:4px;
+  background-color:#A7C942;
+  color:#ffffff;
+  }
+
+#searchroom tr.alt td , #searchcus tr.alt td 
+  {
+  color:#000000;
+  background-color:#EAF2D3;
+  }
+
+.result {
+  margin-left: 100px;
+  color: black;
+  font-size: 2em;
+  margin-top: -25px;
+  padding-bottom: 10px;
+}

@@ -1,12 +1,11 @@
 const express = require('express')
-
 const router = express.Router()
 
 const RoomModel = require('../models/rooms')
 const checkLogin = require('../middlewares/check').checkLogin
 
 router.get('/', checkLogin, function (req, res, next) {
-    res.render('addroom')
+    res.render('bookroom')
 })
 
 router.post('/', checkLogin, function (req, res, next) {

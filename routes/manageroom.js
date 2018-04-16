@@ -9,50 +9,6 @@ router.get('/', checkLogin, function (req, res, next) {
 })
 
 router.post('/', checkLogin, function (req, res, next) {
-  const number = req.fields.roomnumber
-  const type = req.fields.roomtype
-  const value = req.fields.roomvalue
-  let mapassword = req.fields.mapassword
+  })
 
-  // 校验参数
-  try {
-    if (!number.length) {
-      throw new Error('请填写房间号')
-    }
-    if (!type.length) {
-      throw new Error('请填写房间类型')
-    }
-    if (mapassword !== "forbidden") {
-      throw new Error('管理员码错误')
-    }
-    if (!value.length) {
-      throw new Error('请填写房间价格')
-    }
-  } catch (e) {
-    req.flash('error', e.message)
-    return res.redirect('back')
-  }
-
-  // 待写入数据库的房间信息
-  let room = {
-    number: number,
-    type: type,
-    value :  value,
-    status : "empty",
-  }
-  // 房间信息写入数据库
-  RoomModel.create(room)
-    .then(function (result) {
-      req.flash('success', '添加成功')
-      res.redirect('back')
-    })
-    .catch(function (e) {
-      // 房间号被占用则跳回添加页
-      if (e.message.match('duplicate key')) {
-        req.flash('error', '房间号已被占用')
-        return res.redirect('/manageroom')
-      }
-      next(e)
-    })
-})
 module.exports = router

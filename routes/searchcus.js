@@ -16,6 +16,9 @@ router.post('/', checkLogin, function (req, res, next) {
       if (!id.length) {
         throw new Error('请填写身份证号')
       }
+      if (id.length != 18) {
+        throw new Error('请输入正确的身份证号')
+      }
     } catch (e) {
       req.flash('error', e.message)
       return res.redirect('/searchcus')

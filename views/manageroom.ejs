@@ -21,14 +21,18 @@
             <div class="ui grid">
                     <div class="four wide column"></div>
                     <div class="eight wide column">
-                      <form class="ui form segment" method="post">
+                      <form class="ui form segment" method="post" id = "myFrm">
                         <div class="field required">
                           <label>房间号</label>
                           <input placeholder="房间号" type="text" name="roomnumber">
                         </div>
                         <div class="field required">
                             <label>房间类型</label>
-                            <input placeholder="房间类型" type="text" name="roomtype">
+                            <select name="roomtype">
+                              <option value ="大床房">大床房</option>
+                              <option value ="单人房">单人房</option>
+                              <option value="双床房">双床房</option>
+                            </select>
                           </div>
                           <div class="field required">
                             <label>房间价格</label>
@@ -38,7 +42,9 @@
                               <label>管理员码</label>
                               <input placeholder="管理员码" type="password" name="mapassword">
                             </div>
-                        <input type="submit" class="ui button fluid" value="添加/修改">
+                        <input type="submit" class="ui button fluid" value="添加"><br/>
+                        <input type="submit" class="ui button fluid" value="修改"><br/>
+                        <input type="submit" class="ui button fluid" value="删除">
                       </form>  
                     </div>
                   </div>
@@ -60,6 +66,6 @@
         </div>
       </div>
     </div>
-<%- include('footer') %>
+<%- include('footermr') %>
 
 

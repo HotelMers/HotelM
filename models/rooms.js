@@ -12,5 +12,11 @@ module.exports = {
   // 添加一个房间
   create: function create (room) {
     return Room.create(room).exec()
+  },
+
+  // 通过number删除一个房间
+  delRoomById: function delRoomById (number) {
+    return Room.deleteOne({ number: number }).exec()
   }
+
 }

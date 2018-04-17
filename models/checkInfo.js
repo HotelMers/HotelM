@@ -2,7 +2,7 @@ const CheckInfo = require('../lib/mongo').CheckInfo
 
 module.exports = {
   // 通过客户id获取用户信息
-  getCusById: function getCusById (id) {
+  getCheckInfoById: function getCheckInfoById (id) {
     return CheckInfo
       .findOne({ id: id })
       .addCreatedAt()

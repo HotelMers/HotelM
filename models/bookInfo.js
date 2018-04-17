@@ -2,7 +2,7 @@ const BookInfo = require('../lib/mongo').BookInfo
 
 module.exports = {
   // 通过客户id获取用户信息
-  getCusById: function getCusById (id) {
+  getBookInfoById: function getBookInfoById (id) {
     return BookInfo
       .findOne({ id: id })
       .addCreatedAt()

@@ -2,14 +2,11 @@
     $(function () {
             $("input[type='submit']").click(function () {
                 var text = $(this).val();
-                if (text == "添加") {
-                    $("#myFrm").attr("action", "/manageroom/add");
+                if (text == "获取房间号") {
+                    $("#myFrm").attr("action", "/checkin/getRoom");
                 }
-                else if (text == "修改") {
-                    $("#myFrm").attr("action", "/manageroom/modify");
-                }
-                else {
-                    $("#myFrm").attr("action", "/manageroom/delete");
+                else if (text == "查找") {
+                    $("#myFrm").attr("action", "/checkin/searchCusById");
                 }
             })
         })

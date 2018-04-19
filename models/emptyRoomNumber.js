@@ -13,6 +13,7 @@ module.exports = {
   // 增加一天的记录
   create: function create (days) {
   	var AllNumber = RoomModel.getAllRoomNumber();
+  	var number = {days:days,bigRoom:AllNumber.bigRoom,singleRoom:AllNumber.singleRoom,doubleRoom:AllNumber.doubleRoom};
     EmptyRoomNumber.create(number).exec()
   },
 

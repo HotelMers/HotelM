@@ -17,6 +17,16 @@ module.exports = {
   // 通过number删除一个房间
   delRoomById: function delRoomById (number) {
     return Room.deleteOne({ number: number }).exec()
+  },
+
+  // 获得各种类型房间的总数
+  getAllRoomNumber: function getAllRoomNumber () {
+    // 待完成
+  },
+
+  // 根据房间类型获得一个空房号
+  getRoomIdByType: function getRoomIdByType (type) {
+    // 待完成
   }
 
 }

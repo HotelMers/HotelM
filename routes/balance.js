@@ -5,7 +5,7 @@ const CusModel = require('../models/customers')
 const checkLogin = require('../middlewares/check').checkLogin
 
 router.get('/', checkLogin, function (req, res, next) {
-    res.render('balance')
+    res.render('balance');
 })
 
 router.post('/', checkLogin, function (req, res, next) {

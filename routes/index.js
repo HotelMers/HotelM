@@ -6,10 +6,16 @@ module.exports = function (app) {
     app.use('/signout', require('./signout'))
     app.use('/manage', require('./manage'))
     app.use('/signup', require('./signup'))
-    app.use('/searchroom', require('./searchroom'))
-    app.use('/addroom', require('./addroom'))
-    app.use('/addcus', require('./addcus'))
+    app.use('/manageroom', require('./manageroom'))
     app.use('/searchcus', require('./searchcus'))
+    app.use('/checkin', require('./checkin'))
+    app.use('/bookroom', require('./bookroom'))
+    app.use('/checkout', require('./checkout'))
+    app.use('/balance', require('./balance'))
+    app.use('/finance', require('./finance'))
+    app.use('/addroom', require('./addroom'))
+    app.use('/deleteroom', require('./deleteroom'))
+    app.use('/changemoney', require('./changemoney'))
     // 404 page
     app.use(function (req, res) {
       if (!res.headersSent) {

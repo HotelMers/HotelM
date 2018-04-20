@@ -34,16 +34,6 @@ body {
     display: inline-block;
     margin: 10px 0;
   }
-
-  .nav-image {
-    background: url(https://image.flaticon.com/icons/svg/34/34914.svg);
-    background-size: 100px 100px;
-    height: 100px;
-    width: 100px;
-    position: absolute;
-    top: 0;
-    right: 429px;
-  }
   
   /* ---------- nav-setting ---------- */
   
@@ -135,51 +125,41 @@ body {
     top: 0;
     left: 0;
     bottom:0;
-    width: 120px;
-    background-color:white;
+    width: 45px;
+    
+    background: #2a2a2a;
   /*   border:1px solid; */
    
   }
   
   .left-top { 
+   
     float: left;
     top: 0;
     left: 0;
     width: 100%;
-    background-color:#eaf7f1;
-    border: turquoise;
-    border-radius: 20px;
   }
   
-  .left-top-img {
-    background: url(https://www.flaticon.com/premium-icon/icons/png/512/227/227720.png);
-    background-size:120px 120px;
-    background-color: white;
-    margin-bottom: 10px;
-    height: 120px;
-    width: 120px;
-  }
   .left-top a {
     float: left;
-    padding:10px 10px;
+    padding:10px 5px;
     width: 100%;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    
+    color:white;
     text-align: center;
     text-decoration: none;
-    font-weight: bold;
     font-size:1.2em;
+    text-shadow:0 1px 0 red;
+     
   }
   
-  .left-top a:first-child:hover {
+  .left-top a:first-child {
     background: #e78170;
-    border-radius: 20px;
   }
   
   .left-top a:hover {
-    background-color: #e78170;
-    border-radius: 20px;
-  } 
+    background: #e78170;
+  }
   
   .left-bottom {
     position: absolute;
@@ -193,19 +173,16 @@ body {
   .left-bottom a {
     float: left;
     width: 100%;
-    padding: 10px 10px;
+    padding: 10px 0;
     text-align: center;
     text-decoration: none;
-    font-size:1.2em;
-    font-weight: bold;
-    background-color:#eaf7f1;
-    color: green;
-    border-radius: 20px;
-    margin-bottom: 10px;
+    font-size:20px;
+    color:gray;
+    
   }
   
   .left-bottom a:hover {
-    background-color: #e78170;
+    color:white;
   }
   
   /* 主要内容区 */
@@ -339,12 +316,15 @@ body {
   }
   
   .content {
-    width: 100%;
+    width: 50%;
   /*   height: 700px; */
-  /*   margin-top: 50px; */
+    margin-top: 50px;
+    margin-left: -330px;
   /*   border:1px solid yellow; */
   }
-  
+  .caozuo {
+    margin-left: 220px;
+  }
   /* 标记列表 */
   .list-container .tags {
     padding-left: 30px;
@@ -457,7 +437,6 @@ body {
     border-radius:5px;
   }
   
-  
   footer {
     width: 100%;
     height: 100px;
@@ -470,65 +449,125 @@ body {
     color:gray;
   }
 
-/* 对查询结果的样式进行设计 */
-  .footer-l {
-    padding-top: 60px;
-    width: 900px;
-    height: 200px;
-    margin-left:-200px;
+  /*对30天内酒店可用房源一览表设置*/
+  #avail_room_table {
+    height:300px;
+    width: 770px;
+    border: 2px solid #666666;
+    margin-left:-102px;
     margin-top: 30px;
-    border-top-style: outset;
-    border-bottom-style: outset;
+    color:#333333;
+    border-radius: 20px;
+    border-collapse: collapse;
   }
 
-  .footer-2 {
-    padding-top: 50px;
-    width: 900px;
-    height: 160px;
-    margin-left:-200px;
-    margin-top: 40px;
-    border-top-style: outset;
-    border-bottom-style: outset;
+  #avail_room_table td {
+    font-size: 1.1em;
+    border: 1px solid #666666;
+    padding: 3px 7px 2px 7px;
+    text-align: center;
+    width:70px;
+    height: 25px;
+    background-color: #ffffff;
   }
 
-  #searchroom, #searchcus {
-    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-    width:80%;
-    height: 70%;
-    border-collapse:collapse;
-    border-radius:5px;
-    margin-left: 50px;
+  #avail_room_table th {
+    font-size:1.1em;
+    text-align:center;
+    padding-top:5px;
+    padding-bottom:4px;
+    width: 70px;
+    height: 25px;
+    background-color: #dedede;
+    border:1px solid #ffffff;
+  }
+
+  .avail_room_title {
+    margin-left: 120px;
+    font-size: 2em;
+  }
+
+/*对管理客房中导航栏进行设置*/
+  .manage_room {
+    width: 600px;
+    height: 60px;
+    border: 1px solid lightgray;
+    margin-left: -50px;
+    border-radius:20px;
+  }
+  .manage_room ul{
+    list-style-type: none;
+    width: 100%;
+    height: 100%;
+    border-radius:20px;
+    background: #00A2CA;
+  }
+  .manage_room li {
+    float:left;
+    width:198px;
     margin-top: 10px;
+    text-align: center;
+  }
+  .manage_room li a{
+    float:left;
+    width:198px;
+    height: 60px;
+    text-align: center;
+    font-size: 1.3em;
+    color: white;
+  }
+  .manage_room li a:hover{
+    background: #0095BB;
+    width:198px;
+    height: 50px;
+    border-radius: 20px;
   }
 
-#searchroom td, #searchcus td,#searchroom th,  #searchcus th 
-  {
-  font-size:1.1em;
-  border:1px solid #98bf21;
-  padding:3px 7px 2px 7px;
-  text-align: center;
+  .addroom {
+    margin-top: 50px;
+    margin-left: -500px;
+  }
+  .deleteroom {
+    margin-top:50px;
+  }
+  .changemoney {
+    margin-top: 50px;
+  }
+  .blank {
+    width: 800px;
+    height: 50px;
+    margin-left: 250px;
+    margin-bottom: 20px;
+  }
+  /*对酒店房间占用情况图的设置*/
+  .pic {
+    text-align: center;
+    width: 610px;
+    height: 300px;
+    margin-left: 230px;
+    margin-top: 40px;
+    padding-top: 25px;
+    border: 1px solid lightgray;
+    border-radius:20px;
+    box-shadow: 0px 0px 1px inset
+  }
+  .div-inline {
+    float: left;
+    text-align: center;
+    margin-left: 20px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid black;
+    background: white;
+    margin-top: 20px;
+  }
+  .pic-inline {
+    height: 300px;
+    width: 600px;
   }
 
-#searchroom th, #searchcus th 
-  {
-  font-size:1.2em;
-  text-align:left;
-  padding-top:5px;
-  padding-bottom:4px;
-  background-color:#A7C942;
-  color:#ffffff;
+  /*查询会员中查询结果的显示*/
+  .cus_info {
+    margin-top: 20px;
+    text-align: center;
   }
-
-#searchroom tr.alt td , #searchcus tr.alt td 
-  {
-  color:#000000;
-  background-color:#EAF2D3;
-  }
-
-.result {
-  margin-left: 100px;
-  color: black;
-  font-size: 2em;
-  margin-top: -25px;
-  padding-bottom: 10px;
-}

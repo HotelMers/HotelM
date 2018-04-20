@@ -20,7 +20,7 @@
       <div class="main">
         <div class="ui grid">
           <div class="four wide column"></div>
-            <div class="caozuo"><h2>增加客房</h2></div>
+          <div class="caozuo"><h2>调整房价</h2></div>
             <div class="content">
               <form class="ui form segment" method="post" id = "myFrm">
               <div class="field required">
@@ -32,18 +32,22 @@
                 </select>
               </div>
               <div class="field required">
-                <label>房间号</label>
-                <input placeholder="房间号" type="text" name="roomnumber">
+                <label>修改前的房间价格</label>
+                <input placeholder="房间价格" type="text" name="roomvalue">
               </div>
               <div class="field required">
-                <label>房间价格</label>
-                <input placeholder="房间价格" type="text" name="roomvalue">
+                <label>修改后的房间价格</label>
+                <input placeholder="房间价格" type="text" name="roomvalue1">
               </div>
               <div class="field required">
                 <label>管理员码</label>
                 <input placeholder="管理员码" type="password" name="mapassword">
               </div>
-              <input type="submit" class="ui button fluid" value="添加">
+              <div class="field required">
+                <label>房间号</label>
+                <input placeholder="房间号" type="text" name="roomnumber">
+              </div>
+              <input type="submit" class="ui button fluid" value="修改">
             </form>
                 
           </div>

@@ -1,0 +1,29 @@
+<script type="text/javascript">
+    $(function () {
+            $("input[type='submit']").click(function () {
+                var text = $(this).val();
+                if (text == "添加") {
+                    $("#myFrm").attr("action", "/addroom/add");
+                }
+                else if (text == "修改") {
+                    $("#myFrm").attr("action", "/changemoney/modify");
+                }
+                else {
+                    $("#myFrm").attr("action", "/deleteroom/delete");
+                }
+            })
+        })
+    $(document).ready(function () {
+       // 点击按钮弹出下拉框
+       $('.ui.dropdown').dropdown();
+       
+       // 鼠标悬浮在头像上，弹出气泡提示框
+       $('.post-content .avatar-link').popup({
+         inline: true,
+         position: 'bottom right',
+         lastResort: 'bottom right'
+       });
+     })
+   </script>
+   </body>
+ </html>

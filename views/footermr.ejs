@@ -3,6 +3,7 @@
             $("input[type='submit']").click(function () {
                 var text = $(this).val();
                 if (text == "添加") {
+<<<<<<< HEAD
                     $("#myFrm").attr("action", "/manageroom/add");
                 }
                 else if (text == "修改") {
@@ -10,6 +11,15 @@
                 }
                 else {
                     $("#myFrm").attr("action", "/manageroom/delete");
+=======
+                    $("#myFrm").attr("action", "/addroom/add");
+                }
+                else if (text == "修改") {
+                    $("#myFrm").attr("action", "/changemoney/modify");
+                }
+                else {
+                    $("#myFrm").attr("action", "/deleteroom/delete");
+>>>>>>> 4b3767a783f70ff99a6437c515d4af7e2c001dcf
                 }
             })
         })
@@ -26,4 +36,8 @@
      })
    </script>
    </body>
+<<<<<<< HEAD
  </html>
+=======
+ </html>
+>>>>>>> 4b3767a783f70ff99a6437c515d4af7e2c001dcf

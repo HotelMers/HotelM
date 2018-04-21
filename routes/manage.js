@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-module.exports = {
-  managePage: function(req, res) {
-    res.render("manage");
-  }
-}
+const checkLogin = require('../middlewares/check').checkLogin
+
+router.get('/', checkLogin, function (req, res, next) {
+    res.render('manage')
+})
+
+module.exports = router

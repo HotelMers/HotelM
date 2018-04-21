@@ -2,14 +2,11 @@
     $(function () {
             $("input[type='submit']").click(function () {
                 var text = $(this).val();
-                if (text == "添加") {
-                    $("#myFrm").attr("action", "/addroom/add");
+                if (text == "获取房间号") {
+                    $("#myFrm").attr("action", "/checkin/getRoom");
                 }
-                else if (text == "修改") {
-                    $("#myFrm").attr("action", "/changemoney/modify");
-                }
-                else {
-                    $("#myFrm").attr("action", "/deleteroom/delete");
+                else if (text == "查找") {
+                    $("#myFrm").attr("action", "/checkin/searchCusById");
                 }
             })
         })
@@ -26,8 +23,4 @@
      })
    </script>
    </body>
-<<<<<<< HEAD
  </html>
-=======
- </html>
->>>>>>> 4b3767a783f70ff99a6437c515d4af7e2c001dcf

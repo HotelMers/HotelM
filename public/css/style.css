@@ -447,6 +447,8 @@ body {
     padding: 5px;
     line-height: 1.5;
     color:gray;
+<<<<<<< HEAD
+=======
   }
 
   /*对30天内酒店可用房源一览表设置*/
@@ -570,4 +572,5 @@ body {
   .cus_info {
     margin-top: 20px;
     text-align: center;
+>>>>>>> 4b3767a783f70ff99a6437c515d4af7e2c001dcf
   }

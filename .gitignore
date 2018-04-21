@@ -1,8 +1,0 @@
-config/*
-!config/default.*
-npm-debug.log
-node_modules
-coverage
-lib/mongo.js
-lib/lib/mongo.js
-*.js

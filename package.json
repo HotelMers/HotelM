@@ -1,5 +1,5 @@
 {
-  "name": "酒店住宿管理系统",
+  "name": "hotelManageSystem",
   "version": "1.0.0",
   "description": "a system to manage a hotel",
   "main": "index.js",
@@ -18,7 +18,6 @@
     "express-formidable": "^1.0.0",
     "express-session": "^1.15.6",
     "express-winston": "^2.5.0",
-    "kerberos": "0.0.23",
     "marked": "^0.3.19",
     "moment": "^2.21.0",
     "mongolass": "^4.2.0",

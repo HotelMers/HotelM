@@ -1,4 +1,5 @@
 const CheckInfo = require('../lib/mongo').CheckInfo
+const Room = require('../lib/mongo').room
 
 module.exports = {
   // 通过客户id获取入住信息

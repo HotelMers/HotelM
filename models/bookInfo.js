@@ -13,4 +13,9 @@ module.exports = {
   create: function create (customer) {
     return BookInfo.create(customer).exec()
   }
+
+  // 删除一个预订信息
+  deleteInfoByid: function deleteInfoByid (id) {
+    return BookInfo.deleteOne({ id: id }).exec()
+  }
 }

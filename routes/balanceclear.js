@@ -13,12 +13,30 @@ router.get('/', checkLogin, function (req, res, next) {
 })
 
 router.post('/', checkLogin, function (req, res, next) {
-		const id = req.fields.idcard
-		// 循环删除所有预订信息
-	  BookModel.deleteInfoByid(id)
-	  	.then(function (id) {
-	  		// 删除逻辑尚待确定
-	  	})
+	const id = req.fields.idcard
+	const starttime = req.fields.starttime
+	const endtime = req.fields.endtime
+
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth();
+	var day = date.getDate();
+	var time_in_num= year*10000+month*100+day;
+	// 循环删除所有预订信息
+	if (endtime< time_in_num) {
+		BookModel.deleteInfoByid(id)
+			.then(function (id) {
+			// 删除逻辑尚待确定
+				req.flash('success', '删除成功过期记录')
+	        	return res.redirect('/manageroom')
+			})
+			.catch(function (e) {
+		        // 没有过期记录
+		        req.flash('error', '没有该项记录')
+		        return res.redirect('/balance')
+		        next(e)
+		    })
+	}	
   })
 
 module.exports = router

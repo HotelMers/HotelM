@@ -1,4 +1,5 @@
 const BookInfo = require('../lib/mongo').BookInfo
+var id_array =new Array()
 
 module.exports = {
   // 通过客户id获取用户信息
@@ -11,6 +12,7 @@ module.exports = {
 
   // 添加一个客户
   create: function create (customer) {
+    id_array.push(customer.id)
     return BookInfo.create(customer).exec()
   }
 

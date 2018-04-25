@@ -13,6 +13,8 @@ router.get('/', checkLogin, function (req, res, next) {
 })
 
 router.post('/', checkLogin, function (req, res, next) {
+	var array_of_id= new Array()
+
 	const id = req.fields.idcard
 	const starttime = req.fields.starttime
 	const endtime = req.fields.endtime
@@ -22,7 +24,13 @@ router.post('/', checkLogin, function (req, res, next) {
 	var month = date.getMonth();
 	var day = date.getDate();
 	var time_in_num= year*10000+month*100+day;
+
+	for (var i = 0; i < BookModel.id_array.length; i++) {
+		array_of_id.push(BookModel.id_array[i])
+	}
 	// 循环删除所有预订信息
+	
+	// 通过id使用getBookInfoById获得customer，再通过
 	if (endtime< time_in_num) {
 		BookModel.deleteInfoByid(id)
 			.then(function (id) {

@@ -11,4 +11,8 @@ router.get('/', checkLogin, function (req, res, next) {
 router.post('/', checkLogin, function (req, res, next) {
   })
 
-module.exports = router
+module.exports = {
+  balancePage: function(req, res) {
+    res.render("balance");
+  }
+}

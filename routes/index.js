@@ -3,7 +3,9 @@ var signinRouter = require("./signin.js")
 var manageRouter = require("./manage.js")
 var signoutRouter = require("./signout.js")
 var signupRouter = require("./signup.js")
-
+var balanceRouter = require("./balance.js")
+var bookroomRouter = require("./bookroom.js")
+var checkoutRouter = require("./checkout.js")
 
 module.exports = function(app) {
     app.get('/signin', function(req, res, next) {
@@ -31,10 +33,13 @@ module.exports = function(app) {
     app.get('/checkin', function(req, res) {
     })
     app.get('/bookroom', function(req, res) {
+        bookroomRouter["bookroomPage"](req, res);
     })
     app.get('/checkout', function(req, res) {
+        checkoutRouter["checkoutPage"](req, res);
     })
     app.get('/balance', function(req, res) {
+        balanceRouter["balancePage"](req, res);
     })
     app.get('/finance', function(req, res) {
     })

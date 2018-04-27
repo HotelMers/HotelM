@@ -11,8 +11,11 @@ router.get('/', checkLogin, function (req, res, next) {
 router.post('/add', checkLogin, function (req, res, next) {
   const id = req.fields.idcard
   const name = req.fields.name
-  const score = req.fields.score
+  // const score = req.fields.score
   const phone = req.fields.phone
+  const roomtype = req.fields.roomtype
+  const startdate = req.fields.startdate
+  const enddate = req.fields.enddate
 
 
   // 校验参数
@@ -25,19 +28,21 @@ router.post('/add', checkLogin, function (req, res, next) {
     }
   } catch (e) {
     req.flash('error', e.message)
-    return res.redirect('/addroom')
+    return res.redirect('/bookroom')
   }
 
     // 待写入数据库的房间信息
-    let customer = {
+    let bookinfo = {
       id: id,
       name: name,
-      score: score,
       phone: phone,
+      type: type,
+      startdate: startdate,
+      enddate: enddate
     }
   
-    // 房间信息写入数据库
-     BookModel.create(customer)
+    // 用户信息写入数据库
+     BookModel.create(bookinfo)
       .then(function (result) {
         req.flash('success', '添加成功')
         res.redirect('/manageroom')
@@ -50,4 +55,8 @@ router.post('/add', checkLogin, function (req, res, next) {
       }) 
   })
   
-module.exports = router
+module.exports = {
+  bookroomPage: function(req, res) {
+    res.render("bookroom");
+  }
+}

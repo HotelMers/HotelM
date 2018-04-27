@@ -26,25 +26,32 @@ router.post('/', checkLogin, function (req, res, next) {
 	var time_in_num= year*10000+month*100+day;
 
 	for (var i = 0; i < BookModel.id_array.length; i++) {
-		array_of_id.push(BookModel.id_array[i])
-	}
-	// 循环删除所有预订信息
-	
-	// 通过id使用getBookInfoById获得customer，再通过
-	if (endtime< time_in_num) {
-		BookModel.deleteInfoByid(id)
-			.then(function (id) {
-			// 删除逻辑尚待确定
-				req.flash('success', '删除成功过期记录')
-	        	return res.redirect('/manageroom')
-			})
-			.catch(function (e) {
-		        // 没有过期记录
-		        req.flash('error', '没有该项记录')
-		        return res.redirect('/balance')
-		        next(e)
+		// array_of_id.push(BookModel.id_array[i])
+		// 循环删除所有预订信息
+		
+		// 通过id使用getBookInfoById获得customer，再通过
+		
+		BookinfoModel.getBookInfoById(BookModel.id_array[i])
+		    .then(function (id) {
+		      //
+		      	var bookinfo = { id :"", name: "", phone: "", type: "",startdate: "", enddate: ""};
+			    if (bookinfo.endtime< time_in_num) {
+					BookModel.deleteInfoByid(id)
+						.then(function (id) {
+							req.flash('success', '删除成功过期记录')
+				        	return res.redirect('/manageroom')
+						})
+						.catch(function (e) {
+					        // 没有过期记录
+					        req.flash('error', '没有该项记录')
+					        return res.redirect('/balance')
+					        next(e)
+					    })
+					.catch(next)
+				}	  	
 		    })
-	}	
+		    	
+	}
   })
 
 module.exports = router

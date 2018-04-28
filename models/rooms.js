@@ -3,10 +3,12 @@ const Room = require('../lib/mongo').Room
 module.exports = {
   // 通过房间号获取房间信息
   getRoomByNumber: function getRoomByNumber (number) {
-    return Room
-      .findOne({ number: number })
-      .addCreatedAt()
-      .exec()
+    return Room.findOne({ number: number }).exec()
+  },
+
+  // 获取所有房间信息
+  getAllRoomInfo: function getAllRoomInfo () {
+    return Room.find()
   },
 
   // 添加一个房间

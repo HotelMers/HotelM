@@ -3,13 +3,13 @@
             $("input[type='submit']").click(function () {
                 var text = $(this).val();
                 if (text == "添加") {
-                    $("#myFrm").attr("action", "/addroom/add");
+                    $("#myFrm").attr("action", "/manageroom/addroom");
                 }
                 else if (text == "修改") {
-                    $("#myFrm").attr("action", "/changemoney/modify");
+                    $("#myFrm").attr("action", "/manageroom/updateroom");
                 }
-                else {
-                    $("#myFrm").attr("action", "/deleteroom/delete");
+                else if (text == "删除"){
+                    $("#myFrm").attr("action", "/manageroom/deleteroom");
                 }
             })
         })
@@ -26,8 +26,4 @@
      })
    </script>
    </body>
-<<<<<<< HEAD
  </html>
-=======
- </html>
->>>>>>> 4b3767a783f70ff99a6437c515d4af7e2c001dcf

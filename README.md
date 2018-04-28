@@ -1,2 +1,0 @@
-# HotelM-master
-  ;

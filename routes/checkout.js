@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const CusModel = require('../models/customers')
-const RoomModel =require('../models/room.js')
+const RoomModel =require('../models/rooms.js')
 const CheckInfoModel =require('../models/checkInfo.js')
 const checkLogin = require('../middlewares/check').checkLogin
 

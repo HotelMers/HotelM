@@ -14,7 +14,7 @@ module.exports = {
   create: function create (bookinfo) {
     id_array.push(bookinfo.id)
     return BookInfo.create(bookinfo).exec()
-  }
+  },
 
   // 删除一个预订信息
   deleteInfoByid: function deleteInfoByid (id) {

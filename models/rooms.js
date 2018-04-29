@@ -21,6 +21,11 @@ module.exports = {
     return Room.deleteOne({ number: number }).exec()
   },
 
+  // 修改房间信息
+  updateRoom: function updateRoom (room) {
+    return Room.updateOne({'number':room.number},{$set:{'type':room.type, value:room.value}}).exec()
+  },
+
   // 获得各种类型房间的总数
   getAllRoomNumber: function getAllRoomNumber () {
     // 待完成

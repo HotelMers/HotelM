@@ -32,7 +32,7 @@ module.exports = {
     // 校验参数
     try {
       if (!number.length || isNaN(value)) {
-        throw new Error('请填写房间号(数字)')
+        throw new Error('请填写房间号:数字')
       }
       if (!type.length || (type!= "单人房"&&type!= "双人房"&&type!= "大房")) {
         throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
@@ -114,8 +114,6 @@ module.exports = {
         // 异常// 房间号被占用则跳回添加页
         req.flash('error', '删除失败')
         return res.redirect('back')
-        req.flash('error', '删除失败')
-        return res.redirect('back')
         next(e)
       })
 
@@ -127,16 +125,56 @@ module.exports = {
 
   // post /manageroom/addroomPage 修改房间
   updateroomSubmit: function (req, res, next) {
-    RoomModel.getRoomByNumber(111)
+    const number = req.fields.roomnumber
+    const type = req.fields.roomtype
+    const value = req.fields.roomvalue
+    let mapassword = req.fields.mapassword
+
+    // 校验参数
+    try {
+      if (!number.length || isNaN(value)) {
+        throw new Error('请填写房间号:数字')
+      }
+      if (!type.length || (type!= "单人房"&&type!= "双人房"&&type!= "大房")) {
+        throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
+      }
+      if (!value.length || isNaN(value)) {
+        throw new Error('房间价格填写有误')
+      }
+      if (mapassword !== "forbidden") {
+        throw new Error('管理员码错误')
+      }
+    } catch (e) {
+      req.flash('error', e.message)
+      return res.redirect('back')
+    }
+    
+    // 待写入数据库的房间信息
+    let room = {
+      number: Number(number),
+      type: type,
+      value : value,
+    }
+
+    // 从数据库中修改对应房间记录
+    RoomModel.updateRoom(room)
       .then(function (result) {
-        if (!result) {
-          req.flash('error', '没有房间')
-          res.redirect('/manageroom/updateroom')
+        if (result.modifiedCount==1) {
+          // 写入 flash
+          req.flash('success', '修改成功')
+          // 跳转到首页
+          res.redirect('/manageroom')
         }
-        req.flash(result.number)
-        res.redirect('/manageroom/updateroom')
-    })
-    .catch(next) 
+        // 无该房间则跳回添加页
+        req.flash('error', '该房间不存在')
+        return res.redirect('back')
+      })
+      .catch(function (e) {
+        // 异常// 房间号被占用则跳回添加页
+        req.flash('error', '修改失败')
+        return res.redirect('back')
+        next(e)
+      })
   }
 
 }

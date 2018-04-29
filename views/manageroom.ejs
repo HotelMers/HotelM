@@ -31,22 +31,23 @@
       </div>
     <div class="blank"></div>
     
-    <tbody>
+    <!--  所有房间信息  -->
+    <table border="1">
     <tr>
-        <td>房号 </td>
-        <td>类型 </td>
-        <td>价格 </td>
-        <td>顾客 </td>
+        <td width=100>房号 </td>
+        <td width=100 width=100>类型 </td>
+        <td width=100>价格 </td>
+        <td width=100>顾客 </td>
     </tr>
-    <% for(var i = 0; i < result.length; i++){%>
+    <% for(var i = 0; i < rooms.length; i++){%>
     <tr>
-        <th><%= i+1 %></th>
-        <td><%= result[i].number %></td>
-        <td><%= result[i].type %></td>
-        <td><%= result[i].value %></td>
-        <td><%= result[i].status %></td>
+        <td width=100><%= rooms[i].number %></td>
+        <td width=100><%= rooms[i].type %></td>
+        <td width=100><%= rooms[i].value %></td>
+        <td width=100><%= rooms[i].status %></td>
     </tr>
     <%}%>
-    </tbody>
+    </table >
+    
 </div>
 <%- include('footermr') %>

@@ -7,10 +7,14 @@ const checkLogin = require('../middlewares/check').checkLogin
 module.exports = {
   // get
   manageroomPage: function(req, res) {
-    var result = RoomModel.getAllRoomInfo();
-    if (!result) result = {number:'0',type:'0',value:'0',status:'0'}
-    req.flash(result)
-    res.render('manageroom', { result:result});
+    RoomModel.getAllRoomInfo()
+    .then(function (rooms) {
+      if (!rooms) {
+        rooms = {number:'0',type:'0',value:'0',status:'0'}
+        res.render('manageroom', { result:result});
+      }
+      res.render('manageroom',{rooms:rooms})
+    })
   },
 
   // get /manageroom/addroomPage 添加房间
@@ -27,8 +31,8 @@ module.exports = {
 
     // 校验参数
     try {
-      if (!number.length) {
-        throw new Error('请填写房间号')
+      if (!number.length || isNaN(value)) {
+        throw new Error('请填写房间号(数字)')
       }
       if (!type.length || (type!= "单人房"&&type!= "双人房"&&type!= "大房")) {
         throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
@@ -114,6 +118,7 @@ module.exports = {
         return res.redirect('back')
         next(e)
       })
+
   },
   // get /manageroom/addroomPage 修改房间
   updateroomPage: function(req, res) {

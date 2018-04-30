@@ -19,8 +19,8 @@ module.exports = function(app) {
     app.get('/signout', function(req, res, next) {
         signoutRouter["signoutPage"](req, res, next);
     })
-    app.get('/manage', checkLogin, function(req, res, next) {
-        manageRouter["managePage"](req, res, next);
+    app.get('/manage', checkLogin, function(req, res) {
+        manageRouter["managePage"](req, res);
     })
     app.get('/signup', function(req, res, next) {
         signupRouter["signupPage"](req, res, next);

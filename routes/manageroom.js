@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const RoomModel = require('../models/rooms')
+const EmptyRoomModel = require('../models/emptyRoomNumber')
 const checkLogin = require('../middlewares/check').checkLogin
 
 module.exports = {
@@ -11,7 +12,6 @@ module.exports = {
     .then(function (rooms) {
       if (!rooms) {
         rooms = {number:'0',type:'0',value:'0',status:'0'}
-        res.render('manageroom', { result:result});
       }
       res.render('manageroom',{rooms:rooms})
     })
@@ -59,6 +59,8 @@ module.exports = {
     // 用户信息写入数据库
     RoomModel.create(room)
       .then(function (result) {
+        // 修改剩余空房数
+        EmptyRoomModel.addNumberByType(type);        
         // 写入 flash
         req.flash('success', '添加成功')
         // 跳转到首页
@@ -100,20 +102,25 @@ module.exports = {
     // 从数据库中删除对应房间记录
     RoomModel.delRoomById(Number(number))
       .then(function (result) {
-        if (result.deletedCount==1) {
+        if (result.deletedCount >= 1) {
+          // 修改剩余空房信息
+          EmptyRoomModel.reduceNumberByType(type);
           // 写入 flash
           req.flash('success', '删除成功')
           // 跳转到首页
           res.redirect('/manageroom')
-        }
-        // 无该房间则跳回添加页
-        req.flash('error', '该房间不存在')
-        return res.redirect('back')
+        } else {
+          // 写入 flash
+          req.flash('error', '删除失败')
+          // 跳转到首页
+          res.redirect('/manageroom')
+        }        
       })
       .catch(function (e) {
-        // 异常// 房间号被占用则跳回添加页
-        req.flash('error', '删除失败')
-        return res.redirect('back')
+        // 写入 flash
+        req.flash('success', '删除成功')
+        // 跳转到首页
+        res.redirect('/manageroom')
         next(e)
       })
 

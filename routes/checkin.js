@@ -14,7 +14,7 @@ module.exports = {
   },
 
   // post 查找用户是否预订以及是否是会员
-  checkInSubmit: function(req, res) {
+  checkInSubmit: function(req, res, next) {
     return res.redirect('/searchcus')
   },
 

@@ -68,18 +68,18 @@ module.exports = function(app) {
         searchcusRouter["searchcusPage"](req, res);
     })
     app.post('/searchcus', checkLogin, function(req, res, next) {
-        searchcusRouter["searchcusSubmit"](req, res);
+        searchcusRouter["searchcusSubmit"](req, res, next);
     })
 
     // checkin
     app.get('/checkin', checkLogin, function(req, res) {
-        checkinRouter["checkinPage"](req, res);
+        checkinRouter["checkInPage"](req, res);
     })
     app.post('/checkin', checkLogin, function(req, res, next) {
-        checkinRouter["checkinSubmit"](req, res);
+        checkinRouter["checkInSubmit"](req, res, next);
     })
     app.post('/checkin', checkLogin, function(req, res, next) {
-        checkinRouter["checkInWrite"](req, res);
+        checkinRouter["checkInWrite"](req, res, next);
     })
 
 

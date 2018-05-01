@@ -9,7 +9,7 @@ const BookModel = require('../models/bookInfo')
 module.exports = {
   bookroomPage: function(req, res) {
     res.render("bookroom");
-  }
+  },
   bookroomSubmit: function (req, res, next) {
     const id = req.fields.idcard
     const name = req.fields.name

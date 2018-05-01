@@ -42,8 +42,8 @@ module.exports = {
         name: name,
         phone: phone,
         type: roomtype,
-        startdate: startdate,
-        enddate: enddate
+        startdate: Number(startdate),
+        enddate: Number(enddate)
       }
 
       for (var i = startdate; i < enddate; i++) {
@@ -59,7 +59,7 @@ module.exports = {
       // 用户信息写入数据库
        BookModel.create(bookinfo)
         .then(function (result) {
-          req.flash('success', '预定成功')
+          req.flash('success', '添加成功')
           res.redirect('/manage')
         })
         .catch(function (e) {

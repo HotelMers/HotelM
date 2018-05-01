@@ -68,8 +68,15 @@ module.exports = function(app) {
     app.get('/bookroom', checkLogin, function(req, res) {
         bookroomRouter["bookroomPage"](req, res);
     })
+    app.post('/bookroom', checkLogin, function(req, res, next) {
+        bookroomRouter["bookroomSubmit"](req, res,next);
+    })
+
     app.get('/checkout', checkLogin, function(req, res) {
         checkoutRouter["checkoutPage"](req, res);
+    })
+    app.post('/checkout', checkLogin, function(req, res, next) {
+        checkoutRouter["checkoutSubmit"](req, res,next);
     })
     app.get('/balance', checkLogin, function(req, res) {
         balanceRouter["balancePage"](req, res);

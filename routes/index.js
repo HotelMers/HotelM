@@ -52,10 +52,27 @@ module.exports = function(app) {
         manageroomRouter["updateroomSubmit"](req, res);
     })
 
+    // checkInSearchById
     app.get('/searchcus', checkLogin, function(req, res) {
+        searchcusRouter["searchcusPage"](req, res);
     })
+    app.post('/searchcus', checkLogin, function(req, res, next) {
+        searchcusRouter["searchcusSubmit"](req, res);
+    })
+
+    // checkin
     app.get('/checkin', checkLogin, function(req, res) {
+        checkinRouter["checkinPage"](req, res);
     })
+    app.post('/checkin', checkLogin, function(req, res, next) {
+        checkinRouter["checkinSubmit"](req, res);
+    })
+    app.post('/checkin', checkLogin, function(req, res, next) {
+        checkinRouter["checkInWrite"](req, res);
+    })
+    
+
+
     app.get('/bookroom', checkLogin, function(req, res) {
         bookroomRouter["bookroomPage"](req, res);
     })

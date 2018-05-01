@@ -10,12 +10,12 @@ const checkLogin = require('../middlewares/check').checkLogin
 
 module.exports = {
   // GET
-  // checkInPage: function (req, res) {
-  //   res.render('checkInSearchById')
-  // },
+  checkInSearchByIdPage: function (req, res) {
+    res.render('checkInSearchById')
+  },
 
   // POST
-  checkInCheck: function(req, res) {
+  checkInSearchByIdCheck: function(req, res) {
     const id = req.fields.idcard
   
     // 校验参数

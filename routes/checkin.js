@@ -14,40 +14,29 @@ module.exports = {
   },
 
   // post 查找用户是否预订以及是否是会员
-  checkInSearchByIdSubmit: function(req, res) {
-    const id = req.fields.idcard
-  
+  checkInSubmit: function(req, res) {
+    return res.redirect('/searchcus')
+  },
+
+  // post 写入入住信息数据库
+  checkInWrite: function(req, res, next) {
+    const id = req.fields.id
+    const name = req.fields.name
+    const score = req.fields.score
+    const phone = req.fields.phone
+
     // 校验参数
     try {
       if (id.length != 18) {
         throw new Error('无效身份证号')
       }
+      if (phone.length != 11) {
+        throw new Error('无效手机号')
+      }
     } catch (e) {
       req.flash('error', e.message)
-      return res.redirect('/checkin')
+      return res.redirect('back')
     }
-
-    CusModel.getCusById(id)
-      .then(function (customer) {
-        if (!customer) {
-          req.flash('error', '会员不存在')
-          return res.redirect('/checkin')
-        }
-        req.flash('success', '查询成功')
-
-        var bookinfo = { id :"", name: "", score : "", phone: ""};
-
-        res.render('checkin',{customer:customer,bookinfo:bookinfo})
-      })
-      
-  },
-
-  // post 写入入住信息数据库
-  checkInWrite: function(req, res) {
-    const id = req.fields.id
-    const name = req.fields.name
-    const score = req.fields.score
-    const phone = req.fields.phone
 
     // 待写入数据库的顾客信息
     let customer = {
@@ -74,3 +63,4 @@ module.exports = {
   }
 
 }
+

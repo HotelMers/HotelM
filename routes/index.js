@@ -7,6 +7,7 @@ var balanceRouter = require("./balance.js")
 var bookroomRouter = require("./bookroom.js")
 var checkoutRouter = require("./checkout.js")
 var manageroomRouter = require("./manageroom.js")
+var balanceRouter = require("./balance.js")
 const checkLogin = require('../middlewares/check').checkLogin
 
 module.exports = function(app) {
@@ -50,6 +51,14 @@ module.exports = function(app) {
     })
     app.post('/manageroom/updateroom', checkLogin, function(req, res, next) {
         manageroomRouter["updateroomSubmit"](req, res);
+    })
+
+    // balance 盘点结算
+    app.get('/balance', checkLogin, function(req, res) {
+        balanceRouter["balancePage"](req, res);
+    })
+    app.post('/balance', checkLogin, function(req, res, next) {
+        balanceRouter["balanceSubmit"](req, res, next);
     })
 
     app.get('/searchcus', checkLogin, function(req, res) {

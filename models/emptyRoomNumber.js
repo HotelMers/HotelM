@@ -23,12 +23,11 @@ module.exports = {
   getAllEmptyRoomNumber: function getAllEmptyRoomNumber () {
     EmptyRoomNumber.find().then(function(day) {
       if (day.length != 30) {
-        module.exports.update();
+        module.exports.initializeEmptyRoomNumber();
       }
     })
     
     // module.exports.deleteAll();
-    // module.exports.initializeEmptyRoomNumber();
     // module.exports.update();
 
     return EmptyRoomNumber.find().sort({"days":1});
@@ -56,8 +55,8 @@ module.exports = {
       }
       for (var i = 1; i < 30; i++) {
         (function(day) {
-          EmptyRoomNumber.find({ days: day}).then(function(day) {
-            if (day.length!=0) {
+          EmptyRoomNumber.find({ days: day}).then(function(num) {
+            if (num.length!=0) {
                EmptyRoomNumber.updateOne({ days: day}, {$set:{'days':day-1}}).exec()
             } else {
               module.exports.create(day-1);
@@ -65,7 +64,7 @@ module.exports = {
           })
         })(i)
       }
-      module.exports.create("29");
+      module.exports.create(29);
     })
   },
 
@@ -73,32 +72,30 @@ module.exports = {
   reduceNumberByDaysAndType: function reduceNumberByTypeAndDays(days,type) {
   	EmptyRoomNumber.findOne({ days: days }).then(function(num) {
       if (type == "大房") {
-        EmptyRoomNumber.updateOne({ 'days': days },{$set:{'bigRoom':num.bigRoom-1}}).exec()
+        EmptyRoomNumber.update({ 'days': days },{$set:{'bigRoom':num.bigRoom-1}}).exec()
       } else if (type == "单人房") {
-        EmptyRoomNumber.updateOne({ 'days': days },{$set:{'singleRoom':num.singleRoom-1}}).exec()
+        EmptyRoomNumber.update({ 'days': days },{$set:{'singleRoom':num.singleRoom-1}}).exec()
       } else if (type == "双人房") {
-        EmptyRoomNumber.updateOne({ 'days': days },{$set:{'doubleRoom':num.bigRdoubleRoomoom-1}}).exec()
+        EmptyRoomNumber.update({ 'days': days },{$set:{'doubleRoom':num.doubleRoom-1}}).exec()
       }
     })
   },
 
   // 增加某天某个房间类型的数量  取消预定时调用/退房时调用（退房时days应传入0）参数days是number,type是string
   addNumberByDaysAndType: function addNumberByDaysAndType(days,type) {
-    EmptyRoomNumber.update({ 'days': 0 },{$set:{'bigRoom':666}})
     EmptyRoomNumber.findOne({ days: days }).then(function(num) {
       if (type == "大房") {
-        EmptyRoomNumber.update({ 'days': days },{$set:{'bigRoom':num.bigRoom+1}})
+        EmptyRoomNumber.update({ 'days': days },{$set:{'bigRoom':num.bigRoom+1}}).exec()
       } else if (type == "单人房") {
-        EmptyRoomNumber.update({ 'days': days },{$set:{'singleRoom':num.singleRoom+1}})
+        EmptyRoomNumber.update({ 'days': days },{$set:{'singleRoom':num.singleRoom+1}}).exec()
       } else if (type == "双人房") {
-        EmptyRoomNumber.update({ 'days': days },{$set:{'doubleRoom':num.bigRdoubleRoomoom+1}})
+        EmptyRoomNumber.update({ 'days': days },{$set:{'doubleRoom':num.doubleRoom+1}}).exec()
       }
     })
   },
 
   // 增加某个房间类型的数量  管理客房中增加客房时调用
   addNumberByType: function addNumberByType(type) {
-    EmptyRoomNumber.update({ 'days': 0 },{$set:{'bigRoom':666}});
     for(var i = 0; i < 30; i++) {
       (function(day) {
         module.exports.addNumberByDaysAndType(day,type);

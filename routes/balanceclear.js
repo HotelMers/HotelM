@@ -12,7 +12,10 @@ router.get('/', checkLogin, function (req, res, next) {
     res.render('balanceclear')
 })
 
-router.post('/', checkLogin, function (req, res, next) {
+
+
+module.exports = {
+	checkoutSubmit: function (req, res, next) {
 	var array_of_id= new Array()
 
 	const id = req.fields.idcard
@@ -52,6 +55,5 @@ router.post('/', checkLogin, function (req, res, next) {
 		    })
 		    	
 	}
-  })
-
-module.exports = router
+  }
+}

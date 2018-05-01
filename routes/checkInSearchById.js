@@ -10,9 +10,9 @@ const checkLogin = require('../middlewares/check').checkLogin
 
 module.exports = {
   // GET
-  checkInPage: function (req, res) {
-    return 
-  },
+  // checkInPage: function (req, res) {
+  //   res.render('checkInSearchById')
+  // },
 
   // POST
   checkInCheck: function(req, res) {

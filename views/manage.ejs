@@ -32,162 +32,87 @@
               <div class="footer-l">
                 <div class="avail_room_title">30天内可用房源一览表</div>
                 <table id = "avail_room_table">
+                  <!-- 0-10天 -->                
                   <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>日期</th>
+                    <% for(var i = 0; i < numbers.length&&i<10; i++){%>
+                        <td width=100><%=  numbers[i].days %></td>
+                    <%}%>
                   </tr>
+
                   <tr>
                     <th>单人房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>       
+                    <% for(var i = 0; i < numbers.length&&i<10; i++){%>
+                        <td width=100><%= numbers[i].singleRoom %></td>
+                    <%}%>    
                   </tr>
                   <tr>
                     <th>双人房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>       
+                    <% for(var i = 0; i < numbers.length&&i<10; i++){%>
+                        <td width=100><%= numbers[i].doubleRoom %></td>
+                    <%}%>    
                   </tr>
                   <tr>
-                    <th>大床房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>       
+                    <th>大房</th>
+                    <% for(var i = 0; i < numbers.length&&i<10; i++){%>
+                        <td width=100><%= numbers[i].bigRoom %></td>
+                    <%}%>    
                   </tr>
+
+                  <!-- 10-20天 --> 
                   <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>    
+                    <th>日期</th>
+                    <% for(var i = 10; i < numbers.length&&i<20; i++){%>
+                        <td width=100><%= numbers[i].days %></td>
+                    <%}%>
                   </tr>
+
                   <tr>
                     <th>单人房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>       
+                    <% for(var i = 10; i < numbers.length&&i<20; i++){%>
+                        <td width=100><%= numbers[i].singleRoom %></td>
+                    <%}%>    
                   </tr>
                   <tr>
                     <th>双人房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>      
+                    <% for(var i = 10; i < numbers.length&&i<20; i++){%>
+                        <td width=100><%= numbers[i].doubleRoom %></td>
+                    <%}%>    
                   </tr>
                   <tr>
-                    <th>大床房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>      
+                    <th>大房</th>
+                    <% for(var i = 10; i < numbers.length&&i<20; i++){%>
+                        <td width=100><%= numbers[i].bigRoom %></td>
+                    <%}%>    
                   </tr>
+
+                  <!-- 20-30天 --> 
                   <tr>
-                    <th></th> 
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>日期</th>
+                    <% for(var i = 20; i < numbers.length&&i<30; i++){%>
+                        <td width=100><%=  numbers[i].days %></td>
+                    <%}%>
                   </tr>
+
                   <tr>
                     <th>单人房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>       
+                    <% for(var i = 20; i < numbers.length&&i<30; i++){%>
+                        <td width=100><%= numbers[i].singleRoom %></td>
+                    <%}%>    
                   </tr>
                   <tr>
                     <th>双人房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>                    
-                    <td></td>
-                    <td></td>      
+                    <% for(var i = 20; i < numbers.length&&i<30; i++){%>
+                        <td width=100><%= numbers[i].doubleRoom %></td>
+                    <%}%>    
                   </tr>
                   <tr>
-                    <th>大床房</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>      
+                    <th>大房</th>
+                    <% for(var i = 20; i < numbers.length&&i<30; i++){%>
+                        <td width=100><%= numbers[i].bigRoom %></td>
+                    <%}%>    
                   </tr>
+
                 </table>
               </div>
             </footer>

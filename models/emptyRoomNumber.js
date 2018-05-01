@@ -64,7 +64,7 @@ module.exports = {
           })
         })(i)
       }
-      module.exports.create("29");
+      module.exports.create(29);
     })
   },
 

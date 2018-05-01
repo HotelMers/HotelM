@@ -8,14 +8,14 @@ const checkLogin = require('../middlewares/check').checkLogin
 
 
 // 删除预订信息
-router.get('/', checkLogin, function (req, res, next) {
-    res.render('balanceclear')
-})
-
-
 
 module.exports = {
-	checkoutSubmit: function (req, res, next) {
+
+	balanceclearPage: function (req, res, next) {
+    	res.render('balanceclear')
+	},
+
+	balanceclearSubmit: function (req, res, next) {
 	var array_of_id= new Array()
 
 	const id = req.fields.idcard

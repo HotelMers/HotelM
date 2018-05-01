@@ -23,8 +23,8 @@ module.exports = {
   },
 
   // 修改房间信息
-  updateRoom: function updateRoom (room) {
-    return Room.updateOne({'number':room.number},{$set:{'type':room.type, value:room.value}}).exec()
+  updateRoomValue: function updateRoomValue (room) {
+    return Room.updateOne({'number':room.number},{$set:{'value':room.value}}).exec()
   },
 
   // 获得单人房房间的总数
@@ -43,13 +43,9 @@ module.exports = {
   },
   
   // 用于登记入住管理：
-
-  // 根据房间类型随机获得一个空房的信息, 类型：{number:xx, type:xx, value:xx, status:0}
+  // 根据房间类型随机获得空房的信息,可能返回有多个 类型：{number:xx, type:xx, value:xx, status:0}
   getRoomIdByType: function getRoomIdByType (type) {
-    Room.find({type:type, status:0}).then(function(rooms) {
-      var randNum = Math.floor(Math.random()*rooms.length)
-      return rooms[randNum];
-    })
+    Room.find({type:type, status:0}).exec()
   },
 
   // 根据房间号码登记入住/退房(退房时customerId传入"0")

@@ -3,16 +3,22 @@
     <!--  左边导航栏start  -->
     <nav class="left-nav">
       <div class="left-top">
+        <div class="icon_pic"><img src="/img/return.png" width="38" height="38" /></div>
         <a href="/manage">回到首页</a>
+        <div class="icon_pic"><img src="/img/manage.png" width="38" height="38" /></div>
         <a href="/manageroom">管理客房</a>
+        <div class="icon_pic"><img src="/img/cus_info.png" width="38" height="38" /></div>
         <a href="/searchcus">查询会员</a>
+        <div class="icon_pic"><img src="/img/dengji.png" width="38" height="38" /></div>
         <a href="/checkin">登记入住</a>
+        <div class="icon_pic"><img src="/img/yuding.png" width="38" height="38" /></div>
         <a href="/bookroom">预订客房</a>
+        <div class="icon_pic"><img src="/img/tuifang.png" width="38" height="38" /></div>
         <a href="/checkout">登记退房</a>
+        <div class="icon_pic"><img src="/img/pandian.png" width="38" height="38" /></div>
         <a href="/balance">盘点结算</a>
-      </div>
-      <div class="left-bottom">
-        <a href="/finance">生成财务报表</a>
+        <div class="icon_pic"><img src="/img/money.png" width="38" height="38" /></div>
+        <a href="/finance">生成报表</a>
       </div>
     </nav>
     <!--  左边导航栏end  -->
@@ -32,19 +38,19 @@
     <div class="blank"></div>
     
     <!--  所有房间信息  -->
-    <table border="1">
-    <tr>
-        <td width=100>房号 </td>
-        <td width=100 width=100>类型 </td>
-        <td width=100>价格 </td>
-        <td width=100>顾客 </td>
-    </tr>
+    <table id="room_info">
+    <thead>
+        <th>房间号</th>
+        <th>房间类型</th>
+        <th>房间价格</th>
+        <th>房间状态</th>
+    </thead>
     <% for(var i = 0; i < rooms.length; i++){%>
     <tr>
-        <td width=100><%= rooms[i].number %></td>
-        <td width=100><%= rooms[i].type %></td>
-        <td width=100><%= rooms[i].value %></td>
-        <td width=100><%= rooms[i].status %></td>
+        <td><%= rooms[i].number %></td>
+        <td><%= rooms[i].type %></td>
+        <td><%= rooms[i].value %></td>
+        <td><%= rooms[i].status %></td>
     </tr>
     <%}%>
     </table >

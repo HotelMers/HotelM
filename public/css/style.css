@@ -146,7 +146,7 @@ body {
   padding: 10px 5px;
   width: 100%;
   display: block;
-  height: 39px;
+  height: 80px;
   color:white;
   text-align: center;
   text-decoration: none;
@@ -617,8 +617,9 @@ footer p {
 }
 .icon_pic {
   float: left;
-  margin-left: 25px;
-  margin-top:2px;
-  height: 40px;
-  width: 40px;
+  margin-left: 20px;
+}
+.link p{
+  float:left;
+  margin-left: 8px;
 }

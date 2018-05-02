@@ -50,6 +50,6 @@ module.exports = {
 
   // 根据房间号码登记入住/退房(退房时customerId传入"0")
   setStatusByRoomNumer: function setStatusByRoomNumer (number,customerId) {
-    return updateOne({'number':number},{$set:{'status':customerId}}).exec()
+    return Room.updateOne({'number':number},{$set:{'status':customerId}}).exec()
   },
 }

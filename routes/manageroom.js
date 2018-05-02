@@ -14,6 +14,13 @@ module.exports = {
       if (!rooms) {
         rooms = {number:'0',type:'0',value:'0',status:'0'}
       }
+      // 简单处理信息
+      for (var i = 0; i < rooms.length; i++) {
+        (function (index) {
+          if (rooms[index].status=='0')
+            rooms[index].status="无人入住";
+        })(i);
+      }
       res.render('manageroom',{rooms:rooms})
     })
   },

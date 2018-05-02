@@ -15,10 +15,11 @@ module.exports = {
   	EmptyRoomModel.update();
   	
   	// 其他事情....
+    // 
 
   	// 写入 flash
-	req.flash('success', '结算成功')
-	// 跳转到首页
-	res.redirect('/manage')
+  	req.flash('success', '结算成功')
+  	// 跳转到首页
+  	res.redirect('/manage')
   },
 }

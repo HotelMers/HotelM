@@ -1,3 +1,66 @@
+<<<<<<< HEAD
+<%- include('header') %>
+<div class="wrapper">
+    <!--  左边导航栏start  -->
+    <nav class="left-nav">
+      <div class="left-top">
+        <a href="/manage">回到首页</a>
+        <a href="/manageroom">管理客房</a>
+        <a href="/searchcus">查询会员</a>
+        <a href="/checkin">登记入住</a>
+        <a href="/bookroom">预订客房</a>
+        <a href="/checkout">登记退房</a>
+        <a href="/balance">盘点结算</a>
+      </div>
+      <div class="left-bottom">
+        <a href="/finance">生成财务报表</a>
+      </div>
+    </nav>
+    <!--  左边导航栏end  -->
+    <!--  主要内容区start  -->
+      <div class="main">
+        <div class="ui grid">
+          <div class="four wide column"></div>
+          <div class="caozuo"><h2>修改房价</h2></div>
+            <div class="content">
+              <form class="ui form segment" method="post" id = "myFrm">
+              <div class="field required">
+                <label>房间号</label>
+                <input placeholder="房间号" type="text" name="roomnumber">
+              </div>
+              <div class="field required">
+                <label>房间价格</label>
+                <input placeholder="房间价格" type="text" name="roomvalue">
+              </div>
+              <div class="field required">
+                <label>管理员码</label>
+                <input placeholder="管理员码" type="password" name="mapassword">
+              </div>
+              <input type="submit" class="ui button fluid" value="修改">
+            </form>
+          </div>
+        </div>
+    <!--   左侧边样 start  -->
+        <div class="left-side">
+          <div class="left-aside">
+            <div class="left-img">
+            </div>
+           </div>
+        </div>
+    <!--  左侧边栏 end  -->
+    <!--  右侧边栏    -->
+        <div class="right-side">
+            <footer>
+              <div class="footer-l">
+              </div>
+            </footer>
+        </div>
+      </div>
+    </div>
+<%- include('footermr') %>
+
+
+=======
 <%- include('header') %>
 <div class="wrapper">
     <!--  左边导航栏start  -->
@@ -97,3 +160,4 @@
 <%- include('footermr') %>
 
 
+>>>>>>> master

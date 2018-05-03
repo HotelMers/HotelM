@@ -12,7 +12,7 @@ module.exports = {
 
   // 添加一个预定信息
   create: function create (bookinfo) {
-    id_array.push(bookinfo.id)
+    // id_array.push(bookinfo.id)
     return BookInfo.create(bookinfo).exec()
   },
 

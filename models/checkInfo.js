@@ -24,7 +24,7 @@ module.exports = {
   },
 
   // 通过房间号删除一个入住信息
-  delCheckInByRoom: function delCheckInByRoom (number) {
-    return Room.deleteOne({ RoomNumber: number }).exec()
+  delCheckInByRoom: function delCheckInByRoom (id) {
+    return CheckInfo.deleteOne({ CustomerId: id }).exec()
   }
 }

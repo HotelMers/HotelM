@@ -4,13 +4,9 @@ const router = express.Router()
 const checkLogin = require('../middlewares/check').checkLogin
 const BookModel = require('../models/bookInfo')
 const emptyRoomNumber = require('../models/emptyRoomNumber')
+const DateHelper = require('../middlewares/dateHelper')
 
-  
-module.exports = {
-  bookroomPage: function(req, res) {
-    res.render("bookroom");
-  },
-  toDate: function toDate(stringDate) {
+var toDate = function(stringDate) {
     var stringDate= Number(stringDate);
 
     // 初始化方法 new Date(yyyy,month,dd)
@@ -19,7 +15,13 @@ module.exports = {
     var month= (stringDate% 10000)/ 100;
     var day= (stringDate% 10000)% 100;
     return Date(year,month,day);
+  }
+  
+module.exports = {
+  bookroomPage: function(req, res) {
+    res.render("bookroom");
   },
+  
   bookroomSubmit: function (req, res, next) {
     const id = req.fields.idcard
     const name = req.fields.name
@@ -50,6 +52,7 @@ module.exports = {
 
     var date_start= toDate(startdate)
     var date_end= toDate(enddate)
+    console.log(date_start)
 
     // 待写入数据库的房间信息
     let bookinfo = {
@@ -57,12 +60,27 @@ module.exports = {
         name: name,
         phone: phone,
         type: roomtype,
-        startdate: date_start,
-        enddate: date_end
+        startdate: Date(date_start),
+        enddate: Date(date_end)
       }
+
+      // 用户信息写入数据库
+    BookModel.create(bookinfo)
+        .then(function (result) {
+          req.flash('success', '预定成功')
+          res.redirect('/manage')
+        })
+        .catch(function (e) {
+          // 预定失败
+          req.flash('error', '预定失败')
+          return res.redirect('/bookroom')
+          next(e)
+        }) 
+        
     // 一个月内
     for (var i = startdate; i < enddate; i++) {
-         var days= toDate(i);
+         //var days= toDate(i);  
+         //不知道到底传入什么类型，迷
          emptyRoomNumber.reduceNumberByTypeAndDays(days,roomtype)
             .then(function (days, type) {
               req.flash('success', '操作成功')
@@ -70,19 +88,13 @@ module.exports = {
             .catch(function (e) {
                req.flash('error', '操作失败')
             })
+         emptyRoomNumber.reduceNumberByType(roomtype)
+            .then(function (type) {
+              req.flash('success', '操作成功')
+            })
+            .catch(function (e) {
+               req.flash('error', '操作失败')
+            })
       }
-     
-      // 用户信息写入数据库
-    BookModel.create(bookinfo)
-        .then(function (result) {
-          req.flash('success', '添加成功')
-          res.redirect('/manage')
-        })
-        .catch(function (e) {
-          // 预定失败
-          req.flash('error', '预定失败')
-          return res.redirect('/manage')
-          next(e)
-        }) 
   }
 }

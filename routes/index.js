@@ -77,17 +77,10 @@ module.exports = function(app) {
     })
     app.post('/checkin', checkLogin, function(req, res, next) {
         checkinRouter["checkInSubmit"](req, res, next);
-<<<<<<< HEAD
     })
     app.post('/checkin', checkLogin, function(req, res, next) {
         checkinRouter["checkInWrite"](req, res, next);
     })
-=======
-    })
-    app.post('/checkin', checkLogin, function(req, res, next) {
-        checkinRouter["checkInWrite"](req, res, next);
-    })
->>>>>>> master
 
 
     app.get('/bookroom', checkLogin, function(req, res) {

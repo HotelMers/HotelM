@@ -10,6 +10,16 @@ module.exports = {
   bookroomPage: function(req, res) {
     res.render("bookroom");
   },
+  toDate: function toDate(stringDate) {
+    var stringDate= Number(stringDate);
+
+    // 初始化方法 new Date(yyyy,month,dd)
+    // start_date
+    var year= stringDate/ 10000;
+    var month= (stringDate% 10000)/ 100;
+    var day= (stringDate% 10000)% 100;
+    return Date(year,month,day);
+  },
   bookroomSubmit: function (req, res, next) {
     const id = req.fields.idcard
     const name = req.fields.name
@@ -37,19 +47,9 @@ module.exports = {
     }
 
     // 将时间转换为 date
-    var startdate_num= Number(startdate)
-    var enddate_num= Number(enddate)
 
-    // 初始化方法 new Date(yyyy,month,dd)
-    // start_date
-    var year_start= startdate_num/ 10000
-    var month_start= (startdate_num% 10000)/ 100
-    var day_start= (startdate_num% 10000)% 100
-
-    // end_date
-    var year_end= enddate_num/ 10000
-    var month_end= (enddate_num% 10000)/ 100
-    var day_end= (enddate_num% 10000)% 100
+    var date_start= toDate(startdate)
+    var date_end= toDate(enddate)
 
     // 待写入数据库的房间信息
     let bookinfo = {
@@ -57,12 +57,13 @@ module.exports = {
         name: name,
         phone: phone,
         type: roomtype,
-        startdate: Date(year_start,month_start,day_start),
-        enddate: Date(year_end,month_end,day_end)
+        startdate: date_start,
+        enddate: date_end
       }
-
+    // 一个月内
     for (var i = startdate; i < enddate; i++) {
-         emptyRoomNumber.reduceNumberByTypeAndDays(i,roomtype)
+         var days= toDate(i);
+         emptyRoomNumber.reduceNumberByTypeAndDays(days,roomtype)
             .then(function (days, type) {
               req.flash('success', '操作成功')
             })

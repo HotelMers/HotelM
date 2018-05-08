@@ -36,17 +36,32 @@ module.exports = {
       return res.redirect('back')
     }
 
-      // 待写入数据库的房间信息
-      let bookinfo = {
+    // 将时间转换为 date
+    var startdate_num= Number(startdate)
+    var enddate_num= Number(enddate)
+
+    // 初始化方法 new Date(yyyy,month,dd)
+    // start_date
+    var year_start= startdate_num/ 10000
+    var month_start= (startdate_num% 10000)/ 100
+    var day_start= (startdate_num% 10000)% 100
+
+    // end_date
+    var year_end= enddate_num/ 10000
+    var month_end= (enddate_num% 10000)/ 100
+    var day_end= (enddate_num% 10000)% 100
+
+    // 待写入数据库的房间信息
+    let bookinfo = {
         id: id,
         name: name,
         phone: phone,
         type: roomtype,
-        startdate: Number(startdate),
-        enddate: Number(enddate)
+        startdate: Date(year_start,month_start,day_start),
+        enddate: Date(year_end,month_end,day_end)
       }
 
-      for (var i = startdate; i < enddate; i++) {
+    for (var i = startdate; i < enddate; i++) {
          emptyRoomNumber.reduceNumberByTypeAndDays(i,roomtype)
             .then(function (days, type) {
               req.flash('success', '操作成功')
@@ -57,7 +72,7 @@ module.exports = {
       }
      
       // 用户信息写入数据库
-       BookModel.create(bookinfo)
+    BookModel.create(bookinfo)
         .then(function (result) {
           req.flash('success', '添加成功')
           res.redirect('/manage')

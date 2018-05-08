@@ -70,6 +70,9 @@ module.exports = function(app) {
     app.post('/searchcus', checkLogin, function(req, res, next) {
         searchcusRouter["searchcusSubmit"](req, res, next);
     })
+    app.post('/searchcus', function(req, res, next) {
+        searchcusRouter["searchVip"](req, res, next);
+    }) //yuke in 5.8
 
     // checkin
     app.get('/checkin', checkLogin, function(req, res) {

@@ -64,15 +64,18 @@ module.exports = function(app) {
     })
 
     // checkInSearchById
-    app.get('/searchcus', checkLogin, function(req, res) {
+    app.get('/searchcus/checkin', checkLogin, function(req, res) {
         searchcusRouter["searchcusPage"](req, res);
-    })
-    app.post('/searchcus', checkLogin, function(req, res, next) {
+    }) // yuke in 5.8
+    app.post('/searchcus/checkin', checkLogin, function(req, res, next) {
         searchcusRouter["searchcusSubmit"](req, res, next);
-    })
-    app.post('/searchcus', function(req, res, next) {
-        searchcusRouter["searchVip"](req, res, next);
-    }) //yuke in 5.8
+    }) // yuke in 5.8
+    app.get('/searchcus', checkLogin, function(req, res) {
+        searchcusRouter["searchvipPage"](req, res);
+    }) // yuke in 5.8
+    app.post('/searchcus', checkLogin, function(req, res, next) {
+        searchcusRouter["searchvipSubmit"](req, res, next);
+    }) // yuke in 5.8
 
     // checkin
     app.get('/checkin', checkLogin, function(req, res) {

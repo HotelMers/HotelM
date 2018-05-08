@@ -10,7 +10,7 @@ const checkLogin = require('../middlewares/check').checkLogin
 module.exports = {
   // GET
   searchcusPage: function (req, res) {
-    res.render('searchcus')
+    res.render('checkin'); //yuxi写的是searchcus
   },
 
   // POST
@@ -40,10 +40,14 @@ module.exports = {
         res.render('checkin',{customer:customer,bookinfo:bookinfo})
       })
       
-  }
+  },
 
   //POST 根据填写的信息，查找用户，返回用户信息 yuke in 5.8
-  searchVip: function(req, res, next) {
+  searchvipPage: function(req, res) {
+    res.render('searchcus');
+  },
+  //POST 根据填写的信息，查找用户，返回用户信息 yuke in 5.8
+  searchvipSubmit: function(req, res, next) {
     const idcardnum = req.fields.id
 
     //校验参数
@@ -52,8 +56,8 @@ module.exports = {
         throw new Error('无效身份证号')
       }
     } catch (e) {
-      req.flash('error', e.massage)
-      return res.redirect('/searchcus')
+      req.flash('error', '无效身份证号')
+      return res.redirect('searchcus')
     }
     
     CusModel.getCusById(idcardnum)
@@ -67,5 +71,6 @@ module.exports = {
         res.render('searchcus', {customer:customer})
       })
 
-  }
+  },
+
 }

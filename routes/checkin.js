@@ -42,6 +42,7 @@ module.exports = {
   },
 
   // post 查找用户是否是会员
+  // checkin的ejs页面暂时没有用到“查找用户是否是会员”
   checkInVIPSubmit: function(req, res, next) {
     return res.redirect('/searchcus')
   },

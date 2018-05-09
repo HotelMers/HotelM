@@ -78,9 +78,9 @@ module.exports = function(app) {
     app.post('/checkin', checkLogin, function(req, res, next) {
         checkinRouter["checkInBookSubmit"](req, res, next);
     })
-    app.post('/checkin', checkLogin, function(req, res, next) {
-        checkinRouter["checkInVIPSubmit"](req, res, next);
-    })
+    // app.post('/checkin', checkLogin, function(req, res, next) {
+    //     checkinRouter["checkInVIPSubmit"](req, res, next);
+    // })
     app.post('/checkin', checkLogin, function(req, res, next) {
         checkinRouter["checkInWrite"](req, res, next);
     })

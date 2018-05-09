@@ -28,6 +28,7 @@ module.exports = {
 
   // 获得30天内的剩余房间量
   getAllEmptyRoomNumber: function getAllEmptyRoomNumber () {
+    module.exports.update()
     EmptyRoomNumber.find().then(function(day) {
       if (day.length != 30) {
         module.exports.initializeEmptyRoomNumber();
@@ -55,36 +56,75 @@ module.exports = {
 
   // 左移一天 在日结的时候调用
   update: function update() {
+    // 删除已过期的记录
     var today = new Date();
-  	EmptyRoomNumber.find().then(function(nums){
-      
-    })
+    var year= today.getFullYear();
+    var month = today.getMonth()+1;
+    var day = today.getDate();
+    EmptyRoomNumber.remove( { "year" : { $lt :year } } ).exec();
+    EmptyRoomNumber.remove( { "year" :{$eq :year},"month":{ $lt :month } } ).exec();
+    EmptyRoomNumber.remove( { "year" :{$eq :year},"month":{$eq :month}, "day": { $lt :day }  } ).exec();
+    return {'year':year,'month': month, 'day':day} //返回日结的日期
   },
 
-  // 减少某天某个房间类型的数量  预定时调用/无预定入住时调用
-  reduceNumberByDaysAndType: function reduceNumberByTypeAndDays(year,month,day,type) {
+  // 减少某天某个房间类型的数量  预定时调用/无预定入住时调用 参数type是string,其他是number
+  reduceNumberByDateAndType: function reduceNumberByDateAndType(year,month,day,type) {
+    var result=false;
   	EmptyRoomNumber.findOne({'year':year,'month': month, 'day':day}).then(function(num) {
-      if (type == "大房") {
-        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'bigRoom':num.bigRoom-1}}).exec()
-      } else if (type == "单人房") {
-        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'singleRoom':num.singleRoom-1}}).exec()
-      } else if (type == "双人房") {
-        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'doubleRoom':num.doubleRoom-1}}).exec()
+      if (type == "大房" && num.bigRoom > 0) {
+        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'bigRoom':num.bigRoom-1}}).exec();
+        result = true;
+      } else if (type == "单人房" && num.singleRoom > 0) {
+        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'singleRoom':num.singleRoom-1}}).exec();
+        result = true;
+      } else if (type == "双人房" && num.doubleRoom > 0) {
+        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'doubleRoom':num.doubleRoom-1}}).exec();
+        result = true;
       }
     })
+    return result;
   },
 
-  // 增加某天某个房间类型的数量  取消预定时调用/退房时调用（退房时days应传入0）参数days是number,type是string
-  addNumberByDaysAndType: function addNumberByDaysAndType(year,month,day,type) {
+  // 增加某天某个房间类型的数量  取消预定时调用/退房时调用  参数type是string,其他是number
+  addNumberByDateAndType: function addNumberByDateAndType(year,month,day,type) {
+    var result=false;
     EmptyRoomNumber.findOne({'year':year,'month': month, 'day':day}).then(function(num) {
       if (type == "大房") {
-        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'bigRoom':num.bigRoom+1}}).exec()
+        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'bigRoom':num.bigRoom+1}}).exec();
+        result = true;
       } else if (type == "单人房") {
-        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'singleRoom':num.singleRoom+1}}).exec()
+        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'singleRoom':num.singleRoom+1}}).exec();
+        result = true;
       } else if (type == "双人房") {
-        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'doubleRoom':num.doubleRoom+1}}).exec()
+        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'doubleRoom':num.doubleRoom+1}}).exec();
+        result = true;
       }
     })
+    return result;
+  },
+
+  // 增加两个日期之间某个房间类型的数量  取消预定时调用/退房时调用
+  // 参数startDate和endDate是date类型, 参数type是string类型
+  addNumberBetweenDaysByType: function addNumberBetweenDaysByType(startDate,endDate,type) {
+    var days = dateHelper.dayoffsetBetweenTwoday(startDate,endDate);
+    for (var i = 0; i <= days; i++) {
+      (function (dayoff) {
+        var date = dateHelper.getDateAfterDays(startDate,dayoff); 
+        module.exports.addNumberByDateAndType(date.year,date.month,date.day,type);
+      })(i);
+    }
+  },
+
+  // 减少两个日期之间某个房间类型的数量  预定时调用/无预定入住时调用
+  // 参数startDate和endDate是date类型, 参数type是string类型
+  reduceNumberBetweenDaysByType: function reduceNumberBetweenDaysByType(startDate,endDate,type) {
+    var days = dateHelper.dayoffsetBetweenTwoday(startDate,endDate);
+    for (var i = 0; i <= days; i++) {
+      (function (dayoff) {
+        var date = dateHelper.getDateAfterDays(startDate,dayoff); 
+        module.exports.reduceNumberByDateAndType(date.year,date.month,date.day,type);
+      })(i);
+    }
   },
 
   // 增加某个房间类型的数量  管理客房中增加客房时调用
@@ -93,7 +133,7 @@ module.exports = {
     for(var i = 0; i < 30; i++) {
       (function(dayoff) {
         date = dateHelper.getDateAfterDays(today,dayoff)
-        module.exports.addNumberByDaysAndType(date.year,date.month,date.day,type);
+        module.exports.addNumberByDateAndType(date.year,date.month,date.day,type);
       })(i);
     }
   },
@@ -104,7 +144,7 @@ module.exports = {
     for(var i = 0; i < 30; i++) {
       (function(dayoff) {
         date = dateHelper.getDateAfterDays(today,dayoff)
-        module.exports.reduceNumberByDaysAndType(date.year,date.month,date.day,type);
+        module.exports.reduceNumberByDateAndType(date.year,date.month,date.day,type);
       })(i);
     }
   },

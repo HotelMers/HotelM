@@ -96,6 +96,9 @@ module.exports = function(app) {
     app.post('/checkout', checkLogin, function(req, res, next) {
         checkoutRouter["checkoutSubmit"](req, res,next);
     })
+
+
+    
     app.get('/balance', checkLogin, function(req, res) {
         balanceRouter["balancePage"](req, res);
     })

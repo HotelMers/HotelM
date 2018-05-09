@@ -1,0 +1,27 @@
+<script type="text/javascript">
+    $(function () {
+            $("input[type='submit']").click(function () {
+                var text = $(this).val();
+                //提供一个url，后台通过这个地址进行操作
+                if (text == "确认退房") {
+                    $("#myFrm").attr("action", "/checkout/LeaveRoom");
+                }
+                else if (text == "查找") {
+                    $("#myFrm").attr("action", "/checkout/getRoonByNum");
+                }//通过查找房间号，获取住房的所有信息（登记入住时登记的信息）
+            })
+        })
+    $(document).ready(function () {
+       // 点击按钮弹出下拉框
+       $('.ui.dropdown').dropdown();
+       
+       // 鼠标悬浮在头像上，弹出气泡提示框
+       $('.post-content .avatar-link').popup({
+         inline: true,
+         position: 'bottom right',
+         lastResort: 'bottom right'
+       });
+     })
+   </script>
+   </body>
+ </html>

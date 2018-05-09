@@ -3,8 +3,8 @@ const router = express.Router()
 
 const CusModel = require('../models/customers')
 const RoomModel =require('../models/rooms')
-const BookInfoModel =require('../models/checkInfo.')
-const CheckInfoModel =require('../models/bookInfo')
+const CheckInfoModel =require('../models/checkInfo')
+const BookInfoModel =require('../models/bookInfo')
 const checkLogin = require('../middlewares/check').checkLogin
 const emptyRoomNumber = require('../models/emptyRoomNumber')
 

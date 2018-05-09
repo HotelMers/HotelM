@@ -3,6 +3,8 @@ const router = express.Router()
 
 const CusModel = require('../models/customers')
 const BookModel = require('../models/bookInfo')
+const CheckInfoModel = require('../models/checkInfo')
+
 const checkLogin = require('../middlewares/check').checkLogin
 
 module.exports = {
@@ -13,8 +15,13 @@ module.exports = {
     res.render('checkin', { customer : customer, bookinfo : bookinfo })
   },
 
-  // post 查找用户是否预订以及是否是会员
-  checkInSubmit: function(req, res, next) {
+  // post 查找用户是否预订
+  checkInBookSubmit: function(req, res, next) {
+    
+  },
+
+  // post 查找用户是否是会员
+  checkInVIPSubmit: function(req, res, next) {
     return res.redirect('/searchcus')
   },
 

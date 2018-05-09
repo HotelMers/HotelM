@@ -49,16 +49,22 @@ module.exports = {
   },
 
 
+  // get /checkin/getRoom 添加房间
+  addroomPage: function(req, res) {
+    res.render("addroom");
+  },
+
+
   // post 非预定用户入住写入入住信息数据库(待完成)
   checkInWrite: function(req, res, next) {
-    const CustomerId = req.fields.id
+    const CustomerId = req.fields.idcard
     const name = req.fields.name
     const phone = req.fields.phone
     const price = req.fields.price
     const RoomNumber = req.fields.RoomNumber
     const startdate = req.fields.startdate
     const enddate = req.fields.enddate
-    const type = req.fields.type
+    const roomtype = req.fields.roomtype
 
     // 查询该房间号是否被管理员创建过
     isValidRoomNumberFlag = false
@@ -96,7 +102,7 @@ module.exports = {
       RoomNumber : RoomNumber
       startdate : startdate
       enddate : enddate
-      type : type
+      roomtype : roomtype
     }
 
     // 入住信息写入数据库
@@ -115,7 +121,7 @@ module.exports = {
     }) 
 
     // 更新剩余空房数据库，相应类型客房数量-1
-    EmptyRoomModel.reduceNumberByDaysAndType(type)
+    EmptyRoomModel.reduceNumberByDaysAndType(roomtype)
     // 写入 flash
     req.flash('success', '客房数量-1成功')
 

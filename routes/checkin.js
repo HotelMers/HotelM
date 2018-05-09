@@ -8,6 +8,8 @@ const RoomModel = require('../models/rooms')
 const EmptyRoomNumber = require('../lib/mongo').EmptyRoomNumber
 const checkLogin = require('../middlewares/check').checkLogin
 
+const DateHelper = require('../middlewares/dateHelper')
+
 module.exports = {
   // GET
   checkInPage: function (req, res) {
@@ -51,9 +53,8 @@ module.exports = {
 
   // get /checkin/getRoom 添加房间
   addroomPage: function(req, res) {
-    res.render("addroom");
+    res.render("getRoom");
   },
-
 
   // post 非预定用户入住写入入住信息数据库(待完成)
   checkInWrite: function(req, res, next) {
@@ -61,20 +62,10 @@ module.exports = {
     const name = req.fields.name
     const phone = req.fields.phone
     const price = req.fields.price
-    const RoomNumber = req.fields.RoomNumber
-    const startdate = req.fields.startdate
-    const enddate = req.fields.enddate
+    const RoomNumber = 110
+    const startdate = req.fields.starttime
+    const enddate = req.fields.endtime
     const roomtype = req.fields.roomtype
-
-    // 查询该房间号是否被管理员创建过
-    isValidRoomNumberFlag = false
-    RoomModel.getRoomByNumber(RoomNumber)
-    .then(function (room) {
-        if (!room) {
-          req.flash('error', '房间号不存在')
-        }
-        isValidRoomNumberFlag = true
-      })
 
     // 校验参数
     try {
@@ -84,7 +75,7 @@ module.exports = {
       if (phone.length != 11) {
         throw new Error('无效手机号')
       }
-      if (!isValidRoomNumberFlag) {
+      if (!RoomModel.getRoomByNumber(RoomNumber)) {
         throw new Error('无效房间号')
       }
     } catch (e) {
@@ -93,16 +84,13 @@ module.exports = {
     }
 
     // 待写入数据库的入住信息
-    let customer = {
-      id : id,
+    let checkInfo = {
+      CustomerId : CustomerId,
       name: name,
-      score : score,
       phone : phone,
-      price : price
-      RoomNumber : RoomNumber
-      startdate : startdate
+      RoomNumber : RoomNumber,
+      startdate : startdate,
       enddate : enddate
-      roomtype : roomtype
     }
 
     // 入住信息写入数据库
@@ -120,11 +108,28 @@ module.exports = {
         next(e)
     }) 
 
+
     // 更新剩余空房数据库，相应类型客房数量-1
-    EmptyRoomModel.reduceNumberByDaysAndType(roomtype)
+    var days = DateHelper.dayoffsetBetweenTwoday(startdate, enddate)
+    EmptyRoomModel.reduceNumberByDaysAndType(days, roomtype)
     // 写入 flash
     req.flash('success', '客房数量-1成功')
 
+  }
+
+  // post 获得房间号(待完成)
+  checkInGetRoom: function(req, res, next) {
+    // 获取当前日期时间
+    var myDate = new Date();
+    var year = myDate.getFullYear();    //获取完整的年份(4位)
+    var month = myDate.getMonth();       //获取当前月份(0-11,0代表1月)
+    var day = myDate.getDate();        //获取当前日(1-31)
+    
+    const roomtype = req.fields.roomtype
+
+    //rooms = getEmptyRoomNumberByDays(year, month, day)
+    rooms = getRoomIdByType(roomtype).number
+    req.flash('success', '房号为'+rooms[0].toString())
   }
 
 }

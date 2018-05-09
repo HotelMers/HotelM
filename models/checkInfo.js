@@ -18,6 +18,12 @@ module.exports = {
       .exec()
   },
 
+  //通过开始时间和截止时间区间获取入住信息
+  //getCheckInfoByTimeRange: function getCheckInfoByTimeRange(starttime, endtime) {
+  //  return CheckInfo
+      //没写完，学一下Date类型如何处理。
+  //}
+
   // 添加一个入住信息
   create: function create (customer) {
     return CheckInfo.create(customer).exec()

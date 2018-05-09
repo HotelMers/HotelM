@@ -22,14 +22,19 @@ module.exports = function(app) {
     app.get('/signout', function(req, res, next) {
         signoutRouter["signoutPage"](req, res, next);
     })
-    app.get('/manage', checkLogin, function(req, res) {
-        manageRouter["managePage"](req, res);
-    })
     app.get('/signup', function(req, res, next) {
         signupRouter["signupPage"](req, res, next);
     })
     app.post('/signup', function(req, res, next) {
         signupRouter["signupAndCreateUser"](req, res, next);
+    })
+
+    // manage
+    app.get('/manage', checkLogin, function(req, res) {
+        manageRouter["managePage"](req, res);
+    })
+    app.post('/manage', checkLogin, function(req, res) {
+        manageRouter["clear"](req, res);
     })
 
     // manage room
@@ -94,11 +99,8 @@ module.exports = function(app) {
         checkoutRouter["checkoutPage"](req, res);
     })
     app.post('/checkout', checkLogin, function(req, res, next) {
-        checkoutRouter["checkoutSubmit"](req, res,next);
+        checkoutRouter["searchroomidPage"](req, res,next);
     })
-
-
-    
     app.get('/balance', checkLogin, function(req, res) {
         balanceRouter["balancePage"](req, res);
     })

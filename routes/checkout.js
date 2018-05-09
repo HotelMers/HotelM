@@ -8,30 +8,40 @@ const BookInfoModel =require('../models/bookInfo')
 const checkLogin = require('../middlewares/check').checkLogin
 const emptyRoomNumber = require('../models/emptyRoomNumber')
 
+var toDate = function(stringDate) {
+    var stringDate= Number(stringDate);
+
+    // 初始化方法 new Date(yyyy,month,dd)
+    // start_date
+    var year= stringDate/ 10000;
+    var month= (stringDate% 10000)/ 100;
+    var day= (stringDate% 10000)% 100;
+    var date1= new Date()
+    date1.setFullYear(year,month,day)
+    return date1;
+  }
 
 module.exports = {
 	searchroomidPage: function(req, res) {
-    	res.render("checkout");
-  	},
-  	searchroomidSubmit: function(req, res, next) {
-  		const number= req.fields.roomid
+		var checkinfo_temp
+		const number= req.fields.roomid
   		// 通过房间号获取checkinfo的信息
     	CheckInfoModel.getCheckInfoByRoom(Number(number))
 			.then(function (result) {
-				if (result>100) {
-					req.flash('success', '房间号存在')
-					return res.redirect('/checkout', {checkinfo:checkinfo})
-				}
-				if (result.length== 0) {
-					req.flash('error', '房间号不存在')
-					return res.redirect('/checkout')
-				}
+				if (!result) {
+			        checkinfo_temp = {CustomerId: "", name:"", phone:"",RoomNumber:"",startdate:"",enddate:""}
+			    }
+			    checkinfo_temp= result
+			    res,render('checkout', {checkinfo:checkinfo_temp})
 			})
+    	
+  	},
+  	// 查询房间按钮
+  	searchroomidSubmit: function(req, res, next) {
+  		//
   	},
 
-  	checkoutPage: function(req, res) {
-    	res.render("checkout");
-  	},
+  	//退房按钮
 	checkoutSubmit: function (req, res, next) {
 
 		//number是房间号，暂时不知道是哪个属性值得到
@@ -72,15 +82,8 @@ module.exports = {
 				}
 			})
 		//days是住的时间,startdate,enddate分别是起止时间，由于days类型目前很迷
-		//先把逻辑写在这。。。还不能运行，但逻辑没有问题了
-		for (var i = startdate; i < enddate; i++) {
-			emptyRoomNumber.addNumberByDaysAndType(i,roomtype)
-	            .then(function (days, type) {
-	              req.flash('success', '操作成功')
-	            })
-	            .catch(function (e) {
-	               req.flash('error', '操作失败')
-	            })
-		}
+		var startdays= toDate(startdate)
+	    var enddays= toDate(enddate)
+	    emptyRoomNumber.addNumberBetweenDaysByType(startdays,enddays,roomtype)
 	}
 }

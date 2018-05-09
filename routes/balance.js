@@ -12,14 +12,13 @@ module.exports = {
 
   balanceSubmit: function balanceSubmit(req, res, next) {
   	// 更新剩余空房数据库（日期-1）
-  	EmptyRoomModel.update();
-  	
+  	var date = EmptyRoomModel.update();
   	// 其他事情....
     // 
 
   	// 写入 flash
-  	req.flash('success', '结算成功')
+  	req.flash('success',date.year+'年'+date.month+'月'+date.day+'日'+',结算成功');
   	// 跳转到首页
-  	res.redirect('/manage')
+  	res.redirect('/manage');
   },
 }

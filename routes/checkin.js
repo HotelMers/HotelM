@@ -47,7 +47,7 @@ module.exports = {
     }
 
     // 顾客信息写入数据库
-    RoomModel.create(customer)
+    CusModel.create(customer)
       .then(function (result) {
         req.flash('success', '添加顾客成功')
         res.redirect('/checkin')

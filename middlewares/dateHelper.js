@@ -30,20 +30,19 @@ module.exports = {
   },
 
   // 返回当天过后dayoffset天的日期
-  getDateAfterDays: function getDateAfterDays (dayoffset) {
-    var today = new Date();
-    var date = today.getDate()+dayoffset;
-    var month = today.getMonth(); // month [0,11]
-    var year = today.getFullYear();
-    if (date > module.exports.DaysInMonth(month+1,year)) {
-      date = date-module.exports.DaysInMonth(month+1,year);
+  getDateAfterDays: function getDateAfterDays (beginDay,dayoffset) {
+    var day = beginDay.getDate()+dayoffset;
+    var month = beginDay.getMonth(); // month [0,11]
+    var year = beginDay.getFullYear();
+    if (day > module.exports.DaysInMonth(month+1,year)) {
+      day = day-module.exports.DaysInMonth(month+1,year);
       month++;
       if (month > 11) {
+        year++;
         month = 0;
       }
     }
-    today.setDate(date);
-    today.setMonth(month);
-    return today;
+    var date = {year:year,month:month+1,day:day};
+    return date;
   },
 }

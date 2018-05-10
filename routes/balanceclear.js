@@ -5,6 +5,8 @@ const RoomModel = require('../models/rooms')
 const CusModel = require('../models/customers')
 const BookModel = require('../models/bookInfo')
 const checkLogin = require('../middlewares/check').checkLogin
+const EmptyRoomModel = require('../models/emptyRoomNumber')
+const EmptyRoomNumber = require('../lib/mongo').EmptyRoomNumber
 
 
 // 删除预订信息
@@ -16,11 +18,6 @@ module.exports = {
 	},
 
 	balanceclearSubmit: function (req, res, next) {
-	var array_of_id= new Array()
-
-	const id = req.fields.idcard
-	const starttime = req.fields.starttime
-	const endtime = req.fields.endtime
 
 	var date = new Date();
 	var year = date.getFullYear();
@@ -33,14 +30,15 @@ module.exports = {
 		// 循环删除所有预订信息
 		
 		// 通过id使用getBookInfoById获得customer，再通过
-		
 		BookinfoModel.getBookInfoById(BookModel.id_array[i])
-		    .then(function (id) {
-		      //
-		      	var bookinfo = { id :"", name: "", phone: "", type: "",startdate: "", enddate: ""};
-			    if (bookinfo.endtime< time_in_num) {
+		    .then(function (result) {
+			    if (result.endtime< time_in_num) {
+			    	// 增加该天这种房间类型
+			    	EmptyRoomModel.addNumberByDateAndType(year, mongth, day, result.type)
+
+			    	// 删除过期记录
 					BookModel.deleteInfoByid(id)
-						.then(function (id) {
+						.then(function (result) {
 							req.flash('success', '删除成功过期记录')
 				        	return res.redirect('/manageroom')
 						})

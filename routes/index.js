@@ -96,10 +96,10 @@ module.exports = function(app) {
     })
 
     app.get('/checkout', checkLogin, function(req, res) {
-        checkoutRouter["checkoutPage"](req, res);
+        checkoutRouter["searchroomidPage"](req, res);
     })
     app.post('/checkout', checkLogin, function(req, res, next) {
-        checkoutRouter["searchroomidPage"](req, res,next);
+        checkoutRouter["checkoutSubmit"](req, res,next);
     })
     app.get('/balance', checkLogin, function(req, res) {
         balanceRouter["balancePage"](req, res);

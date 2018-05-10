@@ -41,9 +41,8 @@ module.exports = {
 			req.flash('error', e.massage)
 			return res.redirect('back')
 		}
-	}
 
-	//开始获取入住信息
-	//cnodejs.org/topic/5734abb840b2969853981234 Nodejs find() MongoDB, 如何接受变量作为find来控制返回那些列的数据？
-	//mongodb.github.io/node-mongodb-native/3.0/api/Collection.html#find find函数的全部options解释
+		//用时间域获取入住信息
+
+	}
 }

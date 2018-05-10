@@ -8,11 +8,11 @@ const checkLogin = require('../middlewares/check').checkLogin
 
 
 module.exports = {
-  //GET 根据填写的信息，查找用户，返回用户信息 yuke in 5.8
+  //GET 根据填写的信息，查找用户，返回用户信息
   searchvipPage: function(req, res) {
     res.render('searchcus');
   },
-  //POST 根据填写的信息，查找用户，返回用户信息 yuke in 5.8
+  //POST 根据填写的信息，查找用户，返回用户信息
   searchvipSubmit: function(req, res, next) {
     const idcardnum = req.fields.id
 

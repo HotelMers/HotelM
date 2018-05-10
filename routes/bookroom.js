@@ -4,12 +4,26 @@ const router = express.Router()
 const checkLogin = require('../middlewares/check').checkLogin
 const BookModel = require('../models/bookInfo')
 const emptyRoomNumber = require('../models/emptyRoomNumber')
+const DateHelper = require('../middlewares/dateHelper')
 
+var toDate = function(stringDate) {
+    var stringDate= Number(stringDate);
+
+    // 初始化方法 new Date(yyyy,month,dd)
+    // start_date
+    var year= stringDate/ 10000;
+    var month= (stringDate% 10000)/ 100;
+    var day= (stringDate% 10000)% 100;
+    var date1= new Date()
+    date1.setFullYear(year,month,day)
+    return date1;
+  }
   
 module.exports = {
   bookroomPage: function(req, res) {
     res.render("bookroom");
   },
+  
   bookroomSubmit: function (req, res, next) {
     const id = req.fields.idcard
     const name = req.fields.name
@@ -36,8 +50,14 @@ module.exports = {
       return res.redirect('back')
     }
 
-      // 待写入数据库的房间信息
-      let bookinfo = {
+    // 将时间转换为 date
+
+    var date_start= toDate(startdate)
+    var date_end= toDate(enddate)
+    // console.log(date_start)
+
+    // 待写入数据库的房间信息
+    let bookinfo = {
         id: id,
         name: name,
         phone: phone,
@@ -46,27 +66,27 @@ module.exports = {
         enddate: Number(enddate)
       }
 
-      for (var i = startdate; i < enddate; i++) {
-         emptyRoomNumber.reduceNumberByTypeAndDays(i,roomtype)
-            .then(function (days, type) {
-              req.flash('success', '操作成功')
-            })
-            .catch(function (e) {
-               req.flash('error', '操作失败')
-            })
-      }
-     
+
+    var startdays= toDate(startdate)
+    var enddays= toDate(enddate)
+    emptyRoomNumber.reduceNumberBetweenDaysByType(startdays,enddays,roomtype)
+    req.flash('success', '操作成功')
+
       // 用户信息写入数据库
-       BookModel.create(bookinfo)
+    BookModel.create(bookinfo)
         .then(function (result) {
-          req.flash('success', '添加成功')
+          req.flash('success', '预定成功')
+          // req.flash('success', startdate)
           res.redirect('/manage')
         })
         .catch(function (e) {
           // 预定失败
           req.flash('error', '预定失败')
-          return res.redirect('/manage')
+          return res.redirect('/bookroom')
           next(e)
         }) 
+        
+    // 一个月内
+
   }
 }

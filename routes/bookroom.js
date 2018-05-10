@@ -52,8 +52,8 @@ module.exports = {
 
     // 将时间转换为 date
 
-    // var date_start= toDate(startdate)
-    // var date_end= toDate(enddate)
+    var date_start= toDate(startdate)
+    var date_end= toDate(enddate)
     // console.log(date_start)
 
     // 待写入数据库的房间信息
@@ -71,12 +71,11 @@ module.exports = {
     var enddays= toDate(enddate)
     emptyRoomNumber.reduceNumberBetweenDaysByType(startdays,enddays,roomtype)
     req.flash('success', '操作成功')
-    // req.flash('success',startdays.getDay())
+
       // 用户信息写入数据库
     BookModel.create(bookinfo)
         .then(function (result) {
           req.flash('success', '预定成功')
-
           // req.flash('success', startdate)
           res.redirect('/manage')
         })

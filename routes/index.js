@@ -68,13 +68,13 @@ module.exports = function(app) {
         balanceRouter["balanceSubmit"](req, res, next);
     })
 
-    // checkInSearchById
+    // searchcus 查询会员
     app.get('/searchcus', checkLogin, function(req, res) {
-        searchcusRouter["searchcusPage"](req, res);
-    })
+        searchcusRouter["searchvipPage"](req, res);
+    }) 
     app.post('/searchcus', checkLogin, function(req, res, next) {
-        searchcusRouter["searchcusSubmit"](req, res, next);
-    })
+        searchcusRouter["searchvipSubmit"](req, res, next);
+    }) 
 
     // checkin
     app.get('/checkin', checkLogin, function(req, res) {

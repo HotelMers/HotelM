@@ -10,6 +10,7 @@ var manageroomRouter = require("./manageroom.js")
 var balanceRouter = require("./balance.js")
 var searchcusRouter = require("./searchcus.js")
 var checkinRouter = require("./checkin.js")
+var financeRouter = require("./finance.js")
 const checkLogin = require('../middlewares/check').checkLogin
 
 module.exports = function(app) {
@@ -105,7 +106,10 @@ module.exports = function(app) {
         balanceRouter["balancePage"](req, res);
     })
     app.get('/finance', checkLogin, function(req, res) {
+        financeRouter["financePage"](req, res);
     })
+    app.get('./finance', checkLogin, function(req, res, next) {
+        financeRouter["financeSubmit"](req, res, next);
     // add more router
     // 404 page
     app.use(function (req, res) {

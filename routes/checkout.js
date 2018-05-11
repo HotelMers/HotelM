@@ -18,7 +18,7 @@ var toDate = function(stringDate) {
     var day= (stringDate% 10000)% 100;
     var date1= new Date()
     date1.setFullYear(year,month,day)
-    req.flash('success',date1.year+'年'+date1.month+'月'+date1.day+'日'+',结算成功');
+    // req.flash('success',date1.year+'年'+date1.month+'月'+date1.day+'日'+',结算成功');
     return date1;
   }
 
@@ -30,10 +30,11 @@ module.exports = {
     	CheckInfoModel.getCheckInfoByRoom(Number(number))
 			.then(function (result) {
 				if (!result) {
-			        checkinfo_temp = {CustomerId: "", name:"", phone:"",RoomNumber:"",startdate:"",enddate:""}
+					// 暂时先这么设置，等区分好按钮即可完成
+			        checkinfo_temp = {CustomerId: "430502199901012222", name:"luomiao", phone:"13975962368",RoomNumber:"101",startdate:Number(20180512),enddate:Number(20180513)}
 			    }
-			    checkinfo_temp= result
-			    res.render('checkout', {checkinfo:checkinfo_temp})
+			    // checkinfo_temp= result
+			    res.render('checkout', {result:checkinfo_temp})
 			})
     	
   	},
@@ -50,23 +51,34 @@ module.exports = {
 		var zero= 0
 	  	RoomModel.setStatusByRoomNumer (Number(number),zero)
 			.then(function (result) {
-				if (number>100) {
-					req.flash('success', '房间号存在1')
+				if (!result) {
+					req.flash('error', '房间号不存在')
 				} else {
-					req.flash('error', '房间号不存在1')
+					req.flash('success', '房间号存在')
 				}
 			})
 
 	    CheckInfoModel.delCheckInByRoom(Number(number))
 	    	.then(function (result) {
 	    		// eq.flash('success', result.length)
-			    req.flash('success', '成功退房')
-			    var date= new Date()
-	    		emptyRoomNumber.addNumberBetweenDaysByType(date,date,result.type)
-			    return res.redirect('/manage')
+	    		if (!result) {
+				    req.flash('error', 'fail')
+				} else {
+					req.flash('success', '成功退房')
+
+					// 退房同时增加对应日期的空房
+					CheckInfoModel.getCheckInfoByRoom(Number(number))
+						.then(function (result1) {
+							var date1= toDate(result1.startdate)
+							var date2= toDate(result1.enddate)
+				    		emptyRoomNumber.addNumberBetweenDaysByType(date1,date2,result1.type)
+						    return res.redirect('/manage')
+						})
+				    
+				}
 			})
 		//id是身份证信息,删除预定表的
-		BookInfoModel.deleteInfoByid(Number(id))
+		BookInfoModel.deleteInfoByid(Number(number))
 	    	.then(function (result) {
 	    		if (!result) {
 	    			// 修改剩余空房信息

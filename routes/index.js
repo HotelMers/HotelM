@@ -8,10 +8,10 @@ var bookroomRouter = require("./bookroom.js")
 var checkoutRouter = require("./checkout.js")
 var manageroomRouter = require("./manageroom.js")
 var balanceRouter = require("./balance.js")
-<<<<<<< HEAD
-// var balanceClearRouter = require("./balanceclear.js")
-=======
->>>>>>> master
+// <<<<<<< HEAD
+// // var balanceClearRouter = require("./balanceclear.js")
+// =======
+// >>>>>>> master
 var searchcusRouter = require("./searchcus.js")
 var checkinRouter = require("./checkin.js")
 var financeRouter = require("./finance.js")
@@ -106,10 +106,10 @@ module.exports = function(app) {
     app.post('/checkout', checkLogin, function(req, res, next) {
         checkoutRouter["checkoutSubmit"](req, res,next);
     })
-<<<<<<< HEAD
+// <<<<<<< HEAD
     
     
-=======
+// =======
     app.get('/balance', checkLogin, function(req, res) {
         balanceRouter["balancePage"](req, res);
     })
@@ -117,8 +117,8 @@ module.exports = function(app) {
         financeRouter["financePage"](req, res);
     })
     app.get('./finance', checkLogin, function(req, res, next) {
-        financeRouter["financeSubmit"](req, res, next);
->>>>>>> master
+        financeRouter["financeSubmit"](req, res, next);})
+// >>>>>>> master
     // add more router
     // 404 page
     app.use(function (req, res) {

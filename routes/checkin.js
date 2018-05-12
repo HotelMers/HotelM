@@ -21,23 +21,17 @@ var toDate = function(stringDate) {
   return Date(year,month,day);
 }
 
-
+type: { type: 'string', required: true },
+    startdate: { type: 'number', required: true },
+    enddate: { type: 'number', required: true },
 
 module.exports = {
   // GET
   checkInPage: function (req, res) {
-    var bookinfo = { id :"", name: "", score : "", phone: ""}
     // 解析url，未处理完
-    url = req.url
-    var index =new Array()
-    index[0] = 7+url.indexOf("idcard=")
-    index[1] = 5+url.indexOf("name=")
-    index[2] = 6+url.indexOf("phone=")
-    index[3] = 9+url.indexOf("roomtype=")
-    index[4] = 10+url.indexOf("startdate=")
-    index[5] = 8+url.indexOf("enddate=")
-
-    var customer = {id:url.slice(index[0]), name:"", score:"", phone:""}
+    var customer = {id:req.query.CustomerId, name:req.query.name, phone:req.query.phone}
+    var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
+      type:req.query.roomtype, startdate:Number(startdate), enddate:Number(enddate)}
     res.render('checkin', { customer : customer, bookinfo : bookinfo })
   },
 

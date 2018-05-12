@@ -19,9 +19,9 @@ module.exports = {
   },
 
   // 添加一个入住信息
-  create: function create (CheckInfo) {
+  create: function create (checkInfo) {
     // 要计算钱
-    return CheckInfo.create(CheckInfo).exec()
+    return CheckInfo.create(checkInfo).exec()
   },
 
   // 通过房间号删除一个入住信息

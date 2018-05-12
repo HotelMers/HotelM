@@ -64,7 +64,8 @@
                             <label>身份证号</label>
                             <input placeholder="身份证号" type="text" name="idcard"  value=<%=customer.id%>>
                           </div>
-                          <input type="submit" class="ui button fluid" value="预定查找">
+                          <button class="btn btn-info" type="button" id="checkInSearchById">预定查找</button>
+                          <!--input type="submit" class="ui button fluid" value="预定查找"-->
                           <div class="field required">
                               <label>姓名</label>
                               <input placeholder="姓名" type="text" name="name" value=<%=customer.name%>>
@@ -85,11 +86,15 @@
                                   <label>退房时间</label>
                                   <input placeholder="退房时间" type="text" name="endtime" value=<%=bookinfo.enddate%>>
                                 </div>
-                          <input type="submit" class="ui button fluid" value="获取房间号">
-                            <div class="field required">
-                                  <label>房间号</label>
-                                  <input placeholder="房间号" type="text" name="RoomNumber" disabled="true" value=<%=bookinfo.RoomNumber%>>
-                            </div>
+                          <div class="field required">
+                          <button class="btn btn-info" type="button" id="getRoom">获取房间号</button>
+                          </div>
+                          <table id="checkin_info">
+                              <tr>
+                                  <th>房间号</th>
+                                  <td>222</td>
+                                </tr>
+                          </table>
                           <input type="submit" class="ui button fluid" value="确认入住">
                         </form>  
                       </div>

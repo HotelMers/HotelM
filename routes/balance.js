@@ -12,7 +12,7 @@ module.exports = {
   },
 
   balanceSubmit: function balanceSubmit(req, res, next) {
-  	
-  	res.redirect("finance");
+    
+    res.redirect("finance");
   },
 }

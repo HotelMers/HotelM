@@ -21,17 +21,13 @@ var toDate = function(stringDate) {
   return Date(year,month,day);
 }
 
-type: { type: 'string', required: true },
-    startdate: { type: 'number', required: true },
-    enddate: { type: 'number', required: true },
-
 module.exports = {
   // GET
   checkInPage: function (req, res) {
     // 解析url，未处理完
-    var customer = {id:req.query.CustomerId, name:req.query.name, phone:req.query.phone}
+    var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
-      type:req.query.roomtype, startdate:Number(startdate), enddate:Number(enddate)}
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
     res.render('checkin', { customer : customer, bookinfo : bookinfo })
   },
 
@@ -114,8 +110,8 @@ function checkInGetRoom(req, res, next) {
       }
     } catch (e) {
       req.flash('error', e.message)
-      url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone'+phone.toString()
-      +'&roomtype='+roomtype.toString()+'&startdate'+startdate.toString()+'&enddate'+enddate.toString()
+      url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+      +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
       return res.redirect(url)
       next(e)
     }

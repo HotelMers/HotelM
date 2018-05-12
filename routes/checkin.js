@@ -25,10 +25,11 @@ module.exports = {
   // GET
   checkInPage: function (req, res) {
     // 解析url,若信息填错，可保存并自动填充已填信息
+    var checkininfo = {checkin_info : req.query.RoomNumber}
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
-    res.render('checkin', { customer : customer, bookinfo : bookinfo })
+    res.render('checkin', { customer : customer, bookinfo : bookinfo, checkin_info : checkininfo })
   },
 
   // // post 查找用户是否是会员
@@ -40,59 +41,108 @@ module.exports = {
   // post 非预定用户入住写入入住信息数据库(待完成)
   checkInWrite: function(req, res, next) {
 
-// 通过身份证号查询预定情况
-function checkInBookSearch(req, res, next) {
-  const CustomerId = req.fields.idcard
+// // 通过身份证号查询预定情况
+// function checkInBookSearch(req, res, next) {
+//   const CustomerId = req.fields.idcard
 
-  // 校验参数
-  try {
-    if (CustomerId.length != 18) {
-      throw new Error('无效身份证号')
-    }
-  } catch (e) {
-    req.flash('error', e.message)
-    return res.render('/checkin')
-  }
+//   // 校验参数
+//   try {
+//     if (CustomerId.length != 18) {
+//       throw new Error('无效身份证号')
+//     }
+//   } catch (e) {
+//     req.flash('error', e.message)
+//     return res.render('/checkin')
+//   }
 
 
-  BookModel.getBookInfoById(CustomerId)
-    .then(function (bookInfo) {
-      if (!bookInfo) {
-        var session = req.session;
-        req.flash('error', '预定信息不存在')
-        url = '/checkin?idcard='+id.toString()
-        return res.render(url)
-      }
-      req.flash('success', '查询成功')
-      res.set({
-        'id': bookinfo.id,
-        'name': bookinfo.name,
-      })
-      var customer = { id:CustomerId, name:bookInfo.name,score:"", phone:bookInfo.phone}
-      var bookinfo = { id:bookInfo.id, name:bookInfo.name, phone:bookInfo.phone, 
-      type:bookInfo.roomtype, startdate:bookInfo.startdate, enddate:bookInfo.enddate}
-      res.render(url,{customer:customer,bookinfo:bookinfo})
-    })
-}
-
-// 获得房间号
-function checkInGetRoom(req, res, next) {
-  const roomtype = req.fields.roomtype
-  rooms = RoomModel.getRoomIdByType(roomtype).number
-  checkin_info = '666'
-  //$("#RoomNumber").val("rooms[0].toString()")
-}
+//   BookModel.getBookInfoById(CustomerId)
+//     .then(function (bookInfo) {
+//       if (!bookInfo) {
+//         var session = req.session;
+//         req.flash('error', '预定信息不存在')
+//         url = '/checkin?idcard='+id.toString()
+//         return res.render(url)
+//       }
+//       req.flash('success', '查询成功')
+//       res.set({
+//         'id': bookinfo.id,
+//         'name': bookinfo.name,
+//       })
+//       var customer = {id:CustomerId, name:bookInfo.name,score:"", phone:bookInfo.phone}
+//       var bookinfo = { id:bookInfo.id, name:bookInfo.name, phone:bookInfo.phone, 
+//       type:bookInfo.roomtype, startdate:bookInfo.startdate, enddate:bookInfo.enddate}
+//       res.render(url,{customer:customer,bookinfo:bookinfo})
+//     })
+// }
 
     const CustomerId = req.fields.idcard.toString()
     const name = req.fields.name.toString()
     const phone = req.fields.phone.toString()
     //const price = req.fields.price.toString()
-    const RoomNumber = '111'
+    //const RoomNumber = '111'
     const startdate = Number(req.fields.starttime.toString())
     const enddate = Number(req.fields.endtime.toString())
     const roomtype = req.fields.roomtype
 
-res.set({checkin_info : '111'})
+
+//----------------------------------------------------
+    // 通过身份证号查询预定情况
+    // 校验参数
+    if (name == 'search') {
+    try {
+      if (CustomerId.length != 18) {
+        throw new Error('无效身份证号')
+      }
+    } catch (e) {
+      req.flash('error', e.message)
+      return res.redirect('/checkin')
+    }
+
+
+    BookModel.getBookInfoById(CustomerId)
+      .then(function (bookInfo) {
+        if (!bookInfo) {
+          var session = req.session;
+          req.flash('error', '预定信息不存在')
+          url = '/checkin?idcard='+CustomerId.toString()
+          return res.redirect(url)
+          //return res.redirect('/checkin')
+        }
+        req.flash('success', '查询成功')
+        // 自动填充
+        url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
+        +'&roomtype='+bookInfo.type+'&startdate='+bookInfo.startdate+'&enddate='+bookInfo.enddate
+        return res.redirect(url)
+    })
+
+    // // test ： '查询成功'后自动填充    
+    // BookModel.getBookInfoById(CustomerId)
+    //   .then(function (suibianqugeming) {
+    //     var bookInfo = {id :CustomerId, name:'嘤嘤嘤', phone:'18812312312', 
+    //     type:'大房', startdate:'20180520', enddate:'20180522'}
+    //     var session = req.session;
+    //     req.flash('success', '查询成功')
+    //     // 自动填充
+    //     url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
+    //     +'&roomtype='+bookInfo.type+'&startdate='+bookInfo.startdate+'&enddate='+bookInfo.enddate
+    //     // url = '/checkin?idcard='+CustomerId.toString()+'&name='+'嘤嘤嘤'+'&phone='+'18812312312'
+    //     // +'&roomtype='+'大房'+'&startdate='+'20180520'+'&enddate='+'20180522'
+    //     return res.redirect(url)
+    // })
+
+    }
+    
+
+//----------------------------------------------------
+
+
+//----------------------------------------------------
+    // 获得房间号
+    rooms = RoomModel.getRoomIdByType(roomtype)
+    const RoomNumber = '222'
+    //res.set({checkin_info:RoomNumber})
+//----------------------------------------------------
 
     // 校验参数
     try {
@@ -142,8 +192,11 @@ res.set({checkin_info : '111'})
     // 入住信息写入数据库
     CheckInfoModel.create(checkInfo)
       .then(function (result) {
-        req.flash('success', '添加入住信息成功')
-        res.redirect('/checkin')
+        req.flash('success', '添加入住信息成功,房间号：'+RoomNumber)
+        url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+        +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+        +'&RoomNumber='+RoomNumber.toString()
+        return res.redirect(url)
       })
       .catch(function (e) {
         // 入住信息已存在，跳回checkIn
@@ -166,3 +219,6 @@ res.set({checkin_info : '111'})
 }
 
 
+
+// test url
+// http://localhost:3000/checkin?idcard=111112222233333444&name=%E9%A9%AC%E7%94%BB%E8%97%A4&phone=12312312312&roomtype=11&startdate=20180515&enddate=20180519

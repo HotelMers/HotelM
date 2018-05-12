@@ -107,6 +107,7 @@ module.exports = function(app) {
     })
     app.get('./finance', checkLogin, function(req, res, next) {
         financeRouter["financeSubmit"](req, res, next);
+    })
     // add more router
     // 404 page
     app.use(function (req, res) {

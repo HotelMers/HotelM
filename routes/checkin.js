@@ -66,7 +66,9 @@ function checkInBookSearch(req, res, next) {
         return res.render(url)
       }
       req.flash('success', '查询成功')
-      res.render('checkin',{customer:customer,bookinfo:bookinfo})
+      url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone'+phone.toString()
+      +'&roomtype='+roomtype.toString()+'&startdate'+startdate.toString()+'&enddate'+enddate.toString()
+      res.render(url,{customer:customer,bookinfo:bookinfo})
     })
 }
 

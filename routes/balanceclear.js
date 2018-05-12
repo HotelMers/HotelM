@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+<<<<<<< HEAD
 const RoomModel = require('../models/rooms')
 const CusModel = require('../models/customers')
 const BookModel = require('../models/bookInfo')
@@ -55,3 +56,16 @@ module.exports = {
 	}
   }
 }
+=======
+const CusModel = require('../models/customers')
+const checkLogin = require('../middlewares/check').checkLogin
+
+router.get('/', checkLogin, function (req, res, next) {
+    res.render('balanceClear')
+})
+
+router.post('/', checkLogin, function (req, res, next) {
+  })
+
+module.exports = router
+>>>>>>> origin/luomiao

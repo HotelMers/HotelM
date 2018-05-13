@@ -6,18 +6,18 @@ const BookModel = require('../models/bookInfo')
 const emptyRoomNumber = require('../models/emptyRoomNumber')
 const DateHelper = require('../middlewares/dateHelper')
 
-var toDate = function(stringDate) {
-    var stringDate= Number(stringDate);
+// var toDate = function(stringDate) {
+//     var stringDate= Number(stringDate);
 
-    // 初始化方法 new Date(yyyy,month,dd)
-    // start_date
-    var year= stringDate/ 10000;
-    var month= (stringDate% 10000)/ 100;
-    var day= (stringDate% 10000)% 100;
-    var date1= new Date()
-    date1.setFullYear(year,month,day)
-    return date1;
-  }
+//     // 初始化方法 new Date(yyyy,month,dd)
+//     // start_date
+//     var year= stringDate/ 10000;
+//     var month= (stringDate% 10000)/ 100;
+//     var day= (stringDate% 10000)% 100;
+//     var date1= new Date()
+//     date1.setFullYear(year,month,day)
+//     return date1;
+//   }
   
 module.exports = {
   bookroomPage: function(req, res) {
@@ -30,8 +30,8 @@ module.exports = {
     const score = req.fields.score
     const phone = req.fields.phone
     const roomtype = req.fields.roomtype
-    const startdate = req.fields.startdate
-    const enddate = req.fields.enddate
+    const startdate = req.fields.starttime
+    const enddate = req.fields.endtime
 
 
     // 校验参数
@@ -52,8 +52,8 @@ module.exports = {
 
     // 将时间转换为 date
 
-    var date_start= toDate(startdate)
-    var date_end= toDate(enddate)
+    // var date_start= toDate(startdate)
+    // var date_end= toDate(enddate)
     // console.log(date_start)
 
     // 待写入数据库的房间信息
@@ -66,11 +66,23 @@ module.exports = {
         enddate: Number(enddate)
       }
 
+    var begindays= new Number(startdate)
+    begindays= begindays% 100;
+    var finaldays= new Number(enddate)
+    finaldays= finaldays% 100;
+    var month_temp= new Number(startdate)
+    month_temp= (month_temp/ 100)%100;
 
-    var startdays= toDate(startdate)
-    var enddays= toDate(enddate)
-    emptyRoomNumber.reduceNumberBetweenDaysByType(startdays,enddays,roomtype)
-    req.flash('success', '操作成功')
+    // var startdays= toDate(startdate)
+    // var enddays= toDate(enddate)
+
+    
+    // emptyRoomNumber.reduceNumberBetweenDaysByType(startdays,enddays,roomtype)
+    for (var i = begindays; i < finaldays; i++) {
+      emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
+    }
+    
+    req.flash('success', month_temp+'操作成功')
 
       // 用户信息写入数据库
     BookModel.create(bookinfo)

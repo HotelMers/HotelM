@@ -29,8 +29,9 @@ module.exports = {
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
-    res.render('checkin', { customer : customer, bookinfo : bookinfo,  roomnum: roomnum})
+    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum})
   },
+
 
   // // post 查找用户是否是会员
   // // checkin的ejs页面暂时没有用到“查找用户是否是会员”
@@ -48,18 +49,22 @@ module.exports = {
     const phone = req.fields.phone.toString()
     //const price = req.fields.price.toString()
     //const RoomNumber = '111'
-    const startdate = Number(req.fields.starttime.toString())
-    const enddate = Number(req.fields.endtime.toString())
-    const roomtype = req.fields.roomtype
+    const startdate = req.fields.starttime.toString()
+    const enddate = req.fields.endtime.toString()
+    const roomtype = req.fields.roomtype.toString()
 
+    // var isChecked = 0
+    // //if (req.checkInSearchById == "checked") isChecked = 0
+    // req.flash('success', '666'+req.params["checkInSearchById"])
 
 //----------------------------------------------------
     
-    // 通过身份证号查询预定情况
-    // 预定用户自动填充入住信息
+    //通过身份证号查询预定情况
+    //预定用户自动填充入住信息
 
-    // 校验参数
-    if (name == 'search') {
+    //校验参数
+    
+
     try {
       if (CustomerId.length != 18) {
         throw new Error('无效身份证号')
@@ -86,104 +91,106 @@ module.exports = {
         return res.redirect(url)
     })
 
-    // // test ： '查询成功'后自动填充    
-    // BookModel.getBookInfoById(CustomerId)
-    //   .then(function (suibianqugeming) {
-    //     var bookInfo = {id :CustomerId, name:'嘤嘤嘤', phone:'18812312312', 
-    //     type:'大房', startdate:'20180520', enddate:'20180522'}
-    //     var session = req.session;
-    //     req.flash('success', '查询成功')
-    //     // 自动填充
-    //     url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
-    //     +'&roomtype='+bookInfo.type+'&startdate='+bookInfo.startdate+'&enddate='+bookInfo.enddate
-    //     // url = '/checkin?idcard='+CustomerId.toString()+'&name='+'嘤嘤嘤'+'&phone='+'18812312312'
-    //     // +'&roomtype='+'大房'+'&startdate='+'20180520'+'&enddate='+'20180522'
-    //     return res.redirect(url)
-    // })
+    // // // test ： '查询成功'后自动填充    
+    // // BookModel.getBookInfoById(CustomerId)
+    // //   .then(function (suibianqugeming) {
+    // //     var bookInfo = {id :CustomerId, name:'嘤嘤嘤', phone:'18812312312', 
+    // //     type:'大房', startdate:'20180520', enddate:'20180522'}
+    // //     var session = req.session;
+    // //     req.flash('success', '查询成功')
+    // //     // 自动填充
+    // //     url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
+    // //     +'&roomtype='+bookInfo.type+'&startdate='+bookInfo.startdate+'&enddate='+bookInfo.enddate
+    // //     // url = '/checkin?idcard='+CustomerId.toString()+'&name='+'嘤嘤嘤'+'&phone='+'18812312312'
+    // //     // +'&roomtype='+'大房'+'&startdate='+'20180520'+'&enddate='+'20180522'
+    // //     return res.redirect(url)
+    // // })
 
-    }
     
 
 
 //----------------------------------------------------
 
+
     // 获得房间号（暂时只能手动赋值）
-    rooms = RoomModel.getRoomIdByType(roomtype)
+    var rooms = RoomModel.getRoomIdByType(roomtype)
     const RoomNumber = '222'
     //res.set({checkin_info:RoomNumber})
 
 //----------------------------------------------------
 
-    // 非预定用户填写入住信息
-    // 校验参数
-    try {
-      if (CustomerId.length != 18) {
-        throw new Error('无效身份证号')
-      }
-      if (!name) {
-        throw new Error('姓名不能为空')
-      }
-      if (phone.length != 11) {
-        throw new Error('无效手机号')
-      }
-      if (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房") {
-        throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房') 
-      }
-      if (!startdate) {
-        throw new Error('入住时间不能为空')
-      }
-      if (!enddate) {
-        throw new Error('退房时间不能为空')
-      }
-      if (!RoomModel.getRoomByNumber(RoomNumber)) {
-        throw new Error('无效房间号')
-      }
-      if (!RoomNumber) {
-        throw new Error('请获取房间号')
-      }
-    } catch (e) {
-      req.flash('error', e.message)
-      // 若信息填错，重定向后可保存并自动填充已填信息
-      url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
-      +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-      return res.redirect(url)
-      next(e)
-    }
+    // // 非预定用户填写入住信息
+    // // 校验参数
+    // try {
+    //   if (CustomerId.length != 18) {
+    //     throw new Error('无效身份证号')
+    //   }
+    //   if (!name) {
+    //     throw new Error('姓名不能为空')
+    //   }
+    //   if (phone.length != 11) {
+    //     throw new Error('无效手机号')
+    //   }
+    //   if (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房") {
+    //     throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房') 
+    //   }
+    //   if (!startdate) {
+    //     throw new Error('入住时间不能为空')
+    //   }
+    //   if (!enddate) {
+    //     throw new Error('退房时间不能为空')
+    //   }
+    //   if (!RoomModel.getRoomByNumber(RoomNumber)) {
+    //     throw new Error('无效房间号')
+    //   }
+    //   if (!RoomNumber) {
+    //     throw new Error('请获取房间号')
+    //   }
+    // } catch (e) {
+    //   req.flash('error', e.message)
+    //   // 若信息填错，重定向后可保存并自动填充已填信息
+    //   url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+    //   +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+    //   return res.redirect(url)
+    //   next(e)
+    // }
 
-    // 待写入数据库的入住信息
-    let checkInfo = {
-      CustomerId : CustomerId,
-      name: name,
-      phone : phone,
-      RoomNumber : RoomNumber,
-      startdate : startdate,
-      enddate : enddate
-    }
+    // // 待写入数据库的入住信息
+    // let checkInfo = {
+    //   CustomerId : CustomerId,
+    //   name: name,
+    //   phone : phone,
+    //   RoomNumber : RoomNumber,
+    //   startdate : Number(startdate),
+    //   enddate : Number(enddate)
+    // }
 
-    // 入住信息写入数据库
-    CheckInfoModel.create(checkInfo)
-      .then(function (result) {
-        req.flash('success', '添加入住信息成功,房间号：'+RoomNumber)
-        url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
-        +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-        +'&RoomNumber='+RoomNumber.toString()
-        return res.redirect(url)
-      })
-      .catch(function (e) {
-        // 入住信息已存在，跳回checkIn
-        // ？？？不会处理一个人预定多条
-        if (e.message.match('duplicate key')) {
-          req.flash('error', '入住信息已存在')
-          return res.redirect('/checkin')
-        }
-        next(e)
-    }) 
+    // // 入住信息写入数据库
+    // CheckInfoModel.create(checkInfo)
+    //   .then(function (result) {
+    //     req.flash('success', '添加入住信息成功,房间号：'+RoomNumber)
+    //     url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+    //     +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+    //     +'&RoomNumber='+RoomNumber.toString()
+    //     return res.redirect(url)
+    //   })
+    //   .catch(function (e) {
+    //     // 入住信息已存在，跳回checkIn
+    //     // ？？？不会处理一个人预定多条
+    //     if (e.message.match('duplicate key')) {
+    //       req.flash('error', '入住信息已存在')
+    //       return res.redirect('/checkin')
+    //     }
+    //     next(e)
+    // }) 
 
 
-    // 更新剩余空房数据库，相应类型客房数量-1
-    EmptyRoomModel.reduceNumberBetweenDaysByType(startdate, enddate, roomtype)
-    // 写入 flash
-    req.flash('success', roomtype+'数量-1')
+    // // 更新剩余空房数据库，相应类型客房数量-1
+    // EmptyRoomModel.reduceNumberBetweenDaysByType(startdate, enddate, roomtype)
+    // // 写入 flash
+    // req.flash('success', roomtype+'数量-1')
+
+
 
   }
 

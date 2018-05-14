@@ -140,14 +140,14 @@ module.exports = {
 
   // post /manageroom/addroomPage 修改房间
   updateroomSubmit: function (req, res, next) {
-    const number = req.fields.roomnumber
+    const type = req.fields.roomtype
     const value = req.fields.roomvalue
     let mapassword = req.fields.mapassword
 
     // 校验参数
     try {
-      if (!number.length || isNaN(value)) {
-        throw new Error('请填写房间号:数字')
+      if (!type.length || (type!= "单人房"&&type!= "双人房"&&type!= "大房")) {
+        throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
       }
       if (!value.length || isNaN(value)) {
         throw new Error('房间价格填写有误')
@@ -162,21 +162,21 @@ module.exports = {
     
     // 待写入数据库的房间信息
     let room = {
-      number: Number(number),
+      type: type,
       value : value,
     }
 
     // 从数据库中修改对应房间记录
     RoomModel.updateRoomValue(room)
       .then(function (result) {
-        if (result.modifiedCount==1) {
+        if (result.modifiedCount>=1) {
           // 写入 flash
           req.flash('success', '修改成功')
           // 跳转到首页
           res.redirect('/manageroom')
         }
         // 无该房间则跳回添加页
-        req.flash('error', '该房间不存在')
+        req.flash('error', '修改失败')
         return res.redirect('back')
       })
       .catch(function (e) {
@@ -185,6 +185,31 @@ module.exports = {
         return res.redirect('back')
         next(e)
       })
-  }
+  },
+
+  // get /manageroom/addroomPage 修改房间
+  resetroomPage: function(req, res) {
+    res.render("resetroom");
+  },
+
+  // post /manageroom/addroomPage 修改房间
+  resetroomSubmit: function (req, res, next) {
+    let mapassword = req.fields.mapassword
+
+    // 校验参数
+    try {
+      if (mapassword !== "forbidden") {
+        throw new Error('管理员码错误')
+      }
+    } catch (e) {
+      req.flash('error', e.message)
+      return res.redirect('back')
+    }
+
+    // 从数据库中修改对应房间记录
+    RoomModel.deleteAll();
+    req.flash('success', '重置成功')
+    res.redirect('/manageroom')
+  },
 
 }

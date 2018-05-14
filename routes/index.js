@@ -61,6 +61,12 @@ module.exports = function(app) {
     app.post('/manageroom/updateroom', checkLogin, function(req, res, next) {
         manageroomRouter["updateroomSubmit"](req, res);
     })
+    app.get('/manageroom/resetroom', checkLogin, function(req, res) {
+        manageroomRouter["resetroomPage"](req, res);
+    })
+    app.post('/manageroom/resetroom', checkLogin, function(req, res, next) {
+        manageroomRouter["resetroomSubmit"](req, res);
+    })
 
     // balance 盘点结算
     app.get('/balance', checkLogin, function(req, res) {

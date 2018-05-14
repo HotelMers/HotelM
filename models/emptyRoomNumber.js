@@ -8,6 +8,8 @@ module.exports = {
     return EmptyRoomNumber.findOne({'year':year, 'month': month, 'day':day }).exec()
   },
 
+
+
   initializeEmptyRoomNumber: function initializeEmptyRoomNumber () {
     var tasks = [];
     var today = new Date();

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+const CusModel = require('../models/customers')
 const checkLogin = require('../middlewares/check').checkLogin
 const BookModel = require('../models/bookInfo')
 const emptyRoomNumber = require('../models/emptyRoomNumber')
@@ -21,7 +22,11 @@ const DateHelper = require('../middlewares/dateHelper')
   
 module.exports = {
   bookroomPage: function(req, res) {
-    res.render("bookroom");
+    // var roomnum = req.query.RoomNumber
+    var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
+    var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+    res.render("bookroom",{ customer : customer, bookinfo : bookinfo});
   },
   
   bookroomSubmit: function (req, res, next) {
@@ -36,7 +41,7 @@ module.exports = {
 
     // 校验参数
     try {
-      if (!id.length || isNaN(id)) {
+      if (id.length!= 18 || isNaN(id)) {
         throw new Error('请填写身份证:数字')
       }
       if (!roomtype.length || (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房")) {
@@ -73,18 +78,74 @@ module.exports = {
     var month_temp= new Number(startdate)
     month_temp= (month_temp/ 100)%100;
 
+    if (begindays> finaldays) {
+        url = '/bookroom?idcard='+id.toString()+'&name='+name.toString()+'&score='+score.toString()+'&phone='+phone.toString()
+            +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+        req.flash('error', 'you fill the wrong time')
+        return res.redirect(url)
+        // return res.redirect('/bookroom')
+    }
+
     // var startdays= toDate(startdate)
     // var enddays= toDate(enddate)
 
     
-    // emptyRoomNumber.reduceNumberBetweenDaysByType(startdays,enddays,roomtype)
+    // 先查询是否还有空房,有空房才进行相关操作
     for (var i = begindays; i < finaldays; i++) {
-      emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
+        // 
+      emptyRoomNumber.getEmptyRoomNumberByDays(2018,Math.round(month_temp),i)
+        .then(function(result) {
+            if (roomtype== '单人房') {
+                if (result.singleRoom>= 1) {
+                    emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
+                } else {
+                    req.flash('error', '没有足够的房间')
+                    return res.redirect('/manage')
+                }
+            } else if (roomtype== '大床房') {
+                if (result.bigRoom>= 1) {
+                    emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
+                } else {
+                    req.flash('error', '没有足够的房间')
+                    return res.redirect('/manage')
+                }
+            } else if (roomtype== '双人房') {
+                if (result.doubleRoom>= 1) {
+                    emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
+                } else {
+                    req.flash('error', '没有足够的房间')
+                    return res.redirect('/manage')
+                }
+            }
+
+        })
     }
     
-    req.flash('success', month_temp+'操作成功')
+    req.flash('success', '操作成功')
+
+    let customer = {
+        id: id,
+        name: name,
+        score:score,
+        phone: phone
+    }
+    // 按照身份证填写客户信息
+    CusModel.getCusById(id)
+      .then(function(result) {
+        if (!result) {
+          // result= {id: -1, name:-1, score:-1, phone:-1}
+                url = '/bookroom?idcard='+id.toString()+'&name='+name.toString()+'&score='+score.toString()+'&phone='+phone.toString()
+                +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+                return res.redirect(url)
+        }
+        // req.flash('success', '会员查询成功')
+        // 自动填充
+        
+        // return res.redirect(url)
+      })
 
       // 用户信息写入数据库
+    
     BookModel.create(bookinfo)
         .then(function (result) {
           req.flash('success', '预定成功')

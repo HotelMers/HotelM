@@ -94,11 +94,11 @@ module.exports = {
     const CustomerId = req.fields.idcard.toString()
     const name = req.fields.name.toString()
     const phone = req.fields.phone.toString()
-    //const price = req.fields.price.toString()
-    //const RoomNumber = '111'
     const startdate = req.fields.starttime.toString()
     const enddate = req.fields.endtime.toString()
     const roomtype = req.fields.roomtype.toString()
+
+    const RoomNumber = '222'
 
     // var isChecked = 0
     // //if (req.checkInSearchById == "checked") isChecked = 0

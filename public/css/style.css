@@ -492,10 +492,10 @@ footer p {
 
 /*对管理客房中导航栏进行设置*/
 .manage_room {
-  width: 600px;
+  width: 800px;
   height: 60px;
   border: 1px solid lightgray;
-  margin-left: -50px;
+  margin-left: -120px;
   border-radius:20px;
 }
 .manage_room ul{

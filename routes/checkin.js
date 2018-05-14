@@ -87,7 +87,7 @@ module.exports = {
         req.flash('success', '查询成功')
         // 自动填充
         url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
-        +'&roomtype='+bookInfo.type+'&startdate='+(bookInfo.startdate).toString()+'&enddate='+(bookInfo.enddate).toString()
+        +'&roomtype='+bookInfo.type+'&startdate='+(Number(bookInfo.startdate)).toString()+'&enddate='+(bookInfo.enddate).toString()
         return res.redirect(url)
     })
 
@@ -113,9 +113,18 @@ module.exports = {
 
 
     // 获得房间号（暂时只能手动赋值）
-    var rooms = RoomModel.getRoomIdByType(roomtype)
     const RoomNumber = '222'
-    //res.set({checkin_info:RoomNumber})
+
+    RoomModel.getRoomIdByType(roomtype)
+    .then(function (rooms) {
+      if (!rooms) {
+        throw new Error('该房型无空房!')
+        req.flash('error', '该房型无空房!')
+      }
+      res.render('checkin', {rooms:rooms})
+    })
+
+    // 选取空房中的第一个
 
 //----------------------------------------------------
 

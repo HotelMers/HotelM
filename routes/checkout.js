@@ -27,13 +27,14 @@ module.exports = {
 		var checkinfo_temp
 		const number= req.fields.roomid
   		// 通过房间号获取checkinfo的信息
-    	CheckInfoModel.getCheckInfoByRoom(Number(number))
+    	CheckInfoModel.getCheckInfoByRoom(Number(101))
 			.then(function (result) {
 				if (!result) {
 					// 暂时先这么设置，等区分好按钮即可完成
-			        checkinfo_temp = {CustomerId: "430502199901012222", name:"luomiao", phone:"13975962368",RoomNumber:"101",startdate:Number(20180512),enddate:Number(20180513)}
+			        // checkinfo_temp = {CustomerId: "430502199901012222", name:"luomiao", phone:"13975962368",RoomNumber:"101",startdate:Number(20180512),enddate:Number(20180513)}
+			    	result = {CustomerId: "", name:"", phone:"",RoomNumber:"",startdate:-1,enddate:-1}
 			    }
-			    // checkinfo_temp= result
+			    checkinfo_temp= result
 			    res.render('checkout', {result:checkinfo_temp})
 			})
     	

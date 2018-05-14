@@ -58,15 +58,15 @@ module.exports = {
       .then(function (bookInfo) {
         if (!bookInfo) {
           var session = req.session;
-          req.flash('error', '预定信息不存在')
+          req.flash('error', '预定信息不存在！')
           url = '/checkin?idcard='+CustomerId.toString()
           return res.redirect(url)
           //return res.redirect('/checkin')
         }
-        req.flash('success', '查询成功')
+        req.flash('success', '查询成功！')
         // 自动填充
         url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
-        +'&roomtype='+bookInfo.type+'&startdate='+(Number(bookInfo.startdate)).toString()+'&enddate='+(bookInfo.enddate).toString()
+        +'&roomtype='+bookInfo.type+'&startdate='+(bookInfo.startdate).toString()+'&enddate='+(bookInfo.enddate).toString()
         return res.redirect(url)
     })
   },
@@ -75,17 +75,7 @@ module.exports = {
   // get /checkin/getRoom 添加房间
   // 选取空房中的第一个
   checkInWritePage: function(req, res) {
-    // 获得房间号（暂时只能手动赋值）
-    const RoomNumber = '222'
-    RoomModel.getRoomIdByType(roomtype)
-    .then(function (rooms) {
-      if (!rooms) {
-        throw new Error('该房型无空房!')
-        req.flash('error', '该房型无空房!')
-      }
-      res.render('getRoom', {rooms:rooms})
-    })
-  
+    res.render('getRoom', {rooms:rooms})
   },
 
 
@@ -98,11 +88,16 @@ module.exports = {
     const enddate = req.fields.endtime.toString()
     const roomtype = req.fields.roomtype.toString()
 
-    const RoomNumber = '222'
-
-    // var isChecked = 0
-    // //if (req.checkInSearchById == "checked") isChecked = 0
-    // req.flash('success', '666'+req.params["checkInSearchById"])
+// 获得房间号（暂时只能手动赋值）
+    //const RoomNumber = '222'
+    RoomModel.getRoomIdByType(roomtype)
+    .then(function (rooms) {
+      if (!rooms) {
+        throw new Error('该房型无空房！')
+        req.flash('error', '该房型无空房！')
+      }
+      res.render('getRoom', {rooms:rooms})
+    })
 
     // 非预定用户填写入住信息
     // 校验参数
@@ -110,20 +105,20 @@ module.exports = {
       if (CustomerId.length != 18) {
         throw new Error('无效身份证号')
       }
-      if (!name) {
+      if (!name) {s
         throw new Error('姓名不能为空')
       }
       if (phone.length != 11) {
         throw new Error('无效手机号')
       }
       if (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房") {
-        throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房') 
+        throw new Error('房间类型填写有误！正确格式为：单人房/双人房/大房') 
       }
       if (startdate.length != 8) {
-        throw new Error('入住时间格式错误！正确格式：（8位阿拉伯数字表示）YYYYMMDD')
+        throw new Error('入住时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
       }
       if (enddate.length != 8) {
-        throw new Error('退房时间格式错误！正确格式：（8位阿拉伯数字表示）YYYYMMDD')
+        throw new Error('退房时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
       }
       if (!RoomModel.getRoomByNumber(RoomNumber)) {
         throw new Error('无效房间号')

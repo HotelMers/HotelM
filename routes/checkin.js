@@ -89,15 +89,15 @@ module.exports = {
     const roomtype = req.fields.roomtype.toString()
 
 // 获得房间号（暂时只能手动赋值）
-    //const RoomNumber = '222'
-    RoomModel.getRoomIdByType(roomtype)
-    .then(function (rooms) {
-      if (!rooms) {
-        throw new Error('该房型无空房！')
-        req.flash('error', '该房型无空房！')
-      }
-      res.render('getRoom', {rooms:rooms})
-    })
+    const RoomNumber = '222'
+    // RoomModel.getRoomIdByType(roomtype)
+    // .then(function (rooms) {
+    //   if (!rooms) {
+    //     throw new Error('该房型无空房！')
+    //     req.flash('error', '该房型无空房！')
+    //   }
+    //   res.render('getRoom', {rooms:rooms})
+    // })
 
     // 非预定用户填写入住信息
     // 校验参数
@@ -148,7 +148,11 @@ module.exports = {
     // 入住信息写入数据库
     CheckInfoModel.create(checkInfo)
       .then(function (result) {
-        req.flash('success', '添加入住信息成功,房间号：'+RoomNumber)
+        req.flash('success', '添加入住信息成功！房间号：'+RoomNumber)
+        // 更新剩余空房数据库，相应类型客房数量-1   
+        EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
+        req.flash('success', roomtype+'数量-1')
+        // 传参
         url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
         +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
         +'&RoomNumber='+RoomNumber.toString()
@@ -163,13 +167,6 @@ module.exports = {
         }
         next(e)
     }) 
-
-
-    // 更新剩余空房数据库，相应类型客房数量-1
-    EmptyRoomModel.reduceNumberBetweenDaysByType(startdate, enddate, roomtype)
-    // 写入 flash
-    req.flash('success', roomtype+'数量-1')
-
 
 
   }

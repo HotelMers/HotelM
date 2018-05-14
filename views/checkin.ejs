@@ -64,10 +64,7 @@
                             <label>身份证号</label>
                             <input placeholder="身份证号" type="text" name="idcard"  value=<%=customer.id%>>
                           </div>
-
-                          <input type="checkbox" name="checkInSearchById" checked=true value="0" />预定查找
-
-                          <!--input type="submit" class="ui button fluid" value="预定查找"-->
+                          <input type="submit" class="ui button fluid" value="预定查找">
                           <div class="field required">
                               <label>姓名</label>
                               <input placeholder="姓名" type="text" name="name" value=<%=customer.name%>>
@@ -82,11 +79,11 @@
                             </div>
                             <div class="field required">
                                 <label>入住时间</label>
-                                <input placeholder="入住时间" type="text" name="starttime" value=<%=bookinfo.startdate%>>
+                                <input placeholder="入住时间(格式：YYYYMMDD)" type="text" name="starttime" value=<%=bookinfo.startdate%>>
                               </div>
                               <div class="field required">
                                   <label>退房时间</label>
-                                  <input placeholder="退房时间" type="text" name="endtime" value=<%=bookinfo.enddate%>>
+                                  <input placeholder="退房时间(格式：YYYYMMDD)" type="text" name="endtime" value=<%=bookinfo.enddate%>>
                                 </div>
                               <div class="field required">
                                   <label>房间号</label>

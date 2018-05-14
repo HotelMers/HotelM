@@ -14,7 +14,7 @@ module.exports = {
   },
   //POST 根据填写的信息，查找用户，返回用户信息
   searchvipSubmit: function(req, res, next) {
-    const idcardnum = req.fields.id
+    const idcardnum = req.fields.id.toString()
 
     //校验参数
     try {

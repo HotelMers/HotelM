@@ -5,20 +5,14 @@ const EmptyRoomModel = require('../models/emptyRoomNumber')
 const checkLogin = require('../middlewares/check').checkLogin
 
 
+// 生成财务报表
 module.exports = {
   balancePage: function balancePage(req, res) {
-    res.render("balance");
+    res.render("finance");
   },
 
   balanceSubmit: function balanceSubmit(req, res, next) {
-  	// 更新剩余空房数据库（日期-1）
-  	var date = EmptyRoomModel.update();
-  	// 其他事情....
-    // 
-
-  	// 写入 flash
-  	req.flash('success',date.year+'年'+date.month+'月'+date.day+'日'+',结算成功');
-  	// 跳转到首页
-  	res.redirect('/manage');
+    
+    res.redirect("finance");
   },
 }

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+const CusModel = require('../models/customers')
 const checkLogin = require('../middlewares/check').checkLogin
 const BookModel = require('../models/bookInfo')
 const emptyRoomNumber = require('../models/emptyRoomNumber')
@@ -73,6 +74,10 @@ module.exports = {
     var month_temp= new Number(startdate)
     month_temp= (month_temp/ 100)%100;
 
+    if (begindays> finaldays) {
+        return res.redirect('/bookroom')
+    }
+
     // var startdays= toDate(startdate)
     // var enddays= toDate(enddate)
 
@@ -100,5 +105,21 @@ module.exports = {
         
     // 一个月内
 
+
+    // 按照身份证填写客户信息
+    CusModel.getCusById (id)
+      .then(function(result) {
+        if (!result) {
+          // result= {id: -1, name:-1, score:-1, phone:-1}
+          req.flash('error', '该用户不是会员')
+          url = '/bookroom?idcard='+id.toString()
+          return res.redirect(url)
+        }
+        req.flash('success', '会员查询成功')
+        // 自动填充
+        url = '/bookroom?idcard='+id.toString()+'&name='+(result.name).toString()+'&score='+(result.score).toString()+'&phone='+(result.phone).toString()
+        return res.redirect(url)
+      })
+    
   }
 }

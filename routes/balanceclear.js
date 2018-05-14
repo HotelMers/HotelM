@@ -6,18 +6,18 @@ const CusModel = require('../models/customers')
 const BookModel = require('../models/bookInfo')
 const checkLogin = require('../middlewares/check').checkLogin
 const EmptyRoomModel = require('../models/emptyRoomNumber')
-const EmptyRoomNumber = require('../lib/mongo').EmptyRoomNumber
-
 
 // 删除预订信息
 
 module.exports = {
 
   balanceclearPage: function (req, res, next) {
-      res.render('balanceclear')
+      res.render('balance')
   },
 
   balanceclearSubmit: function (req, res, next) {
+    // 更新剩余空房数据库（日期-1）
+    var updateDate = EmptyRoomModel.update();
 
   var date = new Date();
   var year = date.getFullYear();
@@ -40,6 +40,7 @@ module.exports = {
             BookModel.deleteInfoByid(id)
               .then(function (result) {
                 req.flash('success', '删除成功过期记录')
+                req.flash('success',updateDate.year+'年'+updateDate.month+'月'+updateDate.day+'日'+',可用房源更新成功');
                     return res.redirect('/manageroom')
               })
               .catch(function (e) {

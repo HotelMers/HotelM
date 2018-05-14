@@ -100,6 +100,14 @@ module.exports = {
     // })
 
     // 非预定用户填写入住信息
+
+    // 获取当前日期时间
+    var myDate = new Date();
+    var year = myDate.getFullYear().toString();    //获取完整的年份(4位)
+    var month = myDate.getMonth().toString();       //获取当前月份(0-11,0代表1月)
+    var day = myDate.getDate().toString();        //获取当前日(1-31)
+    var today = year+month+day
+
     // 校验参数
     try {
       if (CustomerId.length != 18) {
@@ -126,6 +134,12 @@ module.exports = {
       if (!RoomNumber) {
         throw new Error('请获取房间号')
       }
+      if (Number(startdate)-Number(enddate) > 0) {
+        throw new Error('退房时间不能早于入住时间!')
+      }
+      if (Number(today)-Number(startdate) > 0) {
+        throw new Error('入住时间不能早于今日!')
+      }
     } catch (e) {
       req.flash('error', e.message)
       // 若信息填错，重定向后可保存并自动填充已填信息
@@ -150,7 +164,7 @@ module.exports = {
       .then(function (result) {
         req.flash('success', '添加入住信息成功！房间号：'+RoomNumber)
         // 更新剩余空房数据库，相应类型客房数量-1   
-        EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
+        //EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
         req.flash('success', roomtype+'数量-1')
         // 传参
         url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
@@ -175,9 +189,9 @@ module.exports = {
 
 
 
-// test url
-// http://localhost:3000/checkin?idcard=111112222233333444&name=%E9%A9%AC%E7%94%BB%E8%97%A4&phone=12312312312&roomtype=11&startdate=20180515&enddate=20180519
-
+/*test url
+http://localhost:3000/checkin?idcard=111112222233333444&name=%E9%A9%AC%E7%94%BB%E8%97%A4&phone=12312312312&roomtype=11&startdate=20180515&enddate=20180519
+*/
 
 
 

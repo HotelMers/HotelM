@@ -7,10 +7,11 @@ var balanceRouter = require("./balance.js")
 var bookroomRouter = require("./bookroom.js")
 var checkoutRouter = require("./checkout.js")
 var manageroomRouter = require("./manageroom.js")
-var balanceRouter = require("./balance.js")
 var balanceClearRouter = require("./balanceclear.js")
+var balanceRouter = require("./balance.js")
 var searchcusRouter = require("./searchcus.js")
 var checkinRouter = require("./checkin.js")
+var financeRouter = require("./finance.js")
 const checkLogin = require('../middlewares/check').checkLogin
 
 module.exports = function(app) {
@@ -61,15 +62,7 @@ module.exports = function(app) {
         manageroomRouter["updateroomSubmit"](req, res);
     })
 
-    // finance 财务报表
-    app.get('/finance', checkLogin, function(req, res) {
-        balanceRouter["balancePage"](req, res);
-    })
-    app.post('/finance', checkLogin, function(req, res, next) {
-        balanceRouter["balanceSubmit"](req, res, next);
-    })
-
-    // balance clear 盘点结算
+    // balance 盘点结算
     app.get('/balance', checkLogin, function(req, res) {
         balanceClearRouter["balanceclearPage"](req, res);
     })
@@ -77,20 +70,17 @@ module.exports = function(app) {
         balanceClearRouter["balanceclearSubmit"](req, res, next);
     })
 
-    // checkInSearchById
+    // searchcus 查询会员
     app.get('/searchcus', checkLogin, function(req, res) {
-        searchcusRouter["searchcusPage"](req, res);
-    })
+        searchcusRouter["searchvipPage"](req, res);
+    }) 
     app.post('/searchcus', checkLogin, function(req, res, next) {
-        searchcusRouter["searchcusSubmit"](req, res, next);
-    })
+        searchcusRouter["searchvipSubmit"](req, res, next);
+    }) 
 
     // checkin
     app.get('/checkin', checkLogin, function(req, res) {
         checkinRouter["checkInPage"](req, res);
-    })
-    app.post('/checkin', checkLogin, function(req, res, next) {
-        checkinRouter["checkInSubmit"](req, res, next);
     })
     app.post('/checkin', checkLogin, function(req, res, next) {
         checkinRouter["checkInWrite"](req, res, next);
@@ -105,13 +95,19 @@ module.exports = function(app) {
     })
 
     app.get('/checkout', checkLogin, function(req, res) {
-        checkoutRouter["checkoutPage"](req, res);
+        checkoutRouter["searchroomidPage"](req, res);
     })
     app.post('/checkout', checkLogin, function(req, res, next) {
         checkoutRouter["checkoutSubmit"](req, res,next);
     })
     
-    
+    // 财务报表
+    app.get('/finance', checkLogin, function(req, res) {
+        balanceRouter["balancePage"](req, res);
+    })
+    app.get('./finance', checkLogin, function(req, res, next) {
+        balanceRouter["balanceSubmit"](req, res, next);
+    })
     // add more router
     // 404 page
     app.use(function (req, res) {

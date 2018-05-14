@@ -623,3 +623,16 @@ footer p {
   float:left;
   margin-left: 8px;
 }
+
+/*登记退房和登记入住模块样式修改使能传值*/
+#checkout_info tr, #checkin_info tr{
+  height: 50px;
+  width: 600px;
+  text-align: left;
+}
+#checkout_info th, #checkin_info th{
+  width:80px;
+}
+#checkout_info td, #checkin_info td{
+  width: 400px;
+}

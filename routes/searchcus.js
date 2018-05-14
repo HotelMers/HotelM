@@ -24,14 +24,14 @@ module.exports = {
       }
     } catch (e) {
       req.flash('error', e.message)
-      return res.redirect('/checkin')
+      return res.redirect('/searchcus')
     }
 
     CusModel.getCusById(id)
       .then(function (customer) {
         if (!customer) {
           req.flash('error', '会员不存在')
-          return res.redirect('/checkin')
+          return res.redirect('/searchcus')
         }
         req.flash('success', '查询成功')
 

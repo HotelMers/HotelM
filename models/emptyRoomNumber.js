@@ -8,6 +8,8 @@ module.exports = {
     return EmptyRoomNumber.findOne({'year':year, 'month': month, 'day':day }).exec()
   },
 
+
+
   initializeEmptyRoomNumber: function initializeEmptyRoomNumber () {
     var tasks = [];
     var today = new Date();
@@ -28,7 +30,6 @@ module.exports = {
 
   // 获得30天内的剩余房间量
   getAllEmptyRoomNumber: function getAllEmptyRoomNumber () {
-    module.exports.update()
     EmptyRoomNumber.find().then(function(day) {
       if (day.length != 30) {
         module.exports.initializeEmptyRoomNumber();

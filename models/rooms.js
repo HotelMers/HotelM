@@ -22,9 +22,9 @@ module.exports = {
     return Room.deleteOne({ number: number }).exec()
   },
 
-  // 修改房间信息
+  // 根据房间类型修改房间价格
   updateRoomValue: function updateRoomValue (room) {
-    return Room.updateOne({'number':room.number},{$set:{'value':room.value}}).exec()
+    return Room.updateMany({'type':room.type},{$set:{'value':room.value}}).exec()
   },
 
   // 获得单人房房间的总数
@@ -51,5 +51,10 @@ module.exports = {
   // 根据房间号码登记入住/退房(退房时customerId传入"0")
   setStatusByRoomNumer: function setStatusByRoomNumer (number,customerId) {
     return Room.updateOne({'number':number},{$set:{'status':customerId}}).exec()
+  },
+
+  // 根据房间号码登记入住/退房(退房时customerId传入"0")
+  deleteAll: function deleteAll() {
+    Room.remove({}).exec()
   },
 }

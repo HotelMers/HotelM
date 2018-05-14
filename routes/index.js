@@ -7,9 +7,11 @@ var balanceRouter = require("./balance.js")
 var bookroomRouter = require("./bookroom.js")
 var checkoutRouter = require("./checkout.js")
 var manageroomRouter = require("./manageroom.js")
+var balanceClearRouter = require("./balanceclear.js")
 var balanceRouter = require("./balance.js")
 var searchcusRouter = require("./searchcus.js")
 var checkinRouter = require("./checkin.js")
+var financeRouter = require("./finance.js")
 const checkLogin = require('../middlewares/check').checkLogin
 
 module.exports = function(app) {
@@ -59,13 +61,19 @@ module.exports = function(app) {
     app.post('/manageroom/updateroom', checkLogin, function(req, res, next) {
         manageroomRouter["updateroomSubmit"](req, res);
     })
+    app.get('/manageroom/resetroom', checkLogin, function(req, res) {
+        manageroomRouter["resetroomPage"](req, res);
+    })
+    app.post('/manageroom/resetroom', checkLogin, function(req, res, next) {
+        manageroomRouter["resetroomSubmit"](req, res);
+    })
 
     // balance 盘点结算
     app.get('/balance', checkLogin, function(req, res) {
-        balanceRouter["balancePage"](req, res);
+        balanceClearRouter["balanceclearPage"](req, res);
     })
     app.post('/balance', checkLogin, function(req, res, next) {
-        balanceRouter["balanceSubmit"](req, res, next);
+        balanceClearRouter["balanceclearSubmit"](req, res, next);
     })
 
     // searchcus 查询会员
@@ -79,9 +87,6 @@ module.exports = function(app) {
     // checkin
     app.get('/checkin', checkLogin, function(req, res) {
         checkinRouter["checkInPage"](req, res);
-    })
-    app.post('/checkin', checkLogin, function(req, res, next) {
-        checkinRouter["checkInSubmit"](req, res, next);
     })
     app.post('/checkin', checkLogin, function(req, res, next) {
         checkinRouter["checkInWrite"](req, res, next);
@@ -101,10 +106,13 @@ module.exports = function(app) {
     app.post('/checkout', checkLogin, function(req, res, next) {
         checkoutRouter["checkoutSubmit"](req, res,next);
     })
-    app.get('/balance', checkLogin, function(req, res) {
+    
+    // 财务报表
+    app.get('/finance', checkLogin, function(req, res) {
         balanceRouter["balancePage"](req, res);
     })
-    app.get('/finance', checkLogin, function(req, res) {
+    app.get('./finance', checkLogin, function(req, res, next) {
+        balanceRouter["balanceSubmit"](req, res, next);
     })
     // add more router
     // 404 page

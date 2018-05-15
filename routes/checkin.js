@@ -18,7 +18,11 @@ var toDate = function(stringDate) {
   var year= stringDate/ 10000;
   var month= (stringDate% 10000)/ 100;
   var day= (stringDate% 10000)% 100;
-  return Date(year,month,day);
+  var myDate = new Date()
+  myDate.setFullYear(year)
+  myDate.setMonth(month-1)
+  myDate.setDate(day)
+  return myDate
 }
 
 module.exports = {
@@ -75,7 +79,13 @@ module.exports = {
   // get /checkin/getRoom 添加房间
   // 选取空房中的第一个
   checkInWritePage: function(req, res) {
-    res.render('getRoom', {rooms:rooms})
+    //res.render('getRoom', {rooms:rooms})
+    // 解析url,若信息填错，可保存并自动填充已填信息
+    var roomnum = req.query.RoomNumber
+    var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
+    var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum})
   },
 
 
@@ -102,10 +112,12 @@ module.exports = {
     // 非预定用户填写入住信息
 
     // 获取当前日期时间
-    var myDate = new Date();
-    var year = myDate.getFullYear().toString();    //获取完整的年份(4位)
-    var month = myDate.getMonth().toString();       //获取当前月份(0-11,0代表1月)
-    var day = myDate.getDate().toString();        //获取当前日(1-31)
+    var myDate = new Date()
+    var year = myDate.getFullYear().toString()    //获取完整的年份(4位)
+    var month = (myDate.getMonth()+1).toString()       //获取当前月份(0-11,0代表1月)
+    if (month.length == 1) month = '0'+month
+    var day = myDate.getDate().toString()        //获取当前日(1-31)
+    if (day.length == 1) day = '0'+day
     var today = year+month+day
 
     // 校验参数
@@ -149,6 +161,37 @@ module.exports = {
       next(e)
     }
 
+    // 先查询是否还有空房,有空房才进行相关操作
+    for (var i = Number(startdate); i < Number(enddate); i++) {
+        // 
+      EmptyRoomModel.getEmptyRoomNumberByDays(2018, Number(startdate[4]+startdate[5]),i)
+        .then(function(result) {
+            if (roomtype== '单人房') {
+                if (result.singleRoom>= 1) {
+                    emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
+                } else {
+                    req.flash('error', '没有足够的房间')
+                    return res.redirect('/manage')
+                }
+            } else if (roomtype== '大床房') {
+                if (result.bigRoom>= 1) {
+                    emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
+                } else {
+                    req.flash('error', '没有足够的房间')
+                    return res.redirect('/manage')
+                }
+            } else if (roomtype== '双人房') {
+                if (result.doubleRoom>= 1) {
+                    emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
+                } else {
+                    req.flash('error', '没有足够的房间')
+                    return res.redirect('/manage')
+                }
+            }
+
+        })
+    }
+
     // 待写入数据库的入住信息
     let checkInfo = {
       CustomerId : CustomerId,
@@ -164,7 +207,9 @@ module.exports = {
       .then(function (result) {
         req.flash('success', '添加入住信息成功！房间号：'+RoomNumber)
         // 更新剩余空房数据库，相应类型客房数量-1   
-        //EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
+        EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
+        // req.flash('error', 'startdate: '+toDate(startdate).toDateString())
+        // req.flash('error', 'enddate: '+toDate(enddate).toDateString())
         req.flash('success', roomtype+'数量-1')
         // 传参
         url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()

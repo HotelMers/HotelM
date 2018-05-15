@@ -4,10 +4,10 @@
                 var text = $(this).val();
                 //提供一个url，后台通过这个地址进行操作
                 if (text == "确认退房") {
-                    $("#myFrm").attr("action", "/checkout/LeaveRoom");
+                    $("#myFrm").attr("action", "/checkout/getcheck");
                 }
                 else if (text == "查找") {
-                    $("#myFrm").attr("action", "/checkout/getRoonByNum");
+                    $("#myFrm").attr("action", "/checkout");
                 }//通过查找房间号，获取住房的所有信息（登记入住时登记的信息）
             })
         })

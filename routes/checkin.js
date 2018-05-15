@@ -164,29 +164,48 @@ module.exports = {
     }
 
     // 先查询是否还有空房,有空房才进行相关操作
-    for (var i = Number(startdate); i < Number(enddate); i++) {
-      EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
-        i.toString().slice(4,6), i.toString().slice(6,8))
-        .then(function(result) {
-          if (roomtype== '单人房') {
-            if (result.singleRoom == 0) {
-                req.flash('error', '没有足够的房间')
-                return res.redirect('/manage')
-            }
-          } else if (roomtype== '大床房') {
-            if (result.bigRoom == 0) {
-                req.flash('error', '没有足够的房间')
-                return res.redirect('/manage')
-              }
-          } else if (roomtype== '双人房') {
-            if (result.doubleRoom == 0) {
-                req.flash('error', '没有足够的房间')
-                return res.redirect('/manage')
-            }
+    for (var i = Number(startdate); i < Number(enddate); i++) {     
+      if (roomtype== '单人房') {
+        EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
+        i.toString().slice(4,6), i.toString().slice(6,8)).then(function(result) {
+          if (result.singleRoom == 0) {
+              req.flash('error', '没有足够的房间')
+              return res.redirect('/manage')
           }
-
         })
+      } else if (roomtype== '大床房') {
+        EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
+        i.toString().slice(4,6), i.toString().slice(6,8)).then(function(result) {
+          if (result.bigRoom == 0) {
+              req.flash('error', '没有足够的房间')
+              return res.redirect('/manage')
+          }
+        })
+      } else if (roomtype== '双人房') {
+        EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
+        i.toString().slice(4,6), i.toString().slice(6,8)).then(function(result) {
+          if (result.doubleRoom == 0) {
+              req.flash('error', '没有足够的房间')
+              return res.redirect('/manage')
+          }
+        })
+      }        
     }
+
+    //待写入数据库的会员信息
+    let customers = {
+      id:CustomerId,
+      name:name,
+      score:0,
+      phone:phone,
+    }
+
+    //会员信息写入数据库
+    CusModel.create(customers)
+    .then(function (result) {
+      //req.flash('success', '添加会员信息成功，会员ID：'+CustomerId)
+      //res.redirect('back')
+    })
 
     // 待写入数据库的入住信息
     let checkInfo = {

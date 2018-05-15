@@ -62,14 +62,7 @@ module.exports = {
     // console.log(date_start)
 
     // 待写入数据库的房间信息
-    let bookinfo = {
-        id: id,
-        name: name,
-        phone: phone,
-        type: roomtype,
-        startdate: Number(startdate),
-        enddate: Number(enddate)
-      }
+    
 
     var begindays= new Number(startdate)
     begindays= begindays% 100;
@@ -99,21 +92,21 @@ module.exports = {
                 if (result.singleRoom>= 1) {
                     emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
                 } else {
-                    req.flash('error', '没有足够的房间')
+                    req.flash('error', '没有足够的单人房房间')
                     return res.redirect('/manage')
                 }
             } else if (roomtype== '大床房') {
                 if (result.bigRoom>= 1) {
                     emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
                 } else {
-                    req.flash('error', '没有足够的房间')
+                    req.flash('error', '没有足够的big房间')
                     return res.redirect('/manage')
                 }
             } else if (roomtype== '双人房') {
                 if (result.doubleRoom>= 1) {
                     emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
                 } else {
-                    req.flash('error', '没有足够的房间')
+                    req.flash('error', '没有足够的double房间')
                     return res.redirect('/manage')
                 }
             }
@@ -121,7 +114,7 @@ module.exports = {
         })
     }
     
-    req.flash('success', '操作成功')
+    // req.flash('success', '操作成功')
 
     let customer = {
         id: id,
@@ -145,7 +138,15 @@ module.exports = {
       })
 
       // 用户信息写入数据库
-    
+    let bookinfo = {
+        id: id,
+        name: name,
+        phone: phone,
+        type: roomtype,
+        startdate: Number(startdate),
+        enddate: Number(enddate)
+      }
+
     BookModel.create(bookinfo)
         .then(function (result) {
           req.flash('success', '预定成功')
@@ -163,3 +164,4 @@ module.exports = {
 
   }
 }
+// 

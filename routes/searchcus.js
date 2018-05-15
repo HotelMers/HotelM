@@ -32,9 +32,10 @@ module.exports = {
           req.flash('error', '会员不存在')
           return res.redirect('searchcus')
         }
-        req.flash('success', '查询成功')
-
-        res.render('searchcus', {customer:customer})
+        //req.flash('success', '查询成功')
+        //res.redirect('searchcus')
+        res.render('searchcus.ejs', {id:customer.id, name:customer.name, phone:customer.phone, score:customer.score})
+        //es.render('searchcus.ejs', {customer:customer})
       })
 
   },

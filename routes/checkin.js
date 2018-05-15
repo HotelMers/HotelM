@@ -166,28 +166,24 @@ module.exports = {
         // 
       EmptyRoomModel.getEmptyRoomNumberByDays(2018, Number(startdate[4]+startdate[5]),i)
         .then(function(result) {
-            if (roomtype== '单人房') {
-                if (result.singleRoom>= 1) {
-                    emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
-                } else {
-                    req.flash('error', '没有足够的房间')
-                    return res.redirect('/manage')
-                }
-            } else if (roomtype== '大床房') {
-                if (result.bigRoom>= 1) {
-                    emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
-                } else {
-                    req.flash('error', '没有足够的房间')
-                    return res.redirect('/manage')
-                }
-            } else if (roomtype== '双人房') {
-                if (result.doubleRoom>= 1) {
-                    emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
-                } else {
-                    req.flash('error', '没有足够的房间')
-                    return res.redirect('/manage')
-                }
+          if (roomtype== '单人房') {
+            if (result.singleRoom == 0) {
+                req.flash('error', '没有足够的房间')
+                return res.redirect('/manage')
             }
+          } else if (roomtype== '大床房') {
+            if (result.bigRoom == 0) {
+                emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
+                req.flash('error', '没有足够的房间')
+                return res.redirect('/manage')
+              }
+          } else if (roomtype== '双人房') {
+            if (result.doubleRoom == 0) {
+                emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
+                req.flash('error', '没有足够的房间')
+                return res.redirect('/manage')
+            }
+          }
 
         })
     }

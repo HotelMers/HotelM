@@ -27,6 +27,7 @@ module.exports = {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     for (var i = time_in_num-7; i < time_in_num; i++) {
 =======
     for (var i = time_in_num-7 ; i < time_in_num; i++) {
@@ -34,6 +35,9 @@ module.exports = {
 =======
     for (var i = 0; i < ; i++) {
 >>>>>>> parent of f10baab... fix bug
+=======
+    for (var i = time_in_num-7 ; i < time_in_num; i++) {
+>>>>>>> origin/ryx
       BookModel.getBookinfoByEnddates(i)
         .then(function(result) {
             if (result.enddate< time_in_num) {

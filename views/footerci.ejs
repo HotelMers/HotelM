@@ -2,8 +2,8 @@
     $(function () {
             $("input[type='submit']").click(function () {
                 var text = $(this).val();
-                if (text == "获取房间号") {
-                    $("#myFrm").attr("action", "/checkin");
+                if (text == "确认入住") {
+                    $("#myFrm").attr("action", "/checkin/getRoom");
                 }
                 else if (text == "预定查找") {
                     $("#myFrm").attr("action", "/checkin");

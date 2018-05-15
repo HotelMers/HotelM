@@ -63,7 +63,7 @@ module.exports = {
         if (!bookInfo) {
           var session = req.session;
           req.flash('error', '预定信息不存在！')
-          url = '/checkin?idcard='+CustomerId.toString()
+          url = '/checkin?idcard='+CustomerId.toString()+'&isBook=1'
           return res.redirect(url)
           //return res.redirect('/checkin')
         }
@@ -71,6 +71,7 @@ module.exports = {
         // 自动填充
         url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
         +'&roomtype='+bookInfo.type+'&startdate='+(bookInfo.startdate).toString()+'&enddate='+(bookInfo.enddate).toString()
+        +'&isBook=1'
         return res.redirect(url)
     })
   },
@@ -97,6 +98,7 @@ module.exports = {
     const startdate = req.fields.starttime.toString()
     const enddate = req.fields.endtime.toString()
     const roomtype = req.fields.roomtype.toString()
+    var isBook = Number(req.query.isBook)
 
 // 获得房间号（暂时只能手动赋值）
     const RoomNumber = '222'
@@ -163,8 +165,8 @@ module.exports = {
 
     // 先查询是否还有空房,有空房才进行相关操作
     for (var i = Number(startdate); i < Number(enddate); i++) {
-        // 
-      EmptyRoomModel.getEmptyRoomNumberByDays(2018, Number(startdate[4]+startdate[5]),i)
+      EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
+        i.toString().slice(4,6), i.toString().slice(6,8))
         .then(function(result) {
           if (roomtype== '单人房') {
             if (result.singleRoom == 0) {
@@ -173,13 +175,11 @@ module.exports = {
             }
           } else if (roomtype== '大床房') {
             if (result.bigRoom == 0) {
-                emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
                 req.flash('error', '没有足够的房间')
                 return res.redirect('/manage')
               }
           } else if (roomtype== '双人房') {
             if (result.doubleRoom == 0) {
-                emptyRoomNumber.reduceNumberByDateAndType(2018,Number(startdate[4]+startdate[5]),i,roomtype);
                 req.flash('error', '没有足够的房间')
                 return res.redirect('/manage')
             }
@@ -202,11 +202,11 @@ module.exports = {
     CheckInfoModel.create(checkInfo)
       .then(function (result) {
         req.flash('success', '添加入住信息成功！房间号：'+RoomNumber)
-        // 更新剩余空房数据库，相应类型客房数量-1   
-        EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
-        // req.flash('error', 'startdate: '+toDate(startdate).toDateString())
-        // req.flash('error', 'enddate: '+toDate(enddate).toDateString())
-        req.flash('success', roomtype+'数量-1')
+        // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
+        if (isBook == 1) {
+          EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
+          req.flash('success', '非预定入住：'+roomtype+'数量-1')
+        }
         // 传参
         url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
         +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()

@@ -25,7 +25,11 @@ module.exports = {
     var day = date.getDate();
     var time_in_num= year*10000+month*100+day;
 
+<<<<<<< HEAD
     for (var i = time_in_num-7; i < time_in_num; i++) {
+=======
+    for (var i = time_in_num-7 ; i < time_in_num; i++) {
+>>>>>>> master
       BookModel.getBookinfoByEnddates(i)
         .then(function(result) {
             if (result.enddate< time_in_num) {

@@ -368,53 +368,6 @@ body {
   border-top:1px dashed lightgray;
 
   
-<<<<<<< HEAD
-  footer p {
-    padding: 5px;
-    line-height: 1.5;
-    color:gray;
-<<<<<<< HEAD
-=======
-  }
-
-  /*对30天内酒店可用房源一览表设置*/
-  #avail_room_table {
-    height:300px;
-    width: 770px;
-    border: 2px solid #666666;
-    margin-left:-102px;
-    margin-top: 30px;
-    color:#333333;
-    border-radius: 20px;
-    border-collapse: collapse;
-  }
-
-  #avail_room_table td {
-    font-size: 1.1em;
-    border: 1px solid #666666;
-    padding: 3px 7px 2px 7px;
-    text-align: center;
-    width:70px;
-    height: 25px;
-    background-color: #ffffff;
-  }
-
-  #avail_room_table th {
-    font-size:1.1em;
-    text-align:center;
-    padding-top:5px;
-    padding-bottom:4px;
-    width: 70px;
-    height: 25px;
-    background-color: #dedede;
-    border:1px solid #ffffff;
-  }
-
-  .avail_room_title {
-    margin-left: 120px;
-    font-size: 2em;
-  }
-=======
 }
 
 .wrap-img {
@@ -536,14 +489,13 @@ footer p {
   margin-left: 120px;
   font-size: 2em;
 }
->>>>>>> master
 
 /*对管理客房中导航栏进行设置*/
 .manage_room {
-  width: 600px;
+  width: 800px;
   height: 60px;
   border: 1px solid lightgray;
-  margin-left: -50px;
+  margin-left: -120px;
   border-radius:20px;
 }
 .manage_room ul{
@@ -670,4 +622,17 @@ footer p {
 .link p{
   float:left;
   margin-left: 8px;
+}
+
+/*登记退房和登记入住模块样式修改使能传值*/
+#checkout_info tr, #checkin_info tr{
+  height: 50px;
+  width: 600px;
+  text-align: left;
+}
+#checkout_info th, #checkin_info th{
+  width:80px;
+}
+#checkout_info td, #checkin_info td{
+  width: 400px;
 }

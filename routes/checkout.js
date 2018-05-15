@@ -24,10 +24,19 @@ var toDate = function(stringDate) {
 
 module.exports = {
 	searchroomidPage: function(req, res) {
-		var checkinfo_temp
+		// var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
+    	var checkinfo = { CustomerId: req.query.idcard, name:req.query.name, phone:req.query.phone, 
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+    	res.render("checkout",{ checkinfo : checkinfo});
+    	
+  	},
+  	// 查询房间按钮
+  	searchroomidSubmit: function(req, res, next) {
+  		//
+  		var checkinfo_temp
 		const number= req.fields.roomid
   		// 通过房间号获取checkinfo的信息
-    	CheckInfoModel.getCheckInfoByRoom(Number(101))
+    	CheckInfoModel.getCheckInfoByRoom(Number(number))
 			.then(function (result) {
 				if (!result) {
 					// 暂时先这么设置，等区分好按钮即可完成
@@ -35,17 +44,19 @@ module.exports = {
 			    	result = {CustomerId: "", name:"", phone:"",RoomNumber:"",startdate:-1,enddate:-1}
 			    }
 			    checkinfo_temp= result
-			    res.render('checkout', {result:checkinfo_temp})
+			    res.redirect(url)
 			})
+  	},
+  	//get 
+  	searchroomidPageHasinfo: function(req, res) {
+
+		var checkinfo = { CustomerId: req.query.idcard, name:req.query.name, phone:req.query.phone, 
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+    	res.render("checkout",{ checkinfo : checkinfo});
     	
   	},
-  	// 查询房间按钮
-  	searchroomidSubmit: function(req, res, next) {
-  		//
-  	},
-
-  	//退房按钮
-	checkoutSubmit: function (req, res, next) {
+  	//post,退房按钮
+	checkoutSubmitHasinfo: function (req, res, next) {
 
 		//number是房间号，暂时不知道是哪个属性值得到
 		const number= req.fields.roomid
@@ -101,7 +112,7 @@ module.exports = {
 				}
 			})
 			.catch(function (e) {
-	        // 修改剩余空房信息
+	time_in_num        // 修改剩余空房信息
 			      req.flash('error', '删除失败')
 			      return res.redirect('/manage')
 			      next(e)

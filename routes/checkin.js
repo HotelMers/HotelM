@@ -101,17 +101,23 @@ module.exports = {
     const enddate = req.fields.endtime.toString()
     const roomtype = req.fields.roomtype.toString()
     const isBook = Number(req.fields.isBook)
-    req.flash('error', isBook.toString())
+    //req.flash('error', isBook.toString())
+
+    var roomPrice = 0
+    RoomModel.getRoomByType(Number(roomtype)).then(function(room) {
+      var Price = room.value
+      return Price
+    })
 
   // 获得房间号（暂时只能手动赋值）
     const RoomNumber = '222'
     // RoomModel.getRoomIdByType(roomtype)
-    // .then(function (rooms) {
+    // .then(function(rooms) {
     //   if (!rooms) {
     //     throw new Error('该房型无空房！')
     //     req.flash('error', '该房型无空房！')
     //   }
-    //   res.render('getRoom', {rooms:rooms})
+    //   return rooms
     // })
 
     // 非预定用户填写入住信息
@@ -167,7 +173,7 @@ module.exports = {
     }
 
     // 先查询是否还有空房,有空房才进行相关操作
-    var offset = dayoffsetBetweenTwoday(startdate, enddate)
+    var offset = DateHelper.dayoffsetBetweenTwoday(startdate, enddate)
     for (var i = 0; i < offset; i++) {     
       if (roomtype== '单人房') {
         EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
@@ -204,7 +210,10 @@ module.exports = {
       phone : phone,
       RoomNumber : RoomNumber,
       startdate : Number(startdate),
-      enddate : Number(enddate)
+      enddate : Number(enddate),
+      roomtype: roomtype,
+      roomPrice: roomPrice,
+      payment: roomtype*offset
     }
     
     //待写入数据库的会员信息

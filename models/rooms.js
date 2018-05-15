@@ -7,8 +7,8 @@ module.exports = {
     return Room.findOne({ number: number }).exec()
   },
 
-  // 通过房间号获取房间信息
-  getRoomByType: function getRoomByNumber (type) {
+  // 通过房间类型获取房间信息
+  getRoomByType: function getRoomByType (type) {
     return Room.findOne({ type: type}).exec()
   },
 

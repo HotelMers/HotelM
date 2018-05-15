@@ -66,6 +66,10 @@
                           </div>
                           <input type="submit" class="ui button fluid" value="预定查找">
                           <div class="field required">
+                            <label>是否预定</label>
+                            <input placeholder="预定为1，非预定为0" type="text" name="isBook" disabled = true value=<%=isBook%>>
+                          </div>
+                          <div class="field required">
                             <label>姓名</label>
                             <input placeholder="姓名" type="text" name="name" value=<%=customer.name%>>
                           </div>

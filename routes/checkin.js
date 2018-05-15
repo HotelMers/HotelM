@@ -15,9 +15,9 @@ var toDate = function(stringDate) {
 
   // 初始化方法 new Date(yyyy,month,dd)
   // start_date
-  var year= stringDate/ 10000;
-  var month= (stringDate% 10000)/ 100;
-  var day= (stringDate% 10000)% 100;
+  var year= stringDate/ 10000
+  var month= (stringDate% 10000)/ 100
+  var day= (stringDate% 10000)% 100
   var myDate = new Date()
   myDate.setFullYear(year)
   myDate.setMonth(month-1)
@@ -29,11 +29,12 @@ module.exports = {
   // GET
   checkInPage: function (req, res) {
     // 解析url,若信息填错，可保存并自动填充已填信息
+    var isBook = req.query.isBook
     var roomnum = req.query.RoomNumber
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
-    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum})
+    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum, isBook : isBook})
   },
 
 
@@ -63,7 +64,7 @@ module.exports = {
         if (!bookInfo) {
           var session = req.session;
           req.flash('error', '预定信息不存在！')
-          url = '/checkin?idcard='+CustomerId.toString()+'&isBook=1'
+          url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'
           return res.redirect(url)
           //return res.redirect('/checkin')
         }
@@ -82,11 +83,12 @@ module.exports = {
   checkInWritePage: function(req, res) {
     //res.render('getRoom', {rooms:rooms})
     // 解析url,若信息填错，可保存并自动填充已填信息
+    var isBook = req.query.isBook
     var roomnum = req.query.RoomNumber
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
-    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum})
+    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum, isBook : isBook})
   },
 
 
@@ -98,9 +100,10 @@ module.exports = {
     const startdate = req.fields.starttime.toString()
     const enddate = req.fields.endtime.toString()
     const roomtype = req.fields.roomtype.toString()
-    var isBook = Number(req.query.isBook)
+    const isBook = Number(req.fields.isBook)
+    req.flash('error', isBook.toString())
 
-// 获得房间号（暂时只能手动赋值）
+  // 获得房间号（暂时只能手动赋值）
     const RoomNumber = '222'
     // RoomModel.getRoomIdByType(roomtype)
     // .then(function (rooms) {
@@ -164,7 +167,8 @@ module.exports = {
     }
 
     // 先查询是否还有空房,有空房才进行相关操作
-    for (var i = Number(startdate); i < Number(enddate); i++) {     
+    var offset = dayoffsetBetweenTwoday(startdate, enddate)
+    for (var i = 0; i < offset; i++) {     
       if (roomtype== '单人房') {
         EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
         i.toString().slice(4,6), i.toString().slice(6,8)).then(function(result) {
@@ -176,6 +180,7 @@ module.exports = {
       } else if (roomtype== '大床房') {
         EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
         i.toString().slice(4,6), i.toString().slice(6,8)).then(function(result) {
+          req.flash('error', result.bigRoom.toString())
           if (result.bigRoom == 0) {
               req.flash('error', '没有足够的房间')
               return res.redirect('/manage')
@@ -222,7 +227,7 @@ module.exports = {
       .then(function (result) {
         req.flash('success', '添加入住信息成功！房间号：'+RoomNumber)
         // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
-        if (isBook == 1) {
+        if (isBook == 0) {
           EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
           req.flash('success', '非预定入住：'+roomtype+'数量-1')
         }

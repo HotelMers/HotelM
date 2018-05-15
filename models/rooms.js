@@ -7,6 +7,11 @@ module.exports = {
     return Room.findOne({ number: number }).exec()
   },
 
+  // 通过房间号获取房间信息
+  getRoomByType: function getRoomByNumber (type) {
+    return Room.findOne({ type: type}).exec()
+  },
+
   // 获取所有房间信息
   getAllRoomInfo: function getAllRoomInfo () {
     return Room.find().exec()

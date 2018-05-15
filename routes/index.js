@@ -105,12 +105,24 @@ module.exports = function(app) {
     app.post('/bookroom', checkLogin, function(req, res, next) {
         bookroomRouter["bookroomSubmit"](req, res,next);
     })
+    app.get('/bookroom/getcustomer', checkLogin, function(req, res) {
+        bookroomRouter["bookroomPageHascustomers"](req, res);
+    })
+    app.post('/bookroom/getcustomer', checkLogin, function(req, res, next) {
+        bookroomRouter["bookroomSubmitHascustomers"](req, res,next);
+    })
 
     app.get('/checkout', checkLogin, function(req, res) {
         checkoutRouter["searchroomidPage"](req, res);
     })
     app.post('/checkout', checkLogin, function(req, res, next) {
-        checkoutRouter["checkoutSubmit"](req, res,next);
+        checkoutRouter["searchroomidSubmit"](req, res,next);
+    })
+     app.get('/checkout/LeaveRoom', checkLogin, function(req, res) {
+        checkoutRouter["searchroomidPageHasinfo"](req, res);
+    })
+    app.post('/checkout/LeaveRoom', checkLogin, function(req, res, next) {
+        checkoutRouter["checkoutSubmitHasinfo"](req, res,next);
     })
     
     // 财务报表

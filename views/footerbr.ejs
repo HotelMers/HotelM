@@ -3,8 +3,9 @@
             $("input[type='submit']").click(function () {
                 var text = $(this).val();
                 //提供一个url，后台通过这个地址进行操作
-                if (text == "预定查找") {
-                    $("#myFrm").attr("action", "/bookroom/getcustomer");
+
+                if (text == "查询会员") {
+                    $("#myFrm").attr("action", "/bookroom");
                 }
                 else if (text == "预订房间") {
                     $("#myFrm").attr("action", "/bookroom/getcustomer");

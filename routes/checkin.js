@@ -26,7 +26,7 @@ var toDate = function(stringDate) {
 }
 
 module.exports = {
-  // GET
+  // GETv
   checkInPage: function (req, res) {
     // 解析url,若信息填错，可保存并自动填充已填信息
     var roomnum = req.query.RoomNumber
@@ -206,13 +206,18 @@ module.exports = {
       phone:phone,
     }
 
-    //会员信息写入数据库
-    CusModel.create(customers)
-      .then(function (result) {
-        //req.flash('success', '添加会员信息成功，会员ID：'+CustomerId)
-        //res.redirect('back')
+
+    let customer = {
+        id: CustomerId,
+        name: name,
+        score: 0,
+        phone: phone
+    }
+    CusModel.create(customer)
+      .then(function() {
+        req.flash('success', '成功写入会员')
       })
-    
+
     // 入住信息写入数据库
     CheckInfoModel.create(checkInfo)
       .then(function (result) {

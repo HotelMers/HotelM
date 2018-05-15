@@ -192,21 +192,6 @@ module.exports = {
       }        
     }
 
-    //待写入数据库的会员信息
-    let customers = {
-      id:CustomerId,
-      name:name,
-      score:0,
-      phone:phone,
-    }
-
-    //会员信息写入数据库
-    CusModel.create(customers)
-    .then(function (result) {
-      //req.flash('success', '添加会员信息成功，会员ID：'+CustomerId)
-      //res.redirect('back')
-    })
-
     // 待写入数据库的入住信息
     let checkInfo = {
       CustomerId : CustomerId,

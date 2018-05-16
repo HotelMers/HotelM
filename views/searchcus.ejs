@@ -65,32 +65,28 @@
                   <input placeholder="身份证号" type="text" name="id">
                 </div>
                 <input type="submit" class="ui button fluid" value="查询">
-
-
-                <div class="cus_info"><h2>会员信息</h2></div>
-                
-                      
-                  <table id="searchcus_info">
-                  <tr>
-                    <th><h3 style="font-size: 115%">身份证号:</h3></th>
-                    <td><%= locals.id %></td>
-                  </tr>
-                  <tr>
-                    <th><h3 style="font-size: 115%">姓&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp名:</h3></th>
-                    <td><%= locals.name %></td>
-                  </tr>
-                  <tr>
-                    <th><h3 style="font-size: 115%">电&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp话:</h3></th>
-                    <td><%= locals.phone %></td>
-                  </tr>
-                  <tr>
-                    <th><h3 style="font-size: 115%">积&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp分:</h3></th>
-                    <td><%= locals.score %></td>
-                  </tr>
-
-                </table>
-                      
-                    </form>
+                <div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>
+                <div class="field required">
+                    <label>姓名</label>
+                  <input placeholder="姓名" type="text" name="name">
+                </div>
+                <div class="field required">
+                    <label>身份证号</label>
+                    <input placeholder="身份证号" type="text" name="idcard">
+                  </div>
+                <div class="field required">
+                    <label>联系方式</label>
+                    <input placeholder="电话" type="text" name="phone">
+                  </div>
+                <div class="field required">
+                    <label>联系方式</label>
+                    <input placeholder="电话" type="text" name="phone">
+                </div>
+                <div class="field required">
+                    <label>积分</label>
+                    <input placeholder="积分" type="text" name="score">
+                </div>
+            </form>
               </div>
             </div>
           </div>

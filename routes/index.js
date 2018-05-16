@@ -118,10 +118,10 @@ module.exports = function(app) {
     app.post('/checkout', checkLogin, function(req, res, next) {
         checkoutRouter["searchroomidSubmit"](req, res,next);
     })
-     app.get('/checkout/LeaveRoom', checkLogin, function(req, res) {
+     app.get('/checkout/getcheck', checkLogin, function(req, res) {
         checkoutRouter["searchroomidPageHasinfo"](req, res);
     })
-    app.post('/checkout/LeaveRoom', checkLogin, function(req, res, next) {
+    app.post('/checkout/getcheck', checkLogin, function(req, res, next) {
         checkoutRouter["checkoutSubmitHasinfo"](req, res,next);
     })
     

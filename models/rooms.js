@@ -50,12 +50,12 @@ module.exports = {
   // 用于登记入住管理：
   // 根据房间类型随机获得空房的信息,可能返回有多个 类型：{number:xx, type:xx, value:xx, status:0}
   getRoomIdByType: function getRoomIdByType (type) {
-    return Room.find({type:type, status:0}).exec()
+    return Room.find({type:type, status:'0'}).exec()
   },
 
   // 根据房间号码登记入住/退房(退房时customerId传入"0")
   setStatusByRoomNumer: function setStatusByRoomNumer (number,customerId) {
-    return Room.updateOne({'number':Number(number)},{$set:{'status':Number(customerId)}}).exec()
+    return Room.updateOne({'number':Number(number)},{$set:{'status':customerId}}).exec()
   },
 
   // 清除所有房间号

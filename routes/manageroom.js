@@ -21,6 +21,11 @@ module.exports = {
             rooms[index].status="无人入住";
         })(i);
       }
+
+      // test
+      // var d = new Date();
+
+      // hasEmptyRoomBetweenDaysByType()
       res.render('manageroom',{rooms:rooms})
     })
   },
@@ -61,7 +66,7 @@ module.exports = {
       number: Number(number),
       type: type,
       value : value,
-      status : 0,
+      status : '0',
     }
 
     // 用户信息写入数据库

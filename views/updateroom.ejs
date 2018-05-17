@@ -1,0 +1,90 @@
+<%- include('header') %>
+<div class="wrapper">
+    <!--  左边导航栏start  -->
+    <nav class="left-nav">
+      <div class="left-top">
+        <a href="/manage" >
+          <div class="link">
+              <div class="icon_pic"><img src="/img/return.png" width="38" height="38" /></div>
+              <p>回到首页</p>
+          </div>
+        </a>
+        <a href="/manageroom">
+          <div class="link">
+              <div class="icon_pic"><img src="/img/manage.png" width="38" height="38" /></div>
+              <p>管理客房</p>
+          </div>
+        </a>
+        <a href="/searchcus">
+          <div class="link">
+              <div class="icon_pic"><img src="/img/cus_info.png" width="38" height="38" /></div>
+              <p>查询会员</p>
+          </div>
+        </a>
+        <a href="/checkin">
+          <div class="link">
+              <div class="icon_pic"><img src="/img/dengji.png" width="38" height="38" /></div>
+              <p>登记入住</p>
+          </div>
+        </a>
+        <a href="/bookroom">
+          <div class="link">
+              <div class="icon_pic"><img src="/img/yuding.png" width="38" height="38" /></div>
+              <p>预定客房</p>
+          </div>
+        </a>
+        <a href="/checkout">
+          <div class="link">
+              <div class="icon_pic"><img src="/img/tuifang.png" width="38" height="38" /></div>
+              <p>登记退房</p>
+          </div>
+        </a>
+        <a href="/balance">
+          <div class="link">
+              <div class="icon_pic"><img src="/img/pandian.png" width="38" height="38" /></div>
+              <p>盘点结算</p>
+          </div>
+        </a>
+        <a href="/finance">
+          <div class="link">
+              <div class="icon_pic"><img src="/img/money.png" width="38" height="38" /></div>
+              <p>生成报表</p>
+          </div>
+        </a>
+      </div>
+    </nav>
+    <!--  左边导航栏end  -->
+    <!--  主要内容区start  -->
+      <div class="main">
+        <div class="ui grid">
+          <div class="four wide column"></div>
+          <div class="caozuo"><h2>修改房价</h2></div>
+            <div class="content">
+              <form class="ui form segment" method="post" id = "myFrm">
+              <div class="field required">
+                <label>房间类型</label>
+                <input placeholder="房间类型" type="text" name="roomtype">
+              </div>
+              <div class="field required">
+                <label>房间价格</label>
+                <input placeholder="房间价格" type="text" name="roomvalue">
+              </div>
+              <div class="field required">
+                <label>管理员码</label>
+                <input placeholder="管理员码" type="password" name="mapassword">
+              </div>
+              <input type="submit" class="ui button fluid" value="修改">
+            </form>
+          </div>
+        </div>
+
+    <!--  右侧边栏    -->
+        <div class="right-side">
+            <footer>
+              <div class="footer-l">
+              </div>
+            </footer>
+        </div>
+      </div>
+    </div>
+<%- include('footermr') %>

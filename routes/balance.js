@@ -1,14 +1,18 @@
 const express = require('express')
 const router = express.Router()
 
-const CusModel = require('../models/customers')
+const EmptyRoomModel = require('../models/emptyRoomNumber')
 const checkLogin = require('../middlewares/check').checkLogin
 
-router.get('/', checkLogin, function (req, res, next) {
-    res.render('balance');
-})
 
-router.post('/', checkLogin, function (req, res, next) {
-  })
+// 生成财务报表
+module.exports = {
+  balancePage: function balancePage(req, res) {
+    res.render("finance");
+  },
 
-module.exports = router
+  balanceSubmit: function balanceSubmit(req, res, next) {
+    
+    res.redirect("finance");
+  },
+}

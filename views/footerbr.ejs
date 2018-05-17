@@ -2,17 +2,13 @@
     $(function () {
             $("input[type='submit']").click(function () {
                 var text = $(this).val();
-                if (text == "添加") {
-                    $("#myFrm").attr("action", "/manageroom/addroom");
+                //提供一个url，后台通过这个地址进行操作
+
+                if (text == "查询会员") {
+                    $("#myFrm").attr("action", "/bookroom");
                 }
-                else if (text == "修改") {
-                    $("#myFrm").attr("action", "/manageroom/updateroom");
-                }
-                else if (text == "删除"){
-                    $("#myFrm").attr("action", "/manageroom/deleteroom");
-                }
-                else if (text == "删除"){
-                    $("#myFrm").attr("action", "/manageroom/resetroom");
+                else if (text == "预订房间") {
+                    $("#myFrm").attr("action", "/bookroom/getcustomer");
                 }
             })
         })

@@ -2,6 +2,10 @@ const CheckInfo = require('../lib/mongo').CheckInfo
 const Room = require('../lib/mongo').room
 
 module.exports = {
+  setvalidByRoomNumer: function setvalidByRoomNumer (number) {
+    return CheckInfo.updateOne({'number':Number(number)},{$set:{'isValid':0}}).exec()
+  },
+
   // 通过客户id获取入住信息
   getCheckInfoById: function getCheckInfoById (id) {
     return CheckInfo

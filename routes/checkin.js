@@ -130,6 +130,7 @@ module.exports = {
     //req.flash('error', isBook.toString())
     
     RoomModel.getRoomIdByType(roomtype).then(function(rooms) {
+      // 先查询是否还有空房,有空房才进行相关操作
       if (!rooms||rooms.length==0) {
           throw new Error('该房型无空房！')
           req.flash('error', '该房型无空房！')
@@ -191,37 +192,8 @@ module.exports = {
           return res.redirect(url)
           next(e)
         }
-
-        // 先查询是否还有空房,有空房才进行相关操作
+        
         var offset = DateHelper.dayoffsetBetweenTwoday(startdate, enddate)
-        // for (var i = 0; i < offset; i++) {     
-        //   if (roomtype== '单人房') {
-        //     EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
-        //     i.toString().slice(4,6), i.toString().slice(6,8)).then(function(result) {
-        //       if (result.singleRoom == 0) {
-        //           req.flash('error', '没有足够的房间')
-        //           return res.redirect('/manage')
-        //       }
-        //     })
-        //   } else if (roomtype== '大床房') {
-        //     EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
-        //     i.toString().slice(4,6), i.toString().slice(6,8)).then(function(result) {
-        //       req.flash('error', result.bigRoom.toString())
-        //       if (result.bigRoom == 0) {
-        //           req.flash('error', '没有足够的房间')
-        //           return res.redirect('/manage')
-        //       }
-        //     })
-        //   } else if (roomtype== '双人房') {
-        //     EmptyRoomModel.getEmptyRoomNumberByDays(i.toString().slice(0,4), 
-        //     i.toString().slice(4,6), i.toString().slice(6,8)).then(function(result) {
-        //       if (result.doubleRoom == 0) {
-        //           req.flash('error', '没有足够的房间')
-        //           return res.redirect('/manage')
-        //       }
-        //     })
-        //   }        
-        // }
 
         // 待写入数据库的入住信息
         let checkInfo = {
@@ -294,37 +266,4 @@ http://localhost:3000/checkin?idcard=111112222233333444&name=%E9%A9%AC%E7%94%BB%
 
 
 
-// // 通过身份证号查询预定情况
-// function checkInBookSearch(req, res, next) {
-//   const CustomerId = req.fields.idcard
 
-//   // 校验参数
-//   try {
-//     if (CustomerId.length != 18) {
-//       throw new Error('无效身份证号')
-//     }
-//   } catch (e) {
-//     req.flash('error', e.message)
-//     return res.render('/checkin')
-//   }
-
-
-//   BookModel.getBookInfoById(CustomerId)
-//     .then(function (bookInfo) {
-//       if (!bookInfo) {
-//         var session = req.session;
-//         req.flash('error', '预定信息不存在')
-//         url = '/checkin?idcard='+id.toString()
-//         return res.render(url)
-//       }
-//       req.flash('success', '查询成功')
-//       res.set({
-//         'id': bookinfo.id,
-//         'name': bookinfo.name,
-//       })
-//       var customer = {id:CustomerId, name:bookInfo.name,score:"", phone:bookInfo.phone}
-//       var bookinfo = { id:bookInfo.id, name:bookInfo.name, phone:bookInfo.phone, 
-//       type:bookInfo.roomtype, startdate:bookInfo.startdate, enddate:bookInfo.enddate}
-//       res.render(url,{customer:customer,bookinfo:bookinfo})
-//     })
-// }

@@ -289,15 +289,3 @@ module.exports = {
   }
 
 }
-
-
-
-/*test url
-http://localhost:3000/checkin?idcard=111112222233333444&name=%E9%A9%AC%E7%94%BB%E8%97%A4&phone=12312312312&roomtype=11&startdate=20180515&enddate=20180519
-*/
-
-
-
-
-
-

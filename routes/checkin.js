@@ -126,73 +126,73 @@ module.exports = {
     const startdate = req.fields.starttime.toString()
     const enddate = req.fields.endtime.toString()
     const roomtype = req.fields.roomtype.toString()
-    const isBook = Number(req.fields.isBook)
+    const isBook = Number(req.query.isBook)
+    const isVIP = 0
     //req.flash('error', isBook.toString())
+
+    // 校验参数
+    // 获取当前日期时间，用于和入住日期进行比较，避免入住日期早于当前日期
+    var myDate = new Date()
+    var year = myDate.getFullYear().toString()    //获取完整的年份(4位)
+    var month = (myDate.getMonth()+1).toString()       //获取当前月份(0-11,0代表1月)
+    if (month.length == 1) month = '0'+month
+    var day = myDate.getDate().toString()        //获取当前日(1-31)
+    if (day.length == 1) day = '0'+day
+    var today = year+month+day
+
+    try {
+      if (CustomerId.length != 18 || isNaN(Number(CustomerId))) {
+        throw new Error('无效身份证号')
+      }
+      if (!name) {s
+        throw new Error('姓名不能为空')
+      }
+      if (phone.length != 11 || isNaN(Number(phone))) {
+        throw new Error('无效手机号')
+      }
+      if (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房") {
+        throw new Error('房间类型填写有误！正确格式为：单人房/双人房/大房') 
+      }
+      if (startdate.length != 8) {
+        throw new Error('入住时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
+      }
+      if (enddate.length != 8) {
+        throw new Error('退房时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
+      }
+      if (!RoomModel.getRoomByNumber(RoomNumber)) {
+        throw new Error('无效房间号')
+      }
+      if (!RoomNumber) {
+        throw new Error('请获取房间号')
+      }
+      if (Number(startdate)-Number(enddate) > 0) {
+        throw new Error('退房时间不能早于入住时间!')
+      }
+      if (Number(today)-Number(startdate) > 0) {
+        throw new Error('入住时间不能早于今日!')
+      }
+    } catch (e) {
+      req.flash('error', e.message)
+      // 若信息填错，重定向后可保存并自动填充已填信息
+      url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+      +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+      return res.redirect(url)
+      next(e)
+    }
     
     RoomModel.getRoomIdByType(roomtype).then(function(rooms) {
       // 先查询是否还有空房,有空房才进行相关操作
       if (!rooms||rooms.length==0) {
-          throw new Error('该房型无空房！')
-          req.flash('error', '该房型无空房！')
+        req.flash('error', '该房型无空房！')
+        throw new Error('该房型无空房！')
+          
       } else {
-        // 获得房间号（暂时只能手动赋值）
+        // 获得房间号
+        // 通过房间类型获得该类型的所有空房，并随机分配一间空房
         const RoomNumber = rooms[0].number
-
         var roomPrice = Number(rooms[0].value)
 
-
-        // 非预定用户填写入住信息
-
-        // 获取当前日期时间
-        var myDate = new Date()
-        var year = myDate.getFullYear().toString()    //获取完整的年份(4位)
-        var month = (myDate.getMonth()+1).toString()       //获取当前月份(0-11,0代表1月)
-        if (month.length == 1) month = '0'+month
-        var day = myDate.getDate().toString()        //获取当前日(1-31)
-        if (day.length == 1) day = '0'+day
-        var today = year+month+day
-
-        // 校验参数
-        try {
-          if (CustomerId.length != 18) {
-            throw new Error('无效身份证号')
-          }
-          if (!name) {s
-            throw new Error('姓名不能为空')
-          }
-          if (phone.length != 11) {
-            throw new Error('无效手机号')
-          }
-          if (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房") {
-            throw new Error('房间类型填写有误！正确格式为：单人房/双人房/大房') 
-          }
-          if (startdate.length != 8) {
-            throw new Error('入住时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
-          }
-          if (enddate.length != 8) {
-            throw new Error('退房时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
-          }
-          if (!RoomModel.getRoomByNumber(RoomNumber)) {
-            throw new Error('无效房间号')
-          }
-          if (!RoomNumber) {
-            throw new Error('请获取房间号')
-          }
-          if (Number(startdate)-Number(enddate) > 0) {
-            throw new Error('退房时间不能早于入住时间!')
-          }
-          if (Number(today)-Number(startdate) > 0) {
-            throw new Error('入住时间不能早于今日!')
-          }
-        } catch (e) {
-          req.flash('error', e.message)
-          // 若信息填错，重定向后可保存并自动填充已填信息
-          url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
-          +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-          return res.redirect(url)
-          next(e)
-        }
-        
+        // 非预定用户填写入住信息        
         var offset = DateHelper.dayoffsetBetweenTwoday(startdate, enddate)
 
         // 待写入数据库的入住信息
@@ -204,25 +204,28 @@ module.exports = {
           startdate : Number(startdate),
           enddate : Number(enddate),
           roomtype: roomtype,
-          roomPrice: roomPrice,
-          payment: roomtype*offset
-        }
-        
-        //待写入数据库的会员信息
-        let customers = {
-          id:CustomerId,
-          name:name,
-          score:0,    // 新会员积分为0
-          phone:phone,
+          roomPrice: roomPrice,       // 入住当日房价
+          payment: roomtype*offset   // 顾客须支付的总房费
         }
 
-        //会员信息写入数据库
-        CusModel.create(customers)
+        //第一次入住的顾客信息写入会员数据库
+        if (isVIP == 0) {
+          //待写入数据库的会员信息
+          let customers = {
+            id:CustomerId,
+            name:name,
+            score:0,    // 新会员积分为0
+            phone:phone,
+          }
+
+          // 顾客信息写入会员数据库
+          CusModel.create(customers)
           .then(function (result) {
             //req.flash('success', '添加会员信息成功，会员ID：'+CustomerId)
             //res.redirect('back')
           })
-        
+        }
+                
         // 入住信息写入数据库
         CheckInfoModel.create(checkInfo)
           .then(function (result) {

@@ -454,24 +454,6 @@ exports.starFile = function(req, res, next) {
 
 }
 
-exports.isFileNew = function(req, res, next) {
-    var filename = req.params.filename;
-    var author = req.params.author;
-    var findObj = {
-        "filename": filename,
-        "author": author
-    };
-    console.log("I am in isFileNew api!");
-    fileModel.getDataByFilenameAndAuthor(findObj)
-        .then(function(response) {
-            var isFileNew = (response.toString() === "");
-            console.log(isFileNew);
-            res.json({
-                "isFileNew": isFileNew
-            });
-        });
-}
-
 exports.getCreateJson = function(req, res, next) {
     res.json({
         "filename": "",

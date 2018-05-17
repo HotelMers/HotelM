@@ -13,15 +13,6 @@ module.exports = {
 }
 
 
-exports.browse = function(req, res, next) {
-    userModel.getUsers()
-        .then(users => {
-            console.log("users: \n");
-            console.log(users);
-            res.json(users);
-        });
-};
-
 exports.myprofile = function(req, res, next) {
     if (!!req.session.user) {
         userModel.getUserByEmail(req.session.user.email)

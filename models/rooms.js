@@ -7,6 +7,11 @@ module.exports = {
     return Room.findOne({ number: number }).exec()
   },
 
+  // 通过房间类型获取房间信息
+  getRoomByType: function getRoomByType (type) {
+    return Room.findOne({ type: type}).exec()
+  },
+
   // 获取所有房间信息
   getAllRoomInfo: function getAllRoomInfo () {
     return Room.find().exec()
@@ -45,15 +50,15 @@ module.exports = {
   // 用于登记入住管理：
   // 根据房间类型随机获得空房的信息,可能返回有多个 类型：{number:xx, type:xx, value:xx, status:0}
   getRoomIdByType: function getRoomIdByType (type) {
-    Room.find({type:type, status:0}).exec()
+    return Room.find({type:type, status:0}).exec()
   },
 
-  // 根据房间号码登记入住/退房(退房时customerId传入"0")
+  // 根据房间号码登记入住/退房(退房时customerId传入"0"/0)
   setStatusByRoomNumer: function setStatusByRoomNumer (number,customerId) {
-    return Room.updateOne({'number':number},{$set:{'status':customerId}}).exec()
+    return Room.updateOne({'number':Number(number)},{$set:{'status':Number(customerId)}}).exec()
   },
 
-  // 根据房间号码登记入住/退房(退房时customerId传入"0")
+  // 清除房间数据库
   deleteAll: function deleteAll() {
     Room.remove({}).exec()
   },

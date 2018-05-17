@@ -13,7 +13,7 @@ module.exports = {
 	searchroomidPage: function(req, res) {
 		// var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
     	var checkinfo = { roomid: req.query.roomid, CustomerId: req.query.idcard, name:req.query.name, phone:req.query.phone, 
-      roomtype:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
     	res.render("checkout",{ checkinfo : checkinfo});
     	
   	},
@@ -23,14 +23,14 @@ module.exports = {
   		// var checkinfo_temp
 		const number= req.fields.roomid.toString()
   		// 通过房间号获取checkinfo的信息
-    	CheckInfoModel.getCheckInfoByRoom(Number(number))
+    	CheckInfoModel.getCheckInfoByRoom(number)
 			.then(function (result) {
 				if (!result) {
 					req.flash('error', '房间号不存在')
 					url = '/checkout?roomid='+number.toString()
 					return res.redirect(url)
 			    } else {
-			    	url = '/checkout?idcard='+(result.CustomerId).toString()+'&roomid='+number.toString()+'&name='+(result.name).toString()+'&phone='+(result.phone).toString()
+			    	url = '/checkout?idcard='+(result.CustomerId).toString()+'&name='+(result.name).toString()+'&phone='+(result.phone).toString()
 			        +'&roomtype='+(result.roomtype).toString()+'&startdate='+(result.startdate).toString()+'&enddate='+(result.enddate).toString()
 			        +'&RoomNumber='+(result.RoomNumber).toString()
 			        return res.redirect(url)
@@ -50,23 +50,15 @@ module.exports = {
 	checkoutSubmitHasinfo: function (req, res, next) {
 
 		//number是房间号，暂时不知道是哪个属性值得到
-		const number= req.fields.roomid.toString()
+		const number= req.fields.roomid
 		var zero= 0
-	  	RoomModel.setStatusByRoomNumer(Number(number),zero.toString())
+	  	RoomModel.setStatusByRoomNumer(number,"0")
 			.then(function (result) {
 				if (!result) {
 					req.flash('error', '房间号不存在')
 				} else {
 					req.flash('success', '房间状态改变成功')
 				}
-			})
-		CheckInfoModel.setStatusByRoomNumer(Number(number))
-			.then(function (result) {
-				if (!result) {
-					req.flash('error', 'fail')
-			    } else {
-			    	req.flash('success', '房间状态改变成功')
-		    	}
 			})
 
 	  //   CheckInfoModel.delCheckInByRoom(number)
@@ -101,7 +93,7 @@ module.exports = {
 		 //          next(e)
 	  //       })
 		//id是身份证信息,删除预定表的
-		const id = req.fields.idcard
+		const id = req.fields.CustomerId
 		BookInfoModel.deleteInfoByid(id)
 	    	.then(function (result) {
 	    		if (result.deletedCount>=1) {
@@ -118,8 +110,8 @@ module.exports = {
 			      return res.redirect('/manage')
 			      next(e)
 	    	})
-		req.flash('success', '删除成功')
-		return res.redirect('/manage')
+			req.flash('error', '删除失败')
+			return res.redirect('/manage')
 
 	}
 }

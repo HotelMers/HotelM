@@ -130,10 +130,10 @@ module.exports = function(app) {
     
     // 财务报表
     app.get('/finance', checkLogin, function(req, res) {
-        financeRouter["financePage"](req, res);
+        balanceRouter["balancePage"](req, res);
     })
-    app.post('/finance', checkLogin, function(req, res, next) {
-        financeRouter["financeSubmit"](req, res, next);
+    app.get('./finance', checkLogin, function(req, res, next) {
+        balanceRouter["balanceSubmit"](req, res, next);
     })
     // add more router
     // 404 page

@@ -17,27 +17,13 @@ module.exports = {
       .addCreatedAt()
       .exec()
   },
-  
-  //获取所有入住信息
-  getAllCheckInfo: function getAllCheckInfo() {
-    return CheckInfo.find().exec()
-  },
-
-  //通过起止时间获取入住信息
-  getCheckInfoByTimeRange: function getCheckInfoByTimeRange(startdate,enddate) { 
-    return CheckInfo
-      .find({ "startdate" : {$gte:startdate}, "enddate":{$lte:enddate}})
-      .exec()
-  },
 
   // 添加一个入住信息
   create: function create (checkInfo) {
     // 要计算钱
     return CheckInfo.create(checkInfo).exec()
   },
-  setStatusByRoomNumer: function setStatusByRoomNumer (number) {
-    return CheckInfo.updateOne({'number':Number(number)},{$set:{'isValid':0}}).exec()
-  },
+
   // 通过房间号删除一个入住信息
   delCheckInByRoom: function delCheckInByRoom (id) {
     return CheckInfo.deleteOne({ CustomerId: id }).exec()

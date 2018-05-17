@@ -150,6 +150,40 @@ module.exports = {
     }
   },
 
+  hasEmptyRoomBetweenDaysByType: function hasEmptyRoomBetweenDaysByType(startDate,endDate,type) {
+    var offset = dateHelper.dayoffsetBetweenTwoday(startDate, endDate)
+    var hasRoom = true;
+      for (var i = 0; i < offset; i++) {
+        (function(dayoff) {
+          var date = dateHelper.getDateAfterDays(startDate,dayoff);
+          if (type== '单人房') {
+            EmptyRoomModel.getEmptyRoomNumberByDays(date.getFullYear(),date.getMonth(),date.getDate).then(function(result) {
+              if (result.singleRoom == 0) {
+                  hasRoom = false;
+              }
+            })
+          } else if (type== '大房') {
+            EmptyRoomModel.getEmptyRoomNumberByDays(date.getFullYear(),date.getMonth(),date.getDate).then(function(result) {
+              req.flash('error', result.bigRoom.toString())
+              if (result.bigRoom == 0) {
+                  hasRoom = false;
+              }
+            })
+          } else if (type== '双人房') {
+            EmptyRoomModel.getEmptyRoomNumberByDays(date.getFullYear(),date.getMonth(),date.getDate).then(function(result) {
+              if (result.doubleRoom == 0) {
+                  hasRoom = false;
+              }
+            })
+          }
+          if (dayoff==offset-1) {
+            return hasRoom;
+          }
+        })(i)
+        
+      }
+  },
+
   deleteAll: function deleteAll() {
     EmptyRoomNumber.remove({}).exec()
   },

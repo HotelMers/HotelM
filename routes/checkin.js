@@ -105,12 +105,14 @@ module.exports = {
     CusModel.getCusById(CustomerId)
       .then(function (customer) {
         if (!customer) {
+          isVIP = 0
           var session = req.session;
           req.flash('error', '非会员！')
           url = '/checkin?idcard='+CustomerId.toString()+'&isVIP=0'
           return res.redirect(url)
           //return res.redirect('/checkin')
         }
+        isVIP = 1
         req.flash('success', '查询成功！')
         // 自动填充
         url = '/checkin?idcard='+CustomerId.toString()+'&name='+customer.name+'&phone='+customer.phone+'&isVIP=1'
@@ -239,11 +241,21 @@ module.exports = {
 
         //第一次入住的顾客信息写入会员数据库
         if (isVIP == 0) {
+          //根据房间类型设置积分
+          var add_origin_score = 0
+          if (roomtype == "单人房") {
+            add_origin_score = 10
+          } else if (roomtype == "双人房") {
+            add_origin_score = 20
+          } else {
+            add_origin_score = 30
+          }
+
           //待写入数据库的会员信息
           let customers = {
             id:CustomerId,
             name:name,
-            score:0,    // 新会员积分为0
+            score:add_origin_score,    // 新会员积分为房间类型所对应的积分
             phone:phone,
           }
 
@@ -253,6 +265,35 @@ module.exports = {
             //req.flash('success', '添加会员信息成功，会员ID：'+CustomerId)
             //res.redirect('back')
           })
+        } else {
+
+          //根据房间类型设置积分
+          var add_score = 0
+          if (roomtype == "单人房") {
+            add_score = 10
+          } else if (roomtype == "双人房") {
+            add_score = 20
+          } else {
+            add_score = 30
+          }
+          CusModel.getCusById(CustomerId)
+            .then(function(customer) {
+
+              var origin_score = customer.score + add_score
+              let customers = {
+                id:CustomerId,
+                score:origin_score,
+              }
+
+              //从数据库中修改对应会员的积分
+              CusModel.updateCusScore(customers)
+                .then(function (result) {
+                  req.flash('success','修改成功, 会员积分：'+customers.score)
+                  //res.redirect('back')
+                })
+
+            })
+
         }
                 
         // 入住信息写入数据库

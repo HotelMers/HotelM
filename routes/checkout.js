@@ -23,17 +23,25 @@ module.exports = {
   		// var checkinfo_temp
 		const number= req.fields.roomid.toString()
   		// 通过房间号获取checkinfo的信息
-    	CheckInfoModel.getCheckInfoByRoom(Number(number))
+    	CheckInfoModel.getCheckInfoByRoomandstatus(Number(number), 1)
 			.then(function (result) {
 				if (!result) {
 					req.flash('error', '房间号不存在')
 					url = '/checkout?roomid='+number.toString()
 					return res.redirect(url)
 			    } else {
-			    	url = '/checkout?idcard='+(result.CustomerId).toString()+'&roomid='+number.toString()+'&name='+(result.name).toString()+'&phone='+(result.phone).toString()
-			        +'&roomtype='+(result.roomtype).toString()+'&startdate='+(result.startdate).toString()+'&enddate='+(result.enddate).toString()
-			        +'&RoomNumber='+(result.RoomNumber).toString()
-			        return res.redirect(url)
+			    	if (result.isValid== 1) {
+				    	 req.flash('error', result.isValid)
+				    	url = '/checkout?idcard='+(result.CustomerId).toString()+'&roomid='+number.toString()+'&name='+(result.name).toString()+'&phone='+(result.phone).toString()
+				        +'&roomtype='+(result.roomtype).toString()+'&startdate='+(result.startdate).toString()+'&enddate='+(result.enddate).toString()
+				        +'&RoomNumber='+(result.RoomNumber).toString()
+				        return res.redirect(url)
+				    } else {
+				    	// req.flash('error', result.isValid)
+				    	req.flash('error', '房间号不存在')
+						url = '/checkout?roomid='+number.toString()
+						return res.redirect(url)
+				    }
 		    	}
 			})
 			
@@ -50,56 +58,40 @@ module.exports = {
 	checkoutSubmitHasinfo: function (req, res, next) {
 
 		//number是房间号，暂时不知道是哪个属性值得到
-		const number= req.fields.roomid.toString()
+		const number= req.fields.roomid
+		const startdate= req.fields.starttime
+		const enddate= req.fields.endtime
 		var zero= 0
 	  	RoomModel.setStatusByRoomNumer(Number(number),zero.toString())
+		.then(function (result) {
+	        if (result.modifiedCount>=1) {
+	          // 写入 flash
+	          req.flash('success', '修改房间状态成功')
+	        } else {
+	        	// 无该房间则跳回添加页
+	        	req.flash('error', '修改失败')
+	        }
+	        
+	    })
+	    .catch(function (e) {
+	        // 异常 跳回添加页
+	        req.flash('error', e.message)
+	        next(e)
+	    })
+			// req.flash('success', Number(number))
+		CheckInfoModel.setvalidByRoomNumer(Number(number),Number(startdate),Number(enddate))
 			.then(function (result) {
-				if (!result) {
-					req.flash('error', '房间号不存在')
-				} else {
-					req.flash('success', '房间状态改变成功')
-				}
-			})
-		CheckInfoModel.setStatusByRoomNumer(Number(number))
-			.then(function (result) {
+				req.flash('success', 222)
 				if (!result) {
 					req.flash('error', 'fail')
 			    } else {
 			    	req.flash('success', '房间状态改变成功')
 		    	}
 			})
-
-	  //   CheckInfoModel.delCheckInByRoom(number)
-	  //   	.then(function (result) {
-	  //   		// eq.flash('success', result.length)
-	  //   		if (result.deletedCount>=1) {
-			// 			req.flash('success', '成功退房')
-
-			// 			// 退房同时增加对应日期的空房
-			// 			CheckInfoModel.getCheckInfoByRoom(number)
-			// 				.then(function (result1) {
-
-			// 		   			var begindays= new Number(result1.startdate)
-			// 				    begindays= begindays% 100;
-			// 				    var finaldays= new Number(result1.enddate)
-			// 				    finaldays= finaldays% 100;
-			// 				    var month_temp= new Number(result1.startdate)
-			// 				    month_temp= (month_temp/ 100)%100;
-
-			// 				    for (var i = begindays; i < finaldays; i++) {
-			// 				      	emptyRoomNumber.addNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-			// 				    }
-
-			// 				})
-			// 	}
-			// 	req.flash('error', '失败退房')
-			// })
-			// .catch(function (e) {
-		 //          // 修改剩余空房信息
-		 //          req.flash('error', '删除失败')
-		 //          return res.redirect('/manage')
-		 //          next(e)
-	  //       })
+			.catch(function (e) {
+				req.flash('error', 'fail')
+			})
+	
 		//id是身份证信息,删除预定表的
 		const id = req.fields.idcard
 		BookInfoModel.deleteInfoByid(id)

@@ -1,5 +1,4 @@
 const BookInfo = require('../lib/mongo').BookInfo
-var id_array =new Array()
 
 module.exports = {
   // 通过客户id获取预定信息
@@ -9,7 +8,10 @@ module.exports = {
       .addCreatedAt()
       .exec()
   },
-
+  // 用于删除过期记录
+  getBookinfoByEnddates: function getBookinfoByEnddates (days) {
+    return BookInfo.findOne({'enddate':days }).exec()
+  },
   // 添加一个预定信息
   create: function create (bookinfo) {
     // id_array.push(bookinfo.id)

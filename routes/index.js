@@ -89,6 +89,12 @@ module.exports = function(app) {
         checkinRouter["checkInPage"](req, res);
     })
     app.post('/checkin', checkLogin, function(req, res, next) {
+        checkinRouter["checkInSearchBookInfo"](req, res, next);
+    })
+    app.get('/checkin/getRoom', checkLogin, function(req, res) {
+        checkinRouter["checkInWritePage"](req, res);
+    })
+    app.post('/checkin/getRoom', checkLogin, function(req, res, next) {
         checkinRouter["checkInWrite"](req, res, next);
     })
 
@@ -99,12 +105,24 @@ module.exports = function(app) {
     app.post('/bookroom', checkLogin, function(req, res, next) {
         bookroomRouter["bookroomSubmit"](req, res,next);
     })
+    app.get('/bookroom/getcustomer', checkLogin, function(req, res) {
+        bookroomRouter["bookroomPageHascustomers"](req, res);
+    })
+    app.post('/bookroom/getcustomer', checkLogin, function(req, res, next) {
+        bookroomRouter["bookroomSubmitHascustomers"](req, res,next);
+    })
 
     app.get('/checkout', checkLogin, function(req, res) {
         checkoutRouter["searchroomidPage"](req, res);
     })
     app.post('/checkout', checkLogin, function(req, res, next) {
-        checkoutRouter["checkoutSubmit"](req, res,next);
+        checkoutRouter["searchroomidSubmit"](req, res,next);
+    })
+     app.get('/checkout/getcheck', checkLogin, function(req, res) {
+        checkoutRouter["searchroomidPageHasinfo"](req, res);
+    })
+    app.post('/checkout/getcheck', checkLogin, function(req, res, next) {
+        checkoutRouter["checkoutSubmitHasinfo"](req, res,next);
     })
     
     // 财务报表
@@ -122,3 +140,4 @@ module.exports = function(app) {
       }
     })
 }
+

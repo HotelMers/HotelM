@@ -130,40 +130,6 @@ exports.signup = function(req, res) {
         });
 };
 
-exports.signin = function(req, res) {
-    var email = req.body.email;
-    var password = req.body.password;
-
-    userModel.getUserByEmail(email)
-        .then(function(user) {
-            try {
-                if (!user) {
-                    throw new Error('用户不存在');
-                }
-                if (!userModel.validHashPassword(password, user.password)) {
-                    throw new Error('邮箱或密码错误');
-                }
-            } catch (e) {
-                return res.json({
-                    'status': false,
-                    'message': e.message
-                });
-            }
-            console.log(user.name + '已登陆');
-            delete user.password;
-            req.session.user = user;
-            return res.json({
-                'status': true,
-                'email': email
-            })
-        });
-};
-
-exports.signout = function(req, res, next) {
-    req.session.destroy();
-    res.redirect('/');
-};
-
 exports.browse = function(req, res, next) {
     userModel.getUsers()
         .then(users => {

@@ -50,65 +50,6 @@ module.exports = {
 
 }
 
-exports.signup = function(req, res) {
-    var name = req.body.name;
-    var email = req.body.email;
-    var password = req.body.password;
-
-    var emailForm = /^([\w-_]+(?:\.[\w-_]+)*)@((?:[a-z0-9]+(?:-[a-zA-Z0-9]+)*)+\.[a-z]{2,6})$/i;
-    try {
-        if (!emailForm.test(email)) {
-            throw new Error('邮箱格式错误');
-        }
-        if (password.length < 6) {
-            throw new Error('密码至少 6 个字符');
-        }
-    } catch (e) {
-        console.log('sign up fail');
-        return res.json({
-            'status': false,
-            'message': e.message
-        });
-    }
-    userModel.getUserByEmail(email)
-        .then(function(user) {
-            if (user) {
-                return res.json({
-                    'status': false,
-                    'message': '此邮箱已被用户使用'
-                })
-            }
-        });
-    userModel.getUserByName(name)
-        .then(function(user) {
-            if (user) {
-                return res.json({
-                    'status': false,
-                    'message': '此用户名已被使用'
-                })
-            }
-        });
-
-    var user = {
-        name: name,
-        email: email,
-        password: userModel.createHashPassword(password)
-    };
-
-    userModel.create(user)
-        .then(function(user) {
-            console.log('注册成功');
-            delete user.password;
-            req.session.user = user;
-            return res.json({
-                'status': true,
-                'name': name
-            });
-        }).catch(function(err) {
-            console.log("create user fail");
-        });
-};
-
 exports.signin = function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
@@ -136,11 +77,6 @@ exports.signin = function(req, res) {
                 'email': email
             })
         });
-};
-
-exports.signout = function(req, res, next) {
-    req.session.destroy();
-    res.redirect('/');
 };
 
 exports.browse = function(req, res, next) {

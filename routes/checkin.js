@@ -233,7 +233,8 @@ module.exports = {
           enddate : Number(enddate),
           roomtype: roomtype,
           roomPrice: roomPrice,       // 入住当日房价
-          payment: payment   // 顾客须支付的总房费
+          payment: payment,   // 顾客须支付的总房费
+          isValid: 1
         }
 
         //第一次入住的顾客信息写入会员数据库

@@ -64,7 +64,7 @@ module.exports = {
         } else {
           isV = 1
         }
-        
+
         BookModel.getBookInfoById(CustomerId)
         .then(function (bookInfo) {       
           if (!bookInfo) {
@@ -221,9 +221,8 @@ module.exports = {
         var roomPrice = Number(rooms[0].value)
 
         // 非预定用户填写入住信息        
-        var offset = DateHelper.dayoffsetBetweenTwoday(startdate, enddate)
-
-        var payment = roomtype*offset
+        var offset = Number(DateHelper.dayoffsetBetweenTwoday(toDate(startdate), toDate(enddate)))
+        var payment = roomPrice*offset
         // 待写入数据库的入住信息
         let checkInfo = {
           CustomerId : CustomerId,
@@ -260,7 +259,8 @@ module.exports = {
           .then(function (result) {
             // 改变已分配房号的状态（无人入住->入住）
             RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId)
-            req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'。 房费共计：'+payment+'元。')
+            req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'。 '
+              +roomtype+'单价：'+roomPrice+'。 房费共计：'+payment+'元。')
             // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
             if (isBook == 0) {
               EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())

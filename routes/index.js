@@ -129,7 +129,7 @@ module.exports = function(app) {
     app.get('/finance', checkLogin, function(req, res) {
         balanceRouter["balancePage"](req, res);
     })
-    app.get('./finance', checkLogin, function(req, res, next) {
+    app.post('./finance', checkLogin, function(req, res, next) {
         balanceRouter["balanceSubmit"](req, res, next);
     })
     // add more router

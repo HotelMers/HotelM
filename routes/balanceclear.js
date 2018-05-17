@@ -40,6 +40,8 @@ module.exports = {
             req.flash('success', '成功删除过期预订信息')
             return res.redirect('/manage')
         })
+      req.flash('success', '成功删除过期预订信息')
+      return res.redirect('/manage')
     }
   }
 }

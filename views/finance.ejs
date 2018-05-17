@@ -95,17 +95,17 @@
         <th>退房时间</th>
         <th>总收入房费</th>   
     </thead>  
-    
+    <% if (flag) {%>
       <% for(var i = 0; i < CheckInfo.length; i++) {%>
       <tr>
         <td><%= CheckInfo[i].RoomNumber %></td>
-        <td><%= CheckInfo[i].Roomtype %></td>
+        <td><%= CheckInfo[i].roomtype %></td>
         <td><%= CheckInfo[i].startdate %></td>
         <td><%= CheckInfo[i].enddate %></td>
         <td><%= CheckInfo[i].payment %></td>
       </tr>
       <%}%>
-    
+    <%}%>
     
 
 </table>  

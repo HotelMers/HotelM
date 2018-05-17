@@ -23,7 +23,9 @@ module.exports = {
     // 要计算钱
     return CheckInfo.create(checkInfo).exec()
   },
-
+  setStatusByRoomNumer: function setStatusByRoomNumer (number) {
+    return CheckInfo.updateOne({'number':Number(number)},{$set:{'isValid':0}}).exec()
+  },
   // 通过房间号删除一个入住信息
   delCheckInByRoom: function delCheckInByRoom (id) {
     return CheckInfo.deleteOne({ CustomerId: id }).exec()

@@ -4,7 +4,7 @@ module.exports = {
   // 用于房间管理：
   // 通过房间号获取房间信息
   getRoomByNumber: function getRoomByNumber (number) {
-    return Room.findOne({ number: number }).exec()
+    return Room.findOne({ number: Number(number) }).exec()
   },
 
   // 通过房间类型获取房间信息
@@ -24,7 +24,7 @@ module.exports = {
 
   // 通过number删除一个房间
   delRoomById: function delRoomById (number) {
-    return Room.deleteOne({ number: number }).exec()
+    return Room.deleteOne({ number: Number(number) }).exec()
   },
 
   // 根据房间类型修改房间价格
@@ -53,12 +53,12 @@ module.exports = {
     return Room.find({type:type, status:0}).exec()
   },
 
-  // 根据房间号码登记入住/退房(退房时customerId传入"0"/0)
+  // 根据房间号码登记入住/退房(退房时customerId传入"0")
   setStatusByRoomNumer: function setStatusByRoomNumer (number,customerId) {
     return Room.updateOne({'number':Number(number)},{$set:{'status':Number(customerId)}}).exec()
   },
 
-  // 清除房间数据库
+  // 清除所有房间号
   deleteAll: function deleteAll() {
     Room.remove({}).exec()
   },

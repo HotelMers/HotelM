@@ -250,7 +250,7 @@ module.exports = {
           } else {
             add_origin_score = 30
           }
-
+          add_origin_score = add_origin_score*offset
           //待写入数据库的会员信息
           let customers = {
             id:CustomerId,
@@ -276,6 +276,7 @@ module.exports = {
           } else {
             add_score = 30
           }
+          add_score = add_score*offset
           CusModel.getCusById(CustomerId)
             .then(function(customer) {
 

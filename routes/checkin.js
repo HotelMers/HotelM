@@ -30,11 +30,13 @@ module.exports = {
   checkInPage: function (req, res) {
     // 解析url,若信息填错，可保存并自动填充已填信息
     var isBook = req.query.isBook
+    var isVIP = req.query.isVIP
     var roomnum = req.query.RoomNumber
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
-    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum, isBook : isBook})
+    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum,
+     isBook : isBook, isVIP : isVIP})
   },
 
 
@@ -53,21 +55,24 @@ module.exports = {
       return res.redirect('/checkin')
     }
 
+// 查找用户是否是会员
+var isV = 1
+
     BookModel.getBookInfoById(CustomerId)
-      .then(function (bookInfo) {
-        if (!bookInfo) {
-          var session = req.session;
-          req.flash('error', '预定信息不存在！')
-          url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'
-          return res.redirect(url)
-          //return res.redirect('/checkin')
-        }
-        req.flash('success', '查询成功！')
-        // 自动填充
-        url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
-        +'&roomtype='+bookInfo.type+'&startdate='+(bookInfo.startdate).toString()+'&enddate='+(bookInfo.enddate).toString()
-        +'&isBook=1'
+      .then(function (bookInfo) {       
+      if (!bookInfo) {
+        var session = req.session;
+        req.flash('error', '预定信息不存在！')
+        url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()
         return res.redirect(url)
+        //return res.redirect('/checkin')
+      }
+      req.flash('success', '查询成功！')
+      // 自动填充
+      url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
+      +'&roomtype='+bookInfo.type+'&startdate='+(bookInfo.startdate).toString()+'&enddate='+(bookInfo.enddate).toString()
+      +'&isBook=1'+'&isVIP='+isV.toString()
+      return res.redirect(url)
     })
   },
 
@@ -91,13 +96,13 @@ module.exports = {
         if (!customer) {
           var session = req.session;
           req.flash('error', '非会员！')
-          url = '/checkin?idcard='+CustomerId.toString()
+          url = '/checkin?idcard='+CustomerId.toString()+'&isVIP=0'
           return res.redirect(url)
           //return res.redirect('/checkin')
         }
         req.flash('success', '查询成功！')
         // 自动填充
-        url = '/checkin?idcard='+CustomerId.toString()+'&name='+customer.name+'&phone='+customer.phone
+        url = '/checkin?idcard='+CustomerId.toString()+'&name='+customer.name+'&phone='+customer.phone+'&isVIP=1'
         return res.redirect(url)
     })
   },
@@ -110,11 +115,13 @@ module.exports = {
     //res.render('getRoom', {rooms:rooms})
     // 解析url,若信息填错，可保存并自动填充已填信息
     var isBook = req.query.isBook
+    var isVIP = req.query.isVIP
     var roomnum = req.query.RoomNumber
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
-    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum, isBook : isBook})
+    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum,
+     isBook : isBook, isVIP : isVIP})
   },
 
 
@@ -126,10 +133,9 @@ module.exports = {
     const startdate = req.fields.starttime.toString()
     const enddate = req.fields.endtime.toString()
     const roomtype = req.fields.roomtype.toString()
-    const isBook = Number(req.query.isBook)
-    const isVIP = 0
-    //req.flash('error', isBook.toString())
-
+    const isBook = Number(req.fields.isBook)
+    const isVIP = Number(req.fields.isVIP)
+    
     // 校验参数
     // 获取当前日期时间，用于和入住日期进行比较，避免入住日期早于当前日期
     var myDate = new Date()
@@ -159,12 +165,12 @@ module.exports = {
       if (enddate.length != 8) {
         throw new Error('退房时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
       }
-      if (!RoomModel.getRoomByNumber(RoomNumber)) {
-        throw new Error('无效房间号')
-      }
-      if (!RoomNumber) {
-        throw new Error('请获取房间号')
-      }
+      // if (!RoomModel.getRoomByNumber(RoomNumber)) {
+      //   throw new Error('无效房间号')
+      // }
+      // if (!RoomNumber) {
+      //   throw new Error('请获取房间号')
+      // }
       if (Number(startdate)-Number(enddate) > 0) {
         throw new Error('退房时间不能早于入住时间!')
       }
@@ -176,17 +182,28 @@ module.exports = {
       // 若信息填错，重定向后可保存并自动填充已填信息
       url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
       +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+      +'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()
       return res.redirect(url)
       next(e)
     }
     
     RoomModel.getRoomIdByType(roomtype).then(function(rooms) {
       // 先查询是否还有空房,有空房才进行相关操作
-      if (!rooms||rooms.length==0) {
-        req.flash('error', '该房型无空房！')
-        throw new Error('该房型无空房！')
-          
-      } else {
+      try {
+        if (!rooms||rooms.length==0) {
+          throw new Error('该房型无空房！')
+        }
+      } catch (e) {
+        req.flash('error', e.message)
+        url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+        +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+        +'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()
+        return res.redirect(url)
+      }
+      // if (!rooms||rooms.length==0) {
+      //   req.flash('error', '该房型无空房！')
+      //   throw new Error('该房型无空房！')         
+      // } else {
         // 获得房间号
         // 通过房间类型获得该类型的所有空房，并随机分配一间空房
         const RoomNumber = rooms[0].number
@@ -195,6 +212,7 @@ module.exports = {
         // 非预定用户填写入住信息        
         var offset = DateHelper.dayoffsetBetweenTwoday(startdate, enddate)
 
+        var payment = roomtype*offset
         // 待写入数据库的入住信息
         let checkInfo = {
           CustomerId : CustomerId,
@@ -205,7 +223,7 @@ module.exports = {
           enddate : Number(enddate),
           roomtype: roomtype,
           roomPrice: roomPrice,       // 入住当日房价
-          payment: roomtype*offset   // 顾客须支付的总房费
+          payment: payment   // 顾客须支付的总房费
         }
 
         //第一次入住的顾客信息写入会员数据库
@@ -229,8 +247,9 @@ module.exports = {
         // 入住信息写入数据库
         CheckInfoModel.create(checkInfo)
           .then(function (result) {
-            RoomModel.setStatusByRoomNumer(RoomNumber,CustomerId)
-            req.flash('success', '添加入住信息成功！房间号：'+RoomNumber)
+            // 改变已分配房号的状态（无人入住->入住）
+            RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId)
+            req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'。 房费共计：'+payment+'元。')
             // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
             if (isBook == 0) {
               EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
@@ -239,7 +258,7 @@ module.exports = {
             // 传参
             url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
             +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-            +'&RoomNumber='+RoomNumber.toString()
+            +'&RoomNumber='+RoomNumber.toString()+'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()
             return res.redirect(url)
           })
           .catch(function (e) {
@@ -251,7 +270,7 @@ module.exports = {
             }
             next(e)
         }) 
-      }
+      //}
     })
 
 

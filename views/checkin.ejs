@@ -69,6 +69,14 @@
                           <input type="submit" class="ui button fluid" value="会员查找">
                           <div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>
                           <div class="field required">
+                            <!--label>是否预定</label-->
+                            <input placeholder="预定为1，非预定为0" type="hidden" name="isBook" value=<%=isBook%>>
+                          </div>
+                          <div class="field required">
+                            <!--label>是否VIP</label-->
+                            <input placeholder="VIP为1，非VIP为0" type="hidden" name="isVIP" value=<%=isVIP%>>
+                          </div>
+                          <div class="field required">
                             <label>姓名</label>
                             <input placeholder="姓名" type="text" name="name" value=<%=customer.name%>>
                           </div>

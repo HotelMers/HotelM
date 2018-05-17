@@ -45,4 +45,20 @@ module.exports = {
     var date = {year:year,month:month+1,day:day};
     return date;
   },
+
+  // 将“yyyymmdd”格式的字符串转成date类型
+  toDate : function toDate(stringDate) {
+    var stringDate= Number(stringDate);
+
+    // 初始化方法 new Date(yyyy,month,dd)
+    // start_date
+    var year= stringDate/ 10000
+    var month= (stringDate% 10000)/ 100
+    var day= (stringDate% 10000)% 100
+    var myDate = new Date()
+    myDate.setFullYear(year)
+    myDate.setMonth(month-1)
+    myDate.setDate(day)
+    return myDate
+  },
 }

@@ -8,6 +8,11 @@ module.exports = {
       .addCreatedAt()
       .exec()
   },
+  
+  //通过客户id修改积分
+  updateCusScore: function updateCusScore (customer) {
+    return Customer.updateMany({'id':customer.id},{$set:{'score':customer.score}}).exec()
+  },
 
   // 添加一个客户
   create: function create (customer) {

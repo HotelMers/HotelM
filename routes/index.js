@@ -91,6 +91,9 @@ module.exports = function(app) {
     app.post('/checkin', checkLogin, function(req, res, next) {
         checkinRouter["checkInSearchBookInfo"](req, res, next);
     })
+     app.post('/checkin/searchVIP', checkLogin, function(req, res, next) {
+        checkinRouter["checkInsearchVIP"](req, res, next);
+    })
     app.get('/checkin/getRoom', checkLogin, function(req, res) {
         checkinRouter["checkInWritePage"](req, res);
     })
@@ -127,10 +130,10 @@ module.exports = function(app) {
     
     // 财务报表
     app.get('/finance', checkLogin, function(req, res) {
-        balanceRouter["balancePage"](req, res);
+        financeRouter["financePage"](req, res);
     })
-    app.get('./finance', checkLogin, function(req, res, next) {
-        balanceRouter["balanceSubmit"](req, res, next);
+    app.post('/finance', checkLogin, function(req, res, next) {
+        financeRouter["financeSubmit"](req, res, next);
     })
     // add more router
     // 404 page

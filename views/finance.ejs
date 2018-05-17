@@ -61,22 +61,135 @@
               <div class="eight wide column">
                 <form class="ui form segment" method="post">
                     <div class="field required">
-                        <label>开始时间</label>
-                        <input placeholder="入住时间" type="text" name="starttime">
-                      </div>
-                      <div class="field required">
-                          <label>结束时间</label>
-                          <input placeholder="退房时间" type="text" name="endtime">
-                        </div>
-                        <div class="field required">
-                            <label>管理员码</label>
-                            <input placeholder="管理员码" type="text" name="id">
-                          </div>
+                      <label>开始时间</label>
+                      <input placeholder="入住时间" type="text" name="starttime">
+                    </div>
+                      
+                    <div class="field required">
+                      <label>结束时间</label>
+                      <input placeholder="退房时间" type="text" name="endtime">
+                    </div>
+
+                    <div class="field required">
+                      <label>管理员码</label>
+                      <input placeholder="管理员码" type="password" name="id">
+                    </div>
+
+                    
+
                   <input type="submit" class="ui button fluid" value="生成财务报表">
                 </form>  
               </div>
             </div>
     </div>
+
+<div id="myDiv">    
+<table id="tableExcel" width="100%" class="table table-hover" >    
+    <thead>    
+        <th colspan="5" align="center">财务报表导出</th>    
+    </thead>    
+    <thead>    
+        <th>房间号</th>    
+        <th>房间类型</th>    
+        <th>入住时间</th>    
+        <th>退房时间</th>
+        <th>总收入房费</th>   
+    </thead>  
+    <% if (flag) {%>
+      <% for(var i = 0; i < CheckInfo.length; i++) {%>
+      <tr>
+        <td><%= CheckInfo[i].RoomNumber %></td>
+        <td><%= CheckInfo[i].roomtype %></td>
+        <td><%= CheckInfo[i].startdate %></td>
+        <td><%= CheckInfo[i].enddate %></td>
+        <td><%= CheckInfo[i].payment %></td>
+      </tr>
+      <%}%>
+    <%}%>
+    
+
+</table>  
+<button type="button" class="btn btn-primary center-block" onclick="method5('tableExcel')">导出Excel</button>    
+<!-- <input type="file" class="btn btn-primary center-block" value="请选择输出路径"> -->  
+<script type="text/javascript" src="js/jquery-3.1.0.js"></script>    
+ <script language="JavaScript" type="text/javascript">    
+        //第五种方法    
+        var idTmr;    
+        function  getExplorer() {    
+            var explorer = window.navigator.userAgent ;    
+            //ie    
+            if (explorer.indexOf("MSIE") >= 0) {    
+                return 'ie';    
+            }    
+            //firefox    
+            else if (explorer.indexOf("Firefox") >= 0) {    
+                return 'Firefox';    
+            }    
+            //Chrome    
+            else if(explorer.indexOf("Chrome") >= 0){    
+                return 'Chrome';    
+            }    
+            //Opera    
+            else if(explorer.indexOf("Opera") >= 0){    
+                return 'Opera';    
+            }    
+            //Safari    
+            else if(explorer.indexOf("Safari") >= 0){    
+                return 'Safari';    
+            }    
+        }    
+        function method5(tableid) {    
+            if(getExplorer()=='ie')    
+            {    
+                var curTbl = document.getElementById(tableid);    
+                var oXL = new ActiveXObject("Excel.Application");    
+                var oWB = oXL.Workbooks.Add();    
+                var xlsheet = oWB.Worksheets(1);    
+                var sel = document.body.createTextRange();    
+                sel.moveToElementText(curTbl);    
+                sel.select();    
+                sel.execCommand("Copy");    
+                xlsheet.Paste();    
+                oXL.Visible = true;    
+    
+                try {    
+                    var fname = oXL.Application.GetSaveAsFilename("Excel.xls", "Excel Spreadsheets (*.xls), *.xls");    
+                } catch (e) {    
+                    print("Nested catch caught " + e);    
+                } finally {    
+                    oWB.SaveAs(fname);    
+                    oWB.Close(savechanges = false);    
+                    oXL.Quit();    
+                    oXL = null;    
+                    idTmr = window.setInterval("Cleanup();", 1);    
+                }    
+    
+            }    
+            else    
+            {    
+                tableToExcel(tableid)    
+            }    
+        }    
+        function Cleanup() {    
+            window.clearInterval(idTmr);    
+            CollectGarbage();    
+        }    
+        var tableToExcel = (function() {    
+            var uri = 'data:application/vnd.ms-excel;base64,',    
+                    template = '<html><head><meta charset="UTF-8"></head><body><table>{table}</table></body></html>',    
+                    base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },    
+                    format = function(s, c) {    
+                        return s.replace(/{(\w+)}/g,    
+                                function(m, p) { return c[p]; }) }    
+            return function(table, name) {    
+                if (!table.nodeType) table = document.getElementById(table)    
+                var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}    
+                window.location.href = uri + base64(format(template, ctx))    
+            }    
+        })()    
+    
+    </script>    
+</div>
 
     <!--  右侧边栏    -->
         <div class="right-side">

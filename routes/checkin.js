@@ -55,25 +55,36 @@ module.exports = {
       return res.redirect('/checkin')
     }
 
-// 查找用户是否是会员
-var isV = 1
+    // 查找用户是否是会员
+    var isV = 3
+    CusModel.getCusById(CustomerId)
+      .then(function (customer) {
+        if (!customer) {
+          isV = 0
+        } else {
+          isV = 1
+        }
+        
+        BookModel.getBookInfoById(CustomerId)
+        .then(function (bookInfo) {       
+          if (!bookInfo) {
+            var session = req.session;
+            req.flash('error', '预定信息不存在！')
+            url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()
+            return res.redirect(url)
+            //return res.redirect('/checkin')
+          }
+          req.flash('success', '查询成功！')
+          // 自动填充
+          url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
+          +'&roomtype='+bookInfo.type+'&startdate='+(bookInfo.startdate).toString()+'&enddate='+(bookInfo.enddate).toString()
+          +'&isBook=1'+'&isVIP='+isV.toString()
+          return res.redirect(url)
+        })
+      })
 
-    BookModel.getBookInfoById(CustomerId)
-      .then(function (bookInfo) {       
-      if (!bookInfo) {
-        var session = req.session;
-        req.flash('error', '预定信息不存在！')
-        url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()
-        return res.redirect(url)
-        //return res.redirect('/checkin')
-      }
-      req.flash('success', '查询成功！')
-      // 自动填充
-      url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
-      +'&roomtype='+bookInfo.type+'&startdate='+(bookInfo.startdate).toString()+'&enddate='+(bookInfo.enddate).toString()
-      +'&isBook=1'+'&isVIP='+isV.toString()
-      return res.redirect(url)
-    })
+
+    
   },
 
 

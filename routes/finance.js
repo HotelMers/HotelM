@@ -17,12 +17,16 @@ module.exports = {
 
 	//GET 生成财务报表
 	financePage: function(req, res) {
+		
 		CheckInfoModel.getAllCheckInfo()
 		.then(function(CheckInfo) {
-			return res.render('finance', {CheckInfo:CheckInfo})
+			if (!CheckInfo) {
+				CheckInfo = {CustomerId:'0',name:'0',phone:'0',RoomNumber:'0',startdate:'0',enddate:'0',roomtype:'0',payment:'0'}
+			}
+			res.render('finance', {CheckInfo:CheckInfo}) //, flag:flag
 		})
 		//var flag = false
-		//res.render('finance'); //,{flag:flag}
+		//res.render('finance',{flag:flag}); //,{flag:flag}
 	},
 
 	//POST 生成财务报表
@@ -63,7 +67,7 @@ module.exports = {
 				//req.flash('success', '成功')
 				//console.log(CheckInfo);
 				//var flag = true
-				//, flag:flag}
+				//, flag:flag
 				res.render('finance.ejs', {CheckInfo:CheckInfo})//{RoomNumber:result.RoomNumber, Roomtype:result.Roomtype, starttime:result.startdate, endtime:result.enddate}
 			})
 

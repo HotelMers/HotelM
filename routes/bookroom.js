@@ -21,15 +21,57 @@ const DateHelper = require('../middlewares/dateHelper')
 //   }
   
 module.exports = {
+  // get，查询会员前
   bookroomPage: function(req, res) {
     // var roomnum = req.query.RoomNumber
     var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
-    res.render("bookroom",{ customer : customer, bookinfo : bookinfo});
+    res.render('bookroom',{ customer : customer, bookinfo : bookinfo});
   },
-  
+  // post
   bookroomSubmit: function (req, res, next) {
+    
+    // req.flash('success', '操作成功')
+    const id = req.fields.idcard
+    // let customer = {
+    //     id: id,
+    //     name: name,
+    //     score:score,
+    //     phone: phone
+    // }
+    // 按照身份证填写客户信息
+    CusModel.getCusById(id)
+      .then(function(result) {
+        if (!result) {
+          // result= {id: -1, name:-1, score:-1, phone:-1}
+          req.flash('error', '该会员不存在')   
+          url = '/bookroom?idcard='+id.toString()
+          return res.redirect(url)   
+        } else {
+          url = '/bookroom?idcard='+id.toString()+'&name='+(result.name).toString()+'&score='+(result.score).toString()+'&phone='+(result.phone).toString()
+          req.flash('success', '该会员存在')
+          return res.redirect(url)
+        }
+        // req.flash('success', '会员查询成功')
+        // 自动填充
+        
+        // return res.redirect(url)
+      })
+
+      
+
+  },
+
+  bookroomPageHascustomers: function(req, res) {
+    // var roomnum = req.query.RoomNumber
+    var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
+    var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+    res.render('bookroom',{ customer : customer, bookinfo : bookinfo});
+  },
+
+  bookroomSubmitHascustomers: function (req, res, next) {
     const id = req.fields.idcard
     const name = req.fields.name
     const score = req.fields.score
@@ -62,14 +104,7 @@ module.exports = {
     // console.log(date_start)
 
     // 待写入数据库的房间信息
-    let bookinfo = {
-        id: id,
-        name: name,
-        phone: phone,
-        type: roomtype,
-        startdate: Number(startdate),
-        enddate: Number(enddate)
-      }
+    
 
     var begindays= new Number(startdate)
     begindays= begindays% 100;
@@ -99,53 +134,37 @@ module.exports = {
                 if (result.singleRoom>= 1) {
                     emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
                 } else {
-                    req.flash('error', '没有足够的房间')
+                    req.flash('error', '没有足够的单人房房间')
                     return res.redirect('/manage')
                 }
             } else if (roomtype== '大床房') {
                 if (result.bigRoom>= 1) {
                     emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
                 } else {
-                    req.flash('error', '没有足够的房间')
+                    req.flash('error', '没有足够的big房间')
                     return res.redirect('/manage')
                 }
             } else if (roomtype== '双人房') {
                 if (result.doubleRoom>= 1) {
                     emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
                 } else {
-                    req.flash('error', '没有足够的房间')
+                    req.flash('error', '没有足够的double房间')
                     return res.redirect('/manage')
                 }
             }
 
         })
     }
-    
-    req.flash('success', '操作成功')
-
-    let customer = {
+    // 用户信息写入数据库
+    let bookinfo = {
         id: id,
         name: name,
-        score:score,
-        phone: phone
-    }
-    // 按照身份证填写客户信息
-    CusModel.getCusById(id)
-      .then(function(result) {
-        if (!result) {
-          // result= {id: -1, name:-1, score:-1, phone:-1}
-                url = '/bookroom?idcard='+id.toString()+'&name='+name.toString()+'&score='+score.toString()+'&phone='+phone.toString()
-                +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-                return res.redirect(url)
-        }
-        // req.flash('success', '会员查询成功')
-        // 自动填充
-        
-        // return res.redirect(url)
-      })
+        phone: phone,
+        type: roomtype,
+        startdate: Number(startdate),
+        enddate: Number(enddate)
+      }
 
-      // 用户信息写入数据库
-    
     BookModel.create(bookinfo)
         .then(function (result) {
           req.flash('success', '预定成功')
@@ -160,6 +179,7 @@ module.exports = {
         }) 
         
     // 一个月内
-
   }
+
 }
+// 

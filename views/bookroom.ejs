@@ -59,12 +59,14 @@
           <div class="ui grid">
               <div class="four wide column"></div>
               <div class="eight wide column">
-                <form class="ui form segment" method="post" id="myFrm'>
+
+                <form class="ui form segment" method="post" id = "myFrm">
                   <div class="field required">
                     <label>身份证号</label>
                     <input placeholder="身份证号" type="text" name="idcard" value=<%=customer.id%>>
                   </div>
-                  <input type="submit" class="ui button fluid" value="预定查找" id="bookroomSearchById">
+
+                  <input type="submit" class="ui button fluid" value="查询会员">
                   <div class="field required">
                       <label>姓名</label>
                       <input placeholder="姓名" type="text" name="name" value=<%=customer.name%>>
@@ -103,4 +105,4 @@
         </div>
       </div>
     </div>
-<%- include('footer') %>
+<%- include('footerbr') %>

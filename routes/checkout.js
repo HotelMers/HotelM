@@ -6,8 +6,8 @@ const RoomModel =require('../models/rooms')
 const CheckInfoModel =require('../models/checkInfo')
 const BookInfoModel =require('../models/bookInfo')
 const checkLogin = require('../middlewares/check').checkLogin
-const emptyRoomNumber = require('../models/emptyRoomNumber')
-
+const EmptyRoomModel = require('../models/emptyRoomNumber')
+const DateHelper = require('../middlewares/dateHelper')
 
 module.exports = {
 	searchroomidPage: function(req, res) {
@@ -31,7 +31,7 @@ module.exports = {
 					return res.redirect(url)
 			    } else {
 			    	if (result.isValid== 1) {
-				    	 req.flash('error', result.isValid)
+				    	 req.flash('success', result.isValid)
 				    	url = '/checkout?idcard='+(result.CustomerId).toString()+'&roomid='+number.toString()+'&name='+(result.name).toString()+'&phone='+(result.phone).toString()
 				        +'&roomtype='+(result.roomtype).toString()+'&startdate='+(result.startdate).toString()+'&enddate='+(result.enddate).toString()
 				        +'&RoomNumber='+(result.RoomNumber).toString()
@@ -61,7 +61,9 @@ module.exports = {
 		const number= req.fields.roomid
 		const startdate= req.fields.starttime
 		const enddate= req.fields.endtime
+		const roomtype= req.fields.roomtype.toString()
 		var zero= 0
+
 	  	RoomModel.setStatusByRoomNumer(Number(number),zero.toString())
 		.then(function (result) {
 	        if (result.modifiedCount>=1) {
@@ -69,7 +71,7 @@ module.exports = {
 	          req.flash('success', '修改房间状态成功')
 	        } else {
 	        	// 无该房间则跳回添加页
-	        	req.flash('error', '修改失败')
+	          req.flash('error', '修改失败')
 	        }
 	        
 	    })
@@ -78,40 +80,48 @@ module.exports = {
 	        req.flash('error', e.message)
 	        next(e)
 	    })
-			// req.flash('success', Number(number))
-		CheckInfoModel.setvalidByRoomNumer(Number(number),Number(startdate),Number(enddate))
-			.then(function (result) {
-				req.flash('success', 222)
-				if (!result) {
+	    .then(function(){
+	    		// req.flash('success', Number(number))
+			CheckInfoModel.setvalidByRoomNumer(Number(number),Number(startdate),Number(enddate))
+				.then(function (result) {
+					req.flash('success', '房号:'+Number(number))
+					if (!result) {
+						req.flash('error', 'fail')
+				    } else {
+				    	req.flash('success', '入住信息状态改变成功')
+			    	}
+				})
+				.catch(function (e) {
 					req.flash('error', 'fail')
-			    } else {
-			    	req.flash('success', '房间状态改变成功')
-		    	}
-			})
-			.catch(function (e) {
-				req.flash('error', 'fail')
-			})
-	
-		//id是身份证信息,删除预定表的
-		const id = req.fields.idcard
-		BookInfoModel.deleteInfoByid(id)
-	    	.then(function (result) {
-	    		if (result.deletedCount>=1) {
-			        // eq.flash('success', result.length)
-			      	req.flash('success', '成功删除')
-			        return res.redirect('/manage')
-			        next(e)
-				}
-				req.flash('error', '失败退房')
-			})
-			.catch(function (e) {
-		     // 修改剩余空房信息
-			      req.flash('error', '删除失败')
-			      return res.redirect('/manage')
-			      next(e)
-	    	})
-		req.flash('success', '删除成功')
-		return res.redirect('/manage')
-
+				})
+				.then(function(){
+					//id是身份证信息,删除预定表的
+					const id = req.fields.idcard
+					BookInfoModel.deleteInfoByid(id)
+			    	.then(function (result) {
+			    		if (result.deletedCount>=1) {
+					        // eq.flash('success', result.length)
+					      	req.flash('success', '预订信息成功删除')
+					        return res.redirect('/manage')
+					        next(e)
+						} else {
+							req.flash('error', '预订信息删除失败')
+						}
+					})
+					.catch(function (e) {
+				     // 修改剩余空房信息
+					      req.flash('error', '删除失败')
+					      return res.redirect('/manage')
+					      next(e)
+			    	})
+				})
+				.then(function(){
+					EmptyRoomModel.addNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())
+		            req.flash('success', '对应'+roomtype+'数量+1')
+					req.flash('success', '删除成功')
+					return res.redirect('/manage')
+				})
+				
+	    })
 	}
 }

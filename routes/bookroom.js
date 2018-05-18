@@ -157,14 +157,14 @@ module.exports = {
                           if (result.bigRoom> 0) {
                               emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
                           } else {
-                              req.flash('error', '没有足够的big房间')
+                              req.flash('error', '没有足够的大房')
                               return res.redirect('/manage')
                           }
                       } else if (roomtype== '双人房') {
                           if (result.doubleRoom> 0) {
                               emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
                           } else {
-                              req.flash('error', '没有足够的double房间')
+                              req.flash('error', '没有足够的双人房')
                               return res.redirect('/manage')
                           }
                       }

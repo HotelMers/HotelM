@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const RoomModel = require('../models/rooms')
 const EmptyRoomModel = require('../models/emptyRoomNumber')
+const bi = require('../models/bookInfo')
+const ci = require('../models/checkInfo')
+const customers = require('../models/customers')
 
 module.exports = {
   managePage: function managePage(req, res) {
@@ -27,6 +30,10 @@ module.exports = {
 
   clear: function clear(req, res) {
     EmptyRoomModel.deleteAll();
+    customers.deleteAll();
+    bi.deleteAll();
+    ci.deleteAll();
+    RoomModel.deleteAll();
     res.redirect('manage');
   },
 

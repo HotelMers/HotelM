@@ -17,5 +17,9 @@ module.exports = {
   // 添加一个客户
   create: function create (customer) {
     return Customer.create(customer).exec()
-  }
+  },
+
+  deleteAll: function deleteAll() {
+    Customer.remove({}).exec()
+  },
 }

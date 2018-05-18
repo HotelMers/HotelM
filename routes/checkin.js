@@ -7,7 +7,6 @@ const CheckInfoModel = require('../models/checkInfo')
 const RoomModel = require('../models/rooms')
 const EmptyRoomModel = require('../models/emptyRoomNumber')
 const checkLogin = require('../middlewares/check').checkLogin
-const EmptyRoomNumber = require('../lib/mongo').EmptyRoomNumber
 const DateHelper = require('../middlewares/dateHelper')
 
 module.exports = {
@@ -146,7 +145,7 @@ module.exports = {
       if (CustomerId.length != 18 || isNaN(Number(CustomerId))) {
         throw new Error('无效身份证号')
       }
-      if (!name) {s
+      if (!name) {
         throw new Error('姓名不能为空')
       }
       if (phone.length != 11 || isNaN(Number(phone))) {
@@ -173,6 +172,10 @@ module.exports = {
       if (Number(today)-Number(startdate) > 0) {
         throw new Error('入住时间不能早于今日!')
       }
+      var endayoffset = Number(DateHelper.dayoffsetBetweenTwoday(new Date(), DateHelper.toDate(enddate)))
+      if (endayoffset > 30) {
+        throw new Error('不能登记超过30天的入住')
+      } 
     } catch (e) {
       req.flash('error', e.message)
       // 若信息填错，重定向后可保存并自动填充已填信息
@@ -200,15 +203,40 @@ module.exports = {
       //   req.flash('error', '该房型无空房！')
       //   throw new Error('该房型无空房！')         
       // } else {
+
         // 获得房间号
         // 通过房间类型获得该类型的所有空房，并随机分配一间空房
         const RoomNumber = rooms[0].number
         //var roomPrice = Number(rooms[0].value)
 
-        // 非预定用户填写入住信息        
+        // 待写入数据库的入住信息       
         var offset = Number(DateHelper.dayoffsetBetweenTwoday(DateHelper.toDate(startdate), DateHelper.toDate(enddate)))
+
+        // 计算房价 and 检查空房
         var payment = 0
-        // 待写入数据库的入住信息
+        if (1) {
+          for (var i = 0; i < offset; i++) {
+            (function(dayoff) {
+              var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),dayoff);
+              EmptyRoomModel.getEmptyRoomNumberByDays(date.year,date.month,date.day).then(function(result) {
+                if ((type == '单人房' && result.singleRoom == 0) ||
+                    (type == '双人房' && result.doubleRoom == 0) ||
+                    (type == '大房' && result.bigRoom == 0)) {
+                  throw new Error('该房型在该时间段内无空房！')
+                } else {
+                  if (type == '单人房') {
+                    payment += result.singlePrice;
+                  } else if (type == '双人房') {
+                    payment += result.doublePrice;
+                  } else if (type == '大房') {
+                    payment += result.bigPrice;
+                  }
+                }
+              })
+            })(i)
+          }
+        }
+        
         let checkInfo = {
           CustomerId : CustomerId,
           name: name,
@@ -284,8 +312,7 @@ module.exports = {
           .then(function (result) {
             // 改变已分配房号的状态（无人入住->入住）
             RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId)
-            req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'。 '
-              +'。 房费共计：'+payment+'元。')
+            req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'。 房费共计：'+payment+'元')
             // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
             if (isBook == 0) {
               EmptyRoomModel.reduceNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())

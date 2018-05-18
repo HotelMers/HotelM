@@ -160,12 +160,6 @@ module.exports = {
       if (enddate.length != 8) {
         throw new Error('退房时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
       }
-      // if (!RoomModel.getRoomByNumber(RoomNumber)) {
-      //   throw new Error('无效房间号')
-      // }
-      // if (!RoomNumber) {
-      //   throw new Error('请获取房间号')
-      // }
       if (Number(startdate)-Number(enddate) > 0) {
         throw new Error('退房时间不能早于入住时间!')
       }
@@ -211,31 +205,45 @@ module.exports = {
 
         // 待写入数据库的入住信息       
         var offset = Number(DateHelper.dayoffsetBetweenTwoday(DateHelper.toDate(startdate), DateHelper.toDate(enddate)))
-
-        // 计算房价 and 检查空房
         var payment = 0
-        var calPayANDcheckRoomPromise =  new Promise((resolve, reject) => {
-          for (var i = 0; i < offset; i++) {
-            (function(dayoff) {
-              var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),dayoff);
-              EmptyRoomModel.getEmptyRoomNumberByDays(date.year,date.month,date.day).then(function(result) {
-                if ((type == '单人房' && result.singleRoom == 0) ||
-                    (type == '双人房' && result.doubleRoom == 0) ||
-                    (type == '大房' && result.bigRoom == 0)) {
-                  throw new Error('该房型在该时间段内无空房！')
-                } else {
-                  if (type == '单人房') {
-                    payment += result.singlePrice;
-                  } else if (type == '双人房') {
-                    payment += result.doublePrice;
-                  } else if (type == '大房') {
-                    payment += result.bigPrice;
+        // 计算房价 and 检查空房
+        // 先查询是否还有空房,有空房才进行相关操作,
+        for (var i = 0; i < offset; i++) {
+          (function (i, res, req) {
+              var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),i);
+      　　    EmptyRoomModel.getEmptyRoomNumberByDays(date.year,date.month,date.day)
+              .then(function(result) {
+                  if (roomtype== '单人房') {
+                      if (result.singleRoom> 0) {
+                        payment += result.singlePrice;
+                      } else {
+                          throw new Error('没有足够的单人房房间')
+                          return res.redirect('/manage')
+                      }
+                  } else if (roomtype== '大床房') {
+                      if (result.bigRoom> 0) {
+                        payment += result.doublePrice;
+                      } else {
+                          throw new Error('没有足够的大房')
+                          return res.redirect('/manage')
+                      }
+                  } else if (roomtype== '双人房') {
+                      if (result.doubleRoom> 0) {
+                          payment += result.bigPrice;
+                      } else {
+                          throw new Error('没有足够的双人房')
+                          return res.redirect('/manage')
+                      }
                   }
-                }
+              }).catch(function(e) {
+                req.flash('error', e.message)
+                url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+                +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+                +'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()
+                return res.redirect(url)
               })
-            })(i)
-          }
-        })
+          })(i, res, req);
+        }
         
         let checkInfo = {
           CustomerId : CustomerId,
@@ -312,7 +320,7 @@ module.exports = {
           .then(function (result) {
             // 改变已分配房号的状态（无人入住->入住）
             RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId)
-            req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'。 房费共计：'+payment+'元')
+            req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'入住时间：'+startdate+',退房时间：'+enddate+'。 房费共计：'+payment+'元')
             // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
             if (isBook == 0) {
               EmptyRoomModel.reduceNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())

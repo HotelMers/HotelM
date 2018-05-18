@@ -108,20 +108,20 @@ module.exports = {
     var hasRoom = true;
     for (var i = 0; i < offset; i++) {
       (function (i, res, req) {
-          var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),i);
-  　　    emptyRoomNumber.getEmptyRoomNumberByDays(date.year,date.month,date.day)
-          .then(function(result) {
-              if ((roomtype== '单人房' && result.singleRoom <= 0) ||
-                  (roomtype== '大床房' && result.bigRoom <= 0) || 
-                   (roomtype== '双人房' && result.doubleRoom <= 0) ) {
-                  hasRoom = false;
-                  throw new Error('没有足够的房间')
-                  return res.redirect('/manage')
-              }
-          }).catch(function(e) {
-            req.flash('error', e.message)
-            return res.redirect('/manage')
-          })
+        var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),i);
+　　    emptyRoomNumber.getEmptyRoomNumberByDays(date.year,date.month,date.day)
+        .then(function(result) {
+            if ((roomtype== '单人房' && result.singleRoom <= 0) ||
+                (roomtype== '大床房' && result.bigRoom <= 0) || 
+                 (roomtype== '双人房' && result.doubleRoom <= 0) ) {
+                hasRoom = false;
+                throw new Error('没有足够的房间')
+                return res.redirect('/manage')
+            }
+        }).catch(function(e) {
+          req.flash('error', e.message)
+          return res.redirect('/manage')
+        })
       })(i, res, req);
     }
 
@@ -149,6 +149,7 @@ module.exports = {
     .catch(function (e) {
       // 预定失败
       req.flash('error', '预定失败')
+      req.flash('error', e.message)
       return res.redirect('/bookroom')
       next(e)
     }) 

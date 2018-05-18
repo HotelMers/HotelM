@@ -6,6 +6,7 @@ const EmptyRoomModel = require('../models/emptyRoomNumber')
 const checkLogin = require('../middlewares/check').checkLogin
 const EmptyRoomNumber = require('../lib/mongo').EmptyRoomNumber
 const DateHelper = require('../middlewares/dateHelper')
+const bi = require('../models/bookInfo')
 
 module.exports = {
   // get
@@ -25,8 +26,20 @@ module.exports = {
 
       // test
       // var d = new Date();
+      // var p = bi.test()
+      // p.then(function(re) {
+      //   // alert(re);
+      //   req.flash('success',re)
+      // }).then(function(){
+      //   res.render('manageroom',{rooms:rooms})
+      // })
+      // bi.getIndex('111111111111111111').then(function(re) {
+      //   // alert(re);
+      //   req.flash('success',re)
+      // }).then(function(){
+      //   res.render('manageroom',{rooms:rooms})
+      // })
 
-      // hasEmptyRoomBetweenDaysByType()
       res.render('manageroom',{rooms:rooms})
     })
   },
@@ -184,6 +197,9 @@ module.exports = {
       }
       if (!price.length || isNaN(price)) {
         throw new Error('房间价格填写有误')
+      }
+      if (price < 50) {
+        throw new Error('房间价格不能小于50')
       }
       if (mapassword !== "forbidden") {
         throw new Error('管理员码错误')

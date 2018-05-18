@@ -20,15 +20,28 @@ module.exports = {
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:startdate, enddate:req.query.enddate}
-    res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum,
-     isBook : isBook, isVIP : isVIP})
+
+    BookModel.getBookInfoById(customer.id)
+    .then(function(allbookinfos){
+      if (!allbookinfos) allbookinfos = {}
+      //req.flash('success', JSON.stringify(allbookinfos))
+      //req.flash('success', JSON.stringify(customer))
+      res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum,
+       isBook : isBook, isVIP : isVIP, allbookinfos:allbookinfos})
+    }).catch(function(e){
+      req.flash('error', e)
+      res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum,
+       isBook : isBook, isVIP : isVIP, allbookinfos:{}})
+    })
   },
 
 
   // post 通过身份证号查询预定情况
-  //预定用户自动填充入住信息
-  checkInSearchBookInfo: function(req, res, next) {
-    const CustomerId = req.fields.idcard.toString()
+  // 通过身份证号查询预定情况
+  checkInGetBookInfoIndex: function(req, res, next) {
+    const CustomerId = req.fields.idcard
+    var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
+    //req.flash('success','up')
 
    //校验参数
     try {
@@ -39,8 +52,24 @@ module.exports = {
       req.flash('error', e.message)
       return res.redirect('/checkin')
     }
+    
+    BookModel.getBookInfoById(CustomerId)
+    .then(function (allbookinfos){
+      url = '/checkin?idcard='+CustomerId.toString();
+      return res.redirect(url)
+    })
+    
+  },
 
-    // 查找用户是否是会员
+  // get 通过身份证号查询预定情况
+  // 根据身份证号和订单号填充入住信息（待完成）
+  checkInGetBookInfo: function(req, res, next) {
+    const CustomerId = req.fields.cusid
+    const bookInfoIdx = req.fields.idx
+    req.flash('success',CustomerId)
+    req.flash('success',bookInfoIdx)
+    // req.flash('success','down')
+
     var isV = 3
     CusModel.getCusById(CustomerId)
       .then(function (customer) {
@@ -49,28 +78,32 @@ module.exports = {
         } else {
           isV = 1
         }
-
-        BookModel.getBookInfoById(CustomerId)
-        .then(function (bookInfo) {       
-          if (!bookInfo) {
+        req.flash('success','comein')
+        BookModel.getBookInfoByIdAndIdx(CustomerId, Number(bookInfoIdx))
+        .then(function (bookInfo) {
+          req.flash('success','comein2')
+          if (!bookInfo || bookInfo.length == 0) {
             var session = req.session;
             req.flash('error', '预定信息不存在！')
-            url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()
+            url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()+'&idx='+bookInfoIdx
             return res.redirect(url)
             //return res.redirect('/checkin')
           } else if ((bookInfo.startdate).toString() != DateHelper.todayTostring()){
-            req.flash('error', '没有当天入住的预定！')
-            url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()
+            req.flash('error', '不是当天入住的预定！')
+            url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()+'&idx='+bookInfoIdx
             return res.redirect(url)
           }
           req.flash('success', '查询成功！')
           // 自动填充
           url = '/checkin?idcard='+CustomerId.toString()+'&name='+bookInfo.name+'&phone='+bookInfo.phone
           +'&roomtype='+bookInfo.type+'&startdate='+(bookInfo.startdate).toString()+'&enddate='+(bookInfo.enddate).toString()
-          +'&isBook=1'+'&isVIP='+isV.toString()
+          +'&isBook=1'+'&isVIP='+isV.toString()+'&idx='+bookInfoIdx
           return res.redirect(url)
         })
       })
+
+    // url = '/checkin?idcard='+CustomerId+'&idx='+bookInfoIdx;
+    // return res.redirect(url)
     
   },
 
@@ -117,11 +150,12 @@ module.exports = {
     var isBook = req.query.isBook
     var isVIP = req.query.isVIP
     var roomnum = req.query.RoomNumber
+    var allbookinfos = {}
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
     res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum,
-     isBook : isBook, isVIP : isVIP})
+     isBook : isBook, isVIP : isVIP , allbookinfos:allbookinfos})
   },
 
 
@@ -216,21 +250,21 @@ module.exports = {
                   if (roomtype== '单人房') {
                       if (result.singleRoom> 0) {
                         payment += result.singlePrice;
-                      } else {
+                      } else if (result.singleRoom <= 0 && !isBook){
                           throw new Error('没有足够的单人房房间')
                           return res.redirect('/manage')
                       }
                   } else if (roomtype== '大床房') {
                       if (result.bigRoom> 0) {
-                        payment += result.doublePrice;
-                      } else {
+                        payment += result.bigRoom;
+                      } else if (result.bigRoom <= 0 && !isBook) {
                           throw new Error('没有足够的大房')
                           return res.redirect('/manage')
                       }
                   } else if (roomtype== '双人房') {
                       if (result.doubleRoom> 0) {
-                          payment += result.bigPrice;
-                      } else {
+                          payment += result.doublePrice;
+                      } else if (result.doubleRoom <= 0 && !isBook) {
                           throw new Error('没有足够的双人房')
                           return res.redirect('/manage')
                       }

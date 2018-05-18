@@ -214,7 +214,7 @@ module.exports = {
 
         // 计算房价 and 检查空房
         var payment = 0
-        if (1) {
+        var calPayANDcheckRoomPromise =  new Promise((resolve, reject) => {
           for (var i = 0; i < offset; i++) {
             (function(dayoff) {
               var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),dayoff);
@@ -235,7 +235,7 @@ module.exports = {
               })
             })(i)
           }
-        }
+        })
         
         let checkInfo = {
           CustomerId : CustomerId,

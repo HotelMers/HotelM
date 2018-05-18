@@ -581,9 +581,9 @@ footer p {
 #room_info {
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  margin-left:120px;
+  margin-left:160px;
   margin-top: 30px;
-  width: 800px;
+  width: 740px;
   border-bottom-color:rgb(235, 242, 224);
 }
 

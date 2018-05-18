@@ -10,21 +10,6 @@ const checkLogin = require('../middlewares/check').checkLogin
 const EmptyRoomNumber = require('../lib/mongo').EmptyRoomNumber
 const DateHelper = require('../middlewares/dateHelper')
 
-var toDate = function(stringDate) {
-  var stringDate= Number(stringDate);
-
-  // 初始化方法 new Date(yyyy,month,dd)
-  // start_date
-  var year= stringDate/ 10000
-  var month= (stringDate% 10000)/ 100
-  var day= (stringDate% 10000)% 100
-  var myDate = new Date()
-  myDate.setFullYear(year)
-  myDate.setMonth(month-1)
-  myDate.setDate(day)
-  return myDate
-}
-
 module.exports = {
   // GET
   checkInPage: function (req, res) {
@@ -82,8 +67,6 @@ module.exports = {
           return res.redirect(url)
         })
       })
-
-
     
   },
 
@@ -220,11 +203,11 @@ module.exports = {
         // 获得房间号
         // 通过房间类型获得该类型的所有空房，并随机分配一间空房
         const RoomNumber = rooms[0].number
-        var roomPrice = Number(rooms[0].value)
+        //var roomPrice = Number(rooms[0].value)
 
         // 非预定用户填写入住信息        
-        var offset = Number(DateHelper.dayoffsetBetweenTwoday(toDate(startdate), toDate(enddate)))
-        var payment = roomPrice*offset
+        var offset = Number(DateHelper.dayoffsetBetweenTwoday(DateHelper.toDate(startdate), DateHelper.toDate(enddate)))
+        var payment = 0
         // 待写入数据库的入住信息
         let checkInfo = {
           CustomerId : CustomerId,
@@ -234,7 +217,6 @@ module.exports = {
           startdate : Number(startdate),
           enddate : Number(enddate),
           roomtype: roomtype,
-          roomPrice: roomPrice,       // 入住当日房价
           payment: payment,   // 顾客须支付的总房费
           isValid: 1
         }
@@ -265,7 +247,7 @@ module.exports = {
             //req.flash('success', '添加会员信息成功，会员ID：'+CustomerId)
             //res.redirect('back')
           })
-        } else {
+        } else {  // 是vip 
 
           //根据房间类型设置积分
           var add_score = 0
@@ -303,10 +285,10 @@ module.exports = {
             // 改变已分配房号的状态（无人入住->入住）
             RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId)
             req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'。 '
-              +roomtype+'单价：'+roomPrice+'。 房费共计：'+payment+'元。')
+              +'。 房费共计：'+payment+'元。')
             // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
             if (isBook == 0) {
-              EmptyRoomModel.reduceNumberBetweenDaysByType(toDate(startdate), toDate(enddate), roomtype.toString())
+              EmptyRoomModel.reduceNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())
               req.flash('success', '非预定入住：'+roomtype+'数量-1')
             }
             // 传参

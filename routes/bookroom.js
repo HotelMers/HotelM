@@ -6,19 +6,6 @@ const checkLogin = require('../middlewares/check').checkLogin
 const BookModel = require('../models/bookInfo')
 const emptyRoomNumber = require('../models/emptyRoomNumber')
 const DateHelper = require('../middlewares/dateHelper')
-
-// var toDate = function(stringDate) {
-//     var stringDate= Number(stringDate);
-
-//     // 初始化方法 new Date(yyyy,month,dd)
-//     // start_date
-//     var year= stringDate/ 10000;
-//     var month= (stringDate% 10000)/ 100;
-//     var day= (stringDate% 10000)% 100;
-//     var date1= new Date()
-//     date1.setFullYear(year,month,day)
-//     return date1;
-//   }
   
 module.exports = {
   // get，查询会员前
@@ -129,118 +116,51 @@ module.exports = {
         // return res.redirect('/bookroom')
     }
 
-    // var startdays= toDate(startdate)
-    // var enddays= toDate(enddate)
+    // var startDate= DateHelper.toDate(startdate)
+    // var endDate= DateHelper.toDate(enddate)
 
-    
-    // 先查询是否还有空房,有空房才进行相关操作,同月
-    // req.flash('error', month_temp)
-    // req.flash('error', month_temp1)
-    // req.flash('error', DateHelper.DaysInMonth(Math.round(month_temp1),2018))
-    if (Math.round(month_temp)== Math.round(month_temp1)) {
-      
-        for (var i = begindays1; i < finaldays1; i++) {
-         // req.flash('success', i)
-         // var temp= i
-          (function (i) {
-      　　    emptyRoomNumber.getEmptyRoomNumberByDays(2018,Math.round(month_temp),i)
-                  .then(function(result) {
-                      if (roomtype== '单人房') {
-                          if (result.singleRoom> 0) {
-                             // req.flash('error', temp)
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的单人房房间')
-                              return res.redirect('/manage')
-                          }
-                      } else if (roomtype== '大床房') {
-                          if (result.bigRoom> 0) {
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的大房')
-                              return res.redirect('/manage')
-                          }
-                      } else if (roomtype== '双人房') {
-                          if (result.doubleRoom> 0) {
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的双人房')
-                              return res.redirect('/manage')
-                          }
-                      }
-
-                  })
-          })(i);
-        }
-    } else { // 先查询是否还有空房,有空房才进行相关操作,bu同月
-        for (var i = begindays1; i <= DateHelper.DaysInMonth(Math.round(month_temp),2018); i++) {
-          // req.flash('error', 2)
-          (function (i) {
-      　　    emptyRoomNumber.getEmptyRoomNumberByDays(2018,Math.round(month_temp),i)
-                  .then(function(result) {
-                      if (roomtype== '单人房') {
-                          if (result.singleRoom> 0) {
-                             // req.flash('error', i)
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的单人房房间')
-                              return res.redirect('/manage')
-                          }
-                      } else if (roomtype== '大床房') {
-                          if (result.bigRoom> 0) {
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的big房间')
-                              return res.redirect('/manage')
-                          }
-                      } else if (roomtype== '双人房') {
-                          if (result.doubleRoom> 0) {
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的double房间')
-                              return res.redirect('/manage')
-                          }
-                      }
-
-                  })
-          })(i);
-        }
-        for (var i = 1; i < finaldays1; i++) {
-            // 
-          (function (i) {
-      　　    emptyRoomNumber.getEmptyRoomNumberByDays(2018,Math.round(month_temp1),i)
-                  .then(function(result) {
-                      if (roomtype== '单人房') {
-                          if (result.singleRoom> 0) {
-                             // req.flash('error', i)
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp1),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的单人房房间')
-                              return res.redirect('/manage')
-                          }
-                      } else if (roomtype== '大床房') {
-                          if (result.bigRoom> 0) {
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp1),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的big房间')
-                              return res.redirect('/manage')
-                          }
-                      } else if (roomtype== '双人房') {
-                          if (result.doubleRoom> 0) {
-                              emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp1),i,roomtype);
-                          } else {
-                              req.flash('error', '没有足够的double房间')
-                              return res.redirect('/manage')
-                          }
-                      }
-
-                  })
-          })(i);
-        }
+    // 先查询是否还有空房,有空房才进行相关操作,
+    var offset = Number(DateHelper.dayoffsetBetweenTwoday(DateHelper.toDate(startdate), DateHelper.toDate(enddate)))
+    for (var i = 0; i < offset; i++) {
+       // req.flash('success', i)
+       // var temp= i
+      (function (i, res, req) {
+          var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),i);
+  　　    emptyRoomNumber.getEmptyRoomNumberByDays(date.year,date.month,date.day)
+          .then(function(result) {
+              if (roomtype== '单人房') {
+                  if (result.singleRoom> 0) {
+                     // req.flash('error', temp)
+                      emptyRoomNumber.reduceNumberByDateAndType(date.year,date.month,date.day,roomtype);
+                  } else {
+                      throw new Error('没有足够的单人房房间')
+                      //res.flash('error', '没有足够的单人房房间')
+                      return res.redirect('/manage')
+                  }
+              } else if (roomtype== '大床房') {
+                  if (result.bigRoom> 0) {
+                      emptyRoomNumber.reduceNumberByDateAndType(date.year,date.month,date.day,roomtype);
+                  } else {
+                      throw new Error('没有足够的大房')
+                      //res.flash('error', '没有足够的大房')
+                      return res.redirect('/manage')
+                  }
+              } else if (roomtype== '双人房') {
+                  if (result.doubleRoom> 0) {
+                      emptyRoomNumber.reduceNumberByDateAndType(date.year,date.month,date.day,roomtype);
+                  } else {
+                      throw new Error('没有足够的双人房')
+                      //res.flash('error', '没有足够的双人房')
+                      return res.redirect('/manage')
+                  }
+              }
+          }).catch(function(e) {
+            req.flash('error', e.message)
+            return res.redirect('/manage')
+          })
+      })(i, res, req);
     }
     
-    
-
     // 用户信息写入数据库
     let bookinfo = {
         id: id,

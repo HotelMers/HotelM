@@ -9,34 +9,29 @@ module.exports = {
   },
 
   initializeEmptyRoomNumber: function initializeEmptyRoomNumber () {
-    var tasks = [];
-    var today = new Date();
-    for (var i = 0; i < 30; i++) {
-      (function (dayoff) {
-        var date = dateHelper.getDateAfterDays(today,dayoff); 
-        EmptyRoomNumber.find({'year':date.year,'month': date.month, 'day':date.day}).then(function(nums) {
-          if (nums.length==0) {
-            tasks.push(module.exports.create(date.year, date.month, date.day))
-          }
-        })
-      })(i);
-    }
-    while (tasks.length > 0){
-      tasks.shift()();
-    }
+    return Promise.resolve().then(function() {
+      var today = new Date();
+      for (var i = 0; i < 30; i++) {
+        (function (dayoff) {
+          var date = dateHelper.getDateAfterDays(today,dayoff); 
+          EmptyRoomNumber.find({'year':date.year,'month': date.month, 'day':date.day}).then(function(nums) {
+            if (nums.length==0) {
+              module.exports.create(date.year, date.month, date.day)
+            }
+          })
+        })(i);
+      }
+    }).then(function(){
+      return Promise.resolve()
+    });
   },
 
   // 获得30天内的剩余房间量
   getAllEmptyRoomNumber: function getAllEmptyRoomNumber () {
-    EmptyRoomNumber.find().then(function(day) {
-      if (day.length != 30) {
-        module.exports.initializeEmptyRoomNumber();
-      }
+    return module.exports.initializeEmptyRoomNumber()
+    .then(function(){
+      return EmptyRoomNumber.find().sort({"year":1,"month":1,"day":1});
     })
-    
-    // module.exports.deleteAll();
-    // module.exports.update();
-    return EmptyRoomNumber.find().sort({"year":1,"month":1,"day":1});
   },
 
   // 增加一天的记录

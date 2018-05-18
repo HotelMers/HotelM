@@ -112,6 +112,41 @@
               </div>
             </footer>
         </div>
+
+        <!--  所有预定信息  -->
+        <div class="overflow">
+        <table id="room_info">
+        <thead>
+            <th>顾客id</th>
+            <th>顾客名</th>
+            <th>顾客电话</th>
+            <th>房间类型</th>
+            <th>起始时间</th>
+            <th>结束时间</th>
+            <th>操作</th>
+        </thead>
+        <% for(var i = 0; i < allbookinfos.length; i++){%>
+        <tr>
+            <td><%= allbookinfos[i].id %></td>
+            <td><%= allbookinfos[i].name %></td>
+            <td><%= allbookinfos[i].phone %></td>
+            <td><%= allbookinfos[i].type %></td>
+            <td><%= allbookinfos[i].startdate %></td>
+            <td><%= allbookinfos[i].enddate %></td>
+            <!-- <td><%= allbookinfos[i].idx %></td> -->
+            <td>
+              <form method="post" id='myFrm2'> <!--id = "myFrm2" -->
+                <input type="hidden" name="cusid"  value=<%=customer.id%>>
+                <input type="hidden" name="idx"  value=<%= allbookinfos[i].idx %>>
+                <input type="submit" width=80  value="登记入住">
+              </form>
+            <td>
+        </tr>
+        <%}%>
+        </table >
+        </div>
+
+
       </div>
     </div>
 <%- include('footerci') %>

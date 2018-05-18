@@ -8,8 +8,6 @@ module.exports = {
     return EmptyRoomNumber.findOne({'year':year, 'month': month, 'day':day }).exec()
   },
 
-
-
   initializeEmptyRoomNumber: function initializeEmptyRoomNumber () {
     var tasks = [];
     var today = new Date();
@@ -98,7 +96,7 @@ module.exports = {
   // 参数startDate和endDate是date类型, 参数type是string类型
   addNumberBetweenDaysByType: function addNumberBetweenDaysByType(startDate,endDate,type) {
     var days = dateHelper.dayoffsetBetweenTwoday(startDate,endDate);
-    for (var i = 0; i <= days; i++) {
+    for (var i = 0; i < days; i++) {
       (function (dayoff) {
         var date = dateHelper.getDateAfterDays(startDate,dayoff); 
         module.exports.addNumberByDateAndType(date.year,date.month,date.day,type);
@@ -110,7 +108,7 @@ module.exports = {
   // 参数startDate和endDate是date类型, 参数type是string类型
   reduceNumberBetweenDaysByType: function reduceNumberBetweenDaysByType(startDate,endDate,type) {
     var days = dateHelper.dayoffsetBetweenTwoday(startDate,endDate);
-    for (var i = 0; i <= days; i++) {
+    for (var i = 0; i < days; i++) {
       (function (dayoff) {
         var date = dateHelper.getDateAfterDays(startDate,dayoff); 
         module.exports.reduceNumberByDateAndType(date.year,date.month,date.day,type);

@@ -61,4 +61,15 @@ module.exports = {
     myDate.setDate(day)
     return myDate
   },
+
+  todayTostring: function() {
+    var myDate = new Date()
+    var year = myDate.getFullYear().toString()    //获取完整的年份(4位)
+    var month = (myDate.getMonth()+1).toString()       //获取当前月份(0-11,0代表1月)
+    if (month.length == 1) month = '0'+month
+    var day = myDate.getDate().toString()        //获取当前日(1-31)
+    if (day.length == 1) day = '0'+day
+    var today = year+month+day
+    return today
+  },
 }

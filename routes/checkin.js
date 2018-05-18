@@ -16,9 +16,10 @@ module.exports = {
     var isBook = req.query.isBook
     var isVIP = req.query.isVIP
     var roomnum = req.query.RoomNumber
+    var startdate = DateHelper.todayTostring()
     var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
-      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+      type:req.query.roomtype, startdate:startdate, enddate:req.query.enddate}
     res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum,
      isBook : isBook, isVIP : isVIP})
   },
@@ -57,6 +58,10 @@ module.exports = {
             url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()
             return res.redirect(url)
             //return res.redirect('/checkin')
+          } else if ((bookInfo.startdate).toString() != DateHelper.todayTostring()){
+            req.flash('error', '没有当天入住的预定！')
+            url = '/checkin?idcard='+CustomerId.toString()+'&isBook=0'+'&isVIP='+isV.toString()
+            return res.redirect(url)
           }
           req.flash('success', '查询成功！')
           // 自动填充
@@ -125,7 +130,7 @@ module.exports = {
     const CustomerId = req.fields.idcard.toString()
     const name = req.fields.name.toString()
     const phone = req.fields.phone.toString()
-    const startdate = req.fields.starttime.toString()
+    // const startdate = req.fields.starttime.toString()
     const enddate = req.fields.endtime.toString()
     const roomtype = req.fields.roomtype.toString()
     const isBook = Number(req.fields.isBook)
@@ -133,13 +138,8 @@ module.exports = {
     
     // 校验参数
     // 获取当前日期时间，用于和入住日期进行比较，避免入住日期早于当前日期
-    var myDate = new Date()
-    var year = myDate.getFullYear().toString()    //获取完整的年份(4位)
-    var month = (myDate.getMonth()+1).toString()       //获取当前月份(0-11,0代表1月)
-    if (month.length == 1) month = '0'+month
-    var day = myDate.getDate().toString()        //获取当前日(1-31)
-    if (day.length == 1) day = '0'+day
-    var today = year+month+day
+    var today = DateHelper.todayTostring()
+    var startdate = today;
 
     try {
       if (CustomerId.length != 18 || isNaN(Number(CustomerId))) {

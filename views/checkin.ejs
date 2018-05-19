@@ -75,13 +75,6 @@
                           <div class="field required">
                             <!--label>是否VIP</label-->
                             <input placeholder="VIP为1，非VIP为0" type="hidden" name="isVIP" value=<%=isVIP%>>
-<<<<<<< HEAD
-=======
-                          </div>
-                          <div class="field required">
-                            <!--label>订单号</label-->
-                            <input placeholder="" type="hidden" name="idx" value=<%=idx%>>
->>>>>>> master
                           </div>
                           <div class="field required">
                             <label>姓名</label>
@@ -97,7 +90,7 @@
                           </div>
                           <div class="field required">
                             <label>入住时间</label>
-                            <input placeholder="入住时间（格式：YYYYMMDD）" type="text" name="starttime " disabled = true value=<%=bookinfo.startdate%>>
+                            <input placeholder="入住时间（格式：YYYYMMDD）" type="text" name="starttime" value=<%=bookinfo.startdate%>>
                           </div>
                           <div class="field required">
                               <label>退房时间</label>
@@ -119,41 +112,6 @@
               </div>
             </footer>
         </div>
-
-        <!--  所有预定信息  -->
-        <div class="overflow">
-        <table id="room_info">
-        <thead>
-            <th>顾客id</th>
-            <th>顾客名</th>
-            <th>顾客电话</th>
-            <th>房间类型</th>
-            <th>起始时间</th>
-            <th>结束时间</th>
-            <th>登记入住</th>
-        </thead>
-        <form method="post" id='myFrm2'> <!--id = "myFrm2" -->
-        <% for(var i = 0; i < allbookinfos.length; i++){%>
-        <tr>
-            <td><%= allbookinfos[i].id %></td>
-            <td><%= allbookinfos[i].name %></td>
-            <td><%= allbookinfos[i].phone %></td>
-            <td><%= allbookinfos[i].type %></td>
-            <td><%= allbookinfos[i].startdate %></td>
-            <td><%= allbookinfos[i].enddate %></td>
-            <!-- <td><%= allbookinfos[i].idx %></td> -->
-            <td>
-                <input type="hidden" name="cusid"  value=<%=customer.id%>>
-                <!-- <input type="hidden" name="idx"  value=<%= allbookinfos[i].idx %>> -->
-                <input type="submit" width=80 name="idx" value=<%= allbookinfos[i].idx %>>
-            <td>
-        </tr>
-        <%}%>
-        </form>
-        </table >
-        </div>
-
-
       </div>
     </div>
 <%- include('footerci') %>

@@ -581,9 +581,9 @@ footer p {
 #room_info {
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  margin-left:160px;
+  margin-left:120px;
   margin-top: 30px;
-  width: 740px;
+  width: 800px;
   border-bottom-color:rgb(235, 242, 224);
 }
 
@@ -635,8 +635,4 @@ footer p {
 }
 #checkout_info td, #checkin_info td{
   width: 400px;
-}
-
-.myFrm22 {
-  width: 100px;
 }

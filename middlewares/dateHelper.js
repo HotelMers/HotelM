@@ -45,31 +45,4 @@ module.exports = {
     var date = {year:year,month:month+1,day:day};
     return date;
   },
-
-  // 将“yyyymmdd”格式的字符串转成date类型
-  toDate : function toDate(stringDate) {
-    var stringDate= Number(stringDate);
-
-    // 初始化方法 new Date(yyyy,month,dd)
-    // start_date
-    var year= stringDate/ 10000
-    var month= (stringDate% 10000)/ 100
-    var day= (stringDate% 10000)% 100
-    var myDate = new Date()
-    myDate.setFullYear(year)
-    myDate.setMonth(month-1)
-    myDate.setDate(day)
-    return myDate
-  },
-
-  todayTostring: function() {
-    var myDate = new Date()
-    var year = myDate.getFullYear().toString()    //获取完整的年份(4位)
-    var month = (myDate.getMonth()+1).toString()       //获取当前月份(0-11,0代表1月)
-    if (month.length == 1) month = '0'+month
-    var day = myDate.getDate().toString()        //获取当前日(1-31)
-    if (day.length == 1) day = '0'+day
-    var today = year+month+day
-    return today
-  },
 }

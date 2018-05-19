@@ -339,7 +339,7 @@ module.exports = {
               })
             } else {  // 是vip 
 
-              add_score = add_score*offset
+              add_score = add_origin_score*offset
               CusModel.getCusById(CustomerId)
                 .then(function(customer) {
 

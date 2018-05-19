@@ -26,7 +26,6 @@ module.exports = {
     var time_in_num= year*10000+month*100+day;
 
     for (var i = time_in_num-7 ; i < time_in_num; i++) {
-      (function (i) {
       BookModel.getBookinfoByEnddates(i)
         .then(function(result) {
             if (result.enddate< time_in_num) {
@@ -41,9 +40,8 @@ module.exports = {
             req.flash('success', '成功删除过期预订信息')
             return res.redirect('/manage')
         })
-      })(i);
+      req.flash('success', '成功删除过期预订信息')
+      return res.redirect('/manage')
     }
-    req.flash('success', '成功删除过期预订信息')
-    return res.redirect('/manage')
   }
 }

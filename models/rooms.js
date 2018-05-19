@@ -28,9 +28,9 @@ module.exports = {
   },
 
   // 根据房间类型修改房间价格
-  // updateRoomValue: function updateRoomValue (room) {
-  //   return Room.updateMany({'type':room.type},{$set:{'value':room.value}}).exec()
-  // },
+  updateRoomValue: function updateRoomValue (room) {
+    return Room.updateMany({'type':room.type},{$set:{'value':room.value}}).exec()
+  },
 
   // 获得单人房房间的总数
   getSingleRoomNumber: function getSingleRoomNumber () {

@@ -61,77 +61,22 @@
               <div class="eight wide column">
                 <form class="ui form segment" method="post">
                     <div class="field required">
-                      <label>开始时间</label>
-                      <input placeholder="入住时间" type="text" name="starttime">
-                    </div>
-                      
-                    <div class="field required">
-                      <label>结束时间</label>
-                      <input placeholder="退房时间" type="text" name="endtime">
-                    </div>
-
-                    <div class="field required">
-                      <label>管理员码</label>
-                      <input placeholder="管理员码" type="password" name="id">
-                    </div>
-
-                    
-
+                        <label>开始时间</label>
+                        <input placeholder="入住时间" type="text" name="starttime">
+                      </div>
+                      <div class="field required">
+                          <label>结束时间</label>
+                          <input placeholder="退房时间" type="text" name="endtime">
+                        </div>
+                        <div class="field required">
+                            <label>管理员码</label>
+                            <input placeholder="管理员码" type="text" name="id">
+                          </div>
                   <input type="submit" class="ui button fluid" value="生成财务报表">
                 </form>  
               </div>
             </div>
     </div>
-
-    <table id="tableExcel" width="100%" class="table table-hover" >    
-    <thead>    
-        <th colspan="5" align="center">财务报表</th>    
-    </thead>    
-    <thead>    
-        <th>房间号</th>    
-        <th>房间类型</th>    
-        <th>入住时间</th>    
-        <th>退房时间</th>
-        <th>总收入房费</th>   
-    </thead>  
-    <% if (flag) {%>
-      <% for(var i = 0; i < CheckInfo.length; i++) {%>
-      <tr>
-        <td><%= CheckInfo[i].RoomNumber %></td>
-        <td><%= CheckInfo[i].roomtype %></td>
-        <td><%= CheckInfo[i].startdate %></td>
-        <td><%= CheckInfo[i].enddate %></td>
-        <td><%= CheckInfo[i].payment %></td>
-      </tr>
-      <%}%>
-    <%}%>
-</table> 
-
-<a id="dlink"  style="display:none;"></a>  
-<input type="hidden" name="" value="财务报表" class="center-block form-control" style="margin-bottom: 20px; text-align: center" id="submit" onclick="submt()">      
-<input type="button" class="btn btn-primary center-block" onclick="tableToExcel('tablename', 'name', 'zhangsan.xls')" value="Export to Excel">  
-<script>  
-    var nnn = "";  
-    function submt(){  
-        document.getElementById('submit').value="";  
-    }  
-      
-    var tableToExcel = (function () {  
-        var uri = 'data:application/vnd.ms-excel;base64,'  
-        , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'  
-        , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }  
-        , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }  
-        return function (table, name) {  
-            if (!table.nodeType) table = document.getElementById("tableExcel")  
-            var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }  
-  
-            document.getElementById("dlink").href = uri + base64(format(template, ctx));  
-            document.getElementById("dlink").download = document.getElementById('submit').value+'.xls';  
-            document.getElementById("dlink").click();  
-  
-        }  
-    })()  
-</script>
 
     <!--  右侧边栏    -->
         <div class="right-side">
@@ -140,6 +85,6 @@
               </div>
             </footer>
         </div>
-      <!--/div-->
+      </div>
     </div>
 <%- include('footer') %>

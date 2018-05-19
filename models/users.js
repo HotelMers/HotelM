@@ -12,7 +12,5 @@ module.exports = {
       .findOne({ name: name })
       .addCreatedAt()
       .exec()
-  },
-
-  
+  }
 }

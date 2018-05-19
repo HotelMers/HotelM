@@ -13,7 +13,7 @@ module.exports = {
 	searchroomidPage: function(req, res) {
 		// var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
     	var checkinfo = { roomid: req.query.roomid, CustomerId: req.query.idcard, name:req.query.name, phone:req.query.phone, 
-      roomtype:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+      roomtype:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate, payment: req.query.payment}
     	res.render("checkout",{ checkinfo : checkinfo});
     	
   	},
@@ -34,7 +34,7 @@ module.exports = {
 				    	 req.flash('success', result.isValid)
 				    	url = '/checkout?idcard='+(result.CustomerId).toString()+'&roomid='+number.toString()+'&name='+(result.name).toString()+'&phone='+(result.phone).toString()
 				        +'&roomtype='+(result.roomtype).toString()+'&startdate='+(result.startdate).toString()+'&enddate='+(result.enddate).toString()
-				        +'&RoomNumber='+(result.RoomNumber).toString()
+				        +'&RoomNumber='+(result.RoomNumber).toString()+'&payment='+(result.payment).toString()
 				        return res.redirect(url)
 				    } else {
 				    	// req.flash('error', result.isValid)
@@ -49,8 +49,8 @@ module.exports = {
   	//get 
   	searchroomidPageHasinfo: function(req, res) {
 
-		var checkinfo = { CustomerId: req.query.idcard, name:req.query.name, phone:req.query.phone, 
-      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
+	  var checkinfo = { CustomerId: req.query.idcard, name:req.query.name, phone:req.query.phone, 
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate, payment: req.query.payment}
     	res.render("checkout",{ checkinfo : checkinfo});
     	
   	},

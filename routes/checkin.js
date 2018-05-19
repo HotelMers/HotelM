@@ -255,6 +255,17 @@ module.exports = {
         // 待写入数据库的入住信息       
         var offset = Number(DateHelper.dayoffsetBetweenTwoday(DateHelper.toDate(startdate), DateHelper.toDate(enddate)))
         var payment = 0
+        let checkInfo = {
+          CustomerId : CustomerId,
+          name: name,
+          phone : phone,
+          RoomNumber : Number(RoomNumber),
+          startdate : Number(startdate),
+          enddate : Number(enddate),
+          roomtype: roomtype,
+          payment: 0,   // 顾客须支付的总房费
+          isValid: 1
+        }
         // 计算房价 and 检查空房
         // 先查询是否还有空房,有空房才进行相关操作,
         for (var i = 0; i < offset; i++) {
@@ -264,21 +275,24 @@ module.exports = {
               .then(function(result) {
                   if (roomtype== '单人房') {
                       if (result.singleRoom> 0) {
-                        payment += result.singlePrice;
+                        //req.flash('error',payment);
+                        checkInfo.payment += result.singlePrice;
                       } else if (result.singleRoom <= 0 && !isBook){
                           throw new Error('没有足够的单人房房间')
                           return res.redirect('/manage')
                       }
                   } else if (roomtype== '大床房') {
                       if (result.bigRoom> 0) {
-                        payment += result.bigRoom;
+                        //req.flash('error',payment);
+                        checkInfo.payment += result.bigRoom;
                       } else if (result.bigRoom <= 0 && !isBook) {
                           throw new Error('没有足够的大房')
                           return res.redirect('/manage')
                       }
                   } else if (roomtype== '双人房') {
                       if (result.doubleRoom> 0) {
-                          payment += result.doublePrice;
+                        //req.flash('error',payment);
+                          checkInfo.payment += result.doublePrice;
                       } else if (result.doubleRoom <= 0 && !isBook) {
                           throw new Error('没有足够的双人房')
                           return res.redirect('/manage')
@@ -294,17 +308,7 @@ module.exports = {
           })(i, res, req);
         }
         
-        let checkInfo = {
-          CustomerId : CustomerId,
-          name: name,
-          phone : phone,
-          RoomNumber : RoomNumber,
-          startdate : Number(startdate),
-          enddate : Number(enddate),
-          roomtype: roomtype,
-          payment: payment,   // 顾客须支付的总房费
-          isValid: 1
-        }
+
 
         //第一次入住的顾客信息写入会员数据库
         if (isVIP == 0) {
@@ -357,6 +361,7 @@ module.exports = {
               CusModel.updateCusScore(customers)
                 .then(function (result) {
                   req.flash('success','修改成功, 会员积分：'+customers.score)
+                  //checkInfo.payment = Number(payment);
                   //res.redirect('back')
                 })
 
@@ -368,12 +373,17 @@ module.exports = {
         CheckInfoModel.create(checkInfo)
           .then(function (result) {
             // 改变已分配房号的状态（无人入住->入住）
-            RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId).then(function() {
-              req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'入住时间：'+startdate+',退房时间：'+enddate+'。 房费共计：'+payment+'元')
+            RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId).then(function() {        
+              req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'入住时间：'+startdate+',退房时间：'+enddate+'。 房费共计：'+checkInfo.payment+'元')
               // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
               if (isBook == 0) {  // 没有预定
                 EmptyRoomModel.reduceNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())
                 req.flash('success', '非预定入住：'+roomtype+'数量-1')
+                // 传参
+                  url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+                  +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+                  +'&RoomNumber='+RoomNumber.toString()+'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()+'&idx='+idx
+                  return res.redirect(url)
               } 
               if (isBook == 1) {
                   // 有预定的 入住登记后删除预订信息

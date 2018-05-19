@@ -7,6 +7,7 @@ const checkLogin = require('../middlewares/check').checkLogin
 const EmptyRoomNumber = require('../lib/mongo').EmptyRoomNumber
 const DateHelper = require('../middlewares/dateHelper')
 const bi = require('../models/bookInfo')
+const ci = require('../models/checkInfo')
 
 module.exports = {
   // get

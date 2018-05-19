@@ -95,27 +95,6 @@ module.exports = {
 					req.flash('error', 'fail')
 				})
 				.then(function(){
-					//id是身份证信息,删除预定表的
-					const id = req.fields.idcard
-					BookInfoModel.deleteInfoByid(id)
-			    	.then(function (result) {
-			    		if (result.deletedCount>=1) {
-					        // eq.flash('success', result.length)
-					      	req.flash('success', '预订信息成功删除')
-					        return res.redirect('/manage')
-					        next(e)
-						} else {
-							req.flash('error', '预订信息删除失败')
-						}
-					})
-					.catch(function (e) {
-				     // 修改剩余空房信息
-					      req.flash('error', '删除失败')
-					      return res.redirect('/manage')
-					      next(e)
-			    	})
-				})
-				.then(function(){
 					EmptyRoomModel.addNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())
 		            req.flash('success', '对应'+roomtype+'数量+1')
 					req.flash('success', '删除成功')

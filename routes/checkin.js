@@ -254,7 +254,7 @@ module.exports = {
 
         // 待写入数据库的入住信息       
         var offset = Number(DateHelper.dayoffsetBetweenTwoday(DateHelper.toDate(startdate), DateHelper.toDate(enddate)))
-        var payment = 0
+        var payment = 0;
         let checkInfo = {
           CustomerId : CustomerId,
           name: name,
@@ -268,157 +268,152 @@ module.exports = {
         }
         // 计算房价 and 检查空房
         // 先查询是否还有空房,有空房才进行相关操作,
-        for (var i = 0; i < offset; i++) {
-          (function (i, res, req) {
-              var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),i);
-      　　    EmptyRoomModel.getEmptyRoomNumberByDays(date.year,date.month,date.day)
-              .then(function(result) {
-                  if (roomtype== '单人房') {
-                      if (result.singleRoom> 0) {
-                        //req.flash('error',payment);
-                        checkInfo.payment += result.singlePrice;
-                      } else if (result.singleRoom <= 0 && !isBook){
-                          throw new Error('没有足够的单人房房间')
-                          return res.redirect('/manage')
-                      }
-                  } else if (roomtype== '大床房') {
-                      if (result.bigRoom> 0) {
-                        //req.flash('error',payment);
-                        checkInfo.payment += result.bigRoom;
-                      } else if (result.bigRoom <= 0 && !isBook) {
-                          throw new Error('没有足够的大房')
-                          return res.redirect('/manage')
-                      }
-                  } else if (roomtype== '双人房') {
-                      if (result.doubleRoom> 0) {
-                        //req.flash('error',payment);
-                          checkInfo.payment += result.doublePrice;
-                      } else if (result.doubleRoom <= 0 && !isBook) {
-                          throw new Error('没有足够的双人房')
-                          return res.redirect('/manage')
-                      }
-                  }
-              }).catch(function(e) {
-                req.flash('error', e.message)
-                url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
-                +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-                +'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()
-                return res.redirect(url)
-              })
-          })(i, res, req);
-        }
-        
-
-
-        //第一次入住的顾客信息写入会员数据库
-        if (isVIP == 0) {
-          //根据房间类型设置积分
-          var add_origin_score = 0
-          if (roomtype == "单人房") {
-            add_origin_score = 10
-          } else if (roomtype == "双人房") {
-            add_origin_score = 20
-          } else {
-            add_origin_score = 30
-          }
-          add_origin_score = add_origin_score*offset
-          //待写入数据库的会员信息
-          let customers = {
-            id:CustomerId,
-            name:name,
-            score:add_origin_score,    // 新会员积分为房间类型所对应的积分
-            phone:phone,
-          }
-
-          // 顾客信息写入会员数据库
-          CusModel.create(customers)
-          .then(function (result) {
-            //req.flash('success', '添加会员信息成功，会员ID：'+CustomerId)
-            //res.redirect('back')
-          })
-        } else {  // 是vip 
-
-          //根据房间类型设置积分
-          var add_score = 0
-          if (roomtype == "单人房") {
-            add_score = 10
-          } else if (roomtype == "双人房") {
-            add_score = 20
-          } else {
-            add_score = 30
-          }
-          add_score = add_score*offset
-          CusModel.getCusById(CustomerId)
-            .then(function(customer) {
-
-              var origin_score = customer.score + add_score
-              let customers = {
-                id:CustomerId,
-                score:origin_score,
-              }
-
-              //从数据库中修改对应会员的积分
-              CusModel.updateCusScore(customers)
-                .then(function (result) {
-                  req.flash('success','修改成功, 会员积分：'+customers.score)
-                  //checkInfo.payment = Number(payment);
-                  //res.redirect('back')
-                })
-
-            })
-
-        }
-                
-        // 入住信息写入数据库
-        CheckInfoModel.create(checkInfo)
-          .then(function (result) {
-            // 改变已分配房号的状态（无人入住->入住）
-            RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId).then(function() {        
-              req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'入住时间：'+startdate+',退房时间：'+enddate+'。 房费共计：'+checkInfo.payment+'元')
-              // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
-              if (isBook == 0) {  // 没有预定
-                EmptyRoomModel.reduceNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())
-                req.flash('success', '非预定入住：'+roomtype+'数量-1')
-                // 传参
+        Promise.resolve().then(function(){
+          for (var i = 0; i < offset; i++) {
+            (function (i, res, req) {
+                var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),i);
+        　　    EmptyRoomModel.getEmptyRoomNumberByDays(date.year,date.month,date.day)
+                .then(function(result) {
+                    if (roomtype== '单人房') {
+                        if (result.singleRoom> 0) {
+                          //req.flash('error',payment);
+                          checkInfo.payment += result.singlePrice;
+                        } else if (result.singleRoom <= 0 && !isBook){
+                            throw new Error('没有足够的单人房房间')
+                            return res.redirect('/manage')
+                        }
+                    } else if (roomtype== '大床房') {
+                        if (result.bigRoom> 0) {
+                          //req.flash('error',payment);
+                          checkInfo.payment += result.bigRoom;
+                        } else if (result.bigRoom <= 0 && !isBook) {
+                            throw new Error('没有足够的大房')
+                            return res.redirect('/manage')
+                        }
+                    } else if (roomtype== '双人房') {
+                        if (result.doubleRoom> 0) {
+                          //req.flash('error',payment);
+                            checkInfo.payment += result.doublePrice;
+                        } else if (result.doubleRoom <= 0 && !isBook) {
+                            throw new Error('没有足够的双人房')
+                            return res.redirect('/manage')
+                        }
+                    }
+                }).catch(function(e) {
+                  req.flash('error', e.message)
                   url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
                   +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-                  +'&RoomNumber='+RoomNumber.toString()+'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()+'&idx='+idx
+                  +'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()
                   return res.redirect(url)
-              } 
-              if (isBook == 1) {
-                  // 有预定的 入住登记后删除预订信息
-                  BookModel.deleteInfoByidAndIdx(CustomerId, idx).then(function(deleresult){
-                    if (deleresult.deletedCount>=1) {
-                      // 写入 flash
-                      req.flash('success', '删除预订信息成功,订单号：'+idx)
-                    } else {
-                      // 写入 flash
-                      req.flash('error', CustomerId)
-                      req.flash('error', idx)
-                      req.flash('error', '删除预订信息失败')
-                    }
-                  }).catch(function (e) {
-                    // 修改剩余空房信息
-                    req.flash('error', '删除失败')
-                  }).then(function() {
-                    // 传参
-                    url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
-                    +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-                    +'&RoomNumber='+RoomNumber.toString()+'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()+'&idx='+idx
-                    return res.redirect(url)
-                  })
-              }
-            })
-          })
-          .catch(function (e) {
-            // 入住信息已存在，跳回checkIn
-            // ？？？不会处理一个人预定多条
-            if (e.message.match('duplicate key')) {
-              req.flash('error', '入住信息已存在')
-              return res.redirect('/checkin')
+                })
+            })(i, res, req);
+          }
+        }).then(function() {
+          //根据房间类型设置积分
+            var add_origin_score = 0
+            if (roomtype == "单人房") {
+              add_origin_score = 10
+            } else if (roomtype == "双人房") {
+              add_origin_score = 20
+            } else {
+              add_origin_score = 30
             }
-            next(e)
-        }) 
+
+            //第一次入住的顾客信息写入会员数据库
+            if (isVIP == 0) {
+              add_origin_score = add_origin_score*offset
+              //待写入数据库的会员信息
+              let customers = {
+                id:CustomerId,
+                name:name,
+                score:add_origin_score,    // 新会员积分为房间类型所对应的积分
+                phone:phone,
+              }
+
+              // 顾客信息写入会员数据库
+              CusModel.create(customers)
+              .then(function (result) {
+                checkInfo.payment = Number(checkInfo.payment)
+                //req.flash('success', '添加会员信息成功，会员ID：'+CustomerId)
+                //res.redirect('back')
+              })
+            } else {  // 是vip 
+
+              add_score = add_score*offset
+              CusModel.getCusById(CustomerId)
+                .then(function(customer) {
+
+                  var origin_score = customer.score + add_score
+                  let customers = {
+                    id:CustomerId,
+                    score:origin_score,
+                  }
+
+                  //从数据库中修改对应会员的积分
+                  CusModel.updateCusScore(customers)
+                    .then(function (result) {
+                      req.flash('success','修改成功, 会员积分：'+customers.score)
+                      //checkInfo.payment = Number(payment);
+                      //res.redirect('back')
+                    })
+
+                })
+
+            }
+          }).then(function(){ 
+                // 改变已分配房号的状态（无人入住->入住）
+                RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId).then(function() {
+                  // 入住信息写入数据库
+                  req.flash('error',JSON.stringify(checkInfo))
+                  CheckInfoModel.create(checkInfo)
+                  .then(function (result) { 
+                      req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'入住时间：'+startdate+',退房时间：'+enddate+'。 房费共计：'+checkInfo.payment+'元')
+                      // 更新剩余空房数据库，非预定入住相应类型客房数量-1   
+                      if (isBook == 0) {  // 没有预定
+                        EmptyRoomModel.reduceNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())
+                        req.flash('success', '非预定入住：'+roomtype+'数量-1')
+                        // 传参
+                          url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+                          +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+                          +'&RoomNumber='+RoomNumber.toString()+'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()+'&idx='+idx
+                          return res.redirect(url)
+                      } 
+                      if (isBook == 1) {
+                          // 有预定的 入住登记后删除预订信息
+                          BookModel.deleteInfoByidAndIdx(CustomerId, idx).then(function(deleresult){
+                            if (deleresult.deletedCount>=1) {
+                              // 写入 flash
+                              req.flash('success', '删除预订信息成功,订单号：'+idx)
+                            } else {
+                              // 写入 flash
+                              req.flash('error', CustomerId)
+                              req.flash('error', idx)
+                              req.flash('error', '删除预订信息失败')
+                            }
+                          }).catch(function (e) {
+                            // 修改剩余空房信息
+                            req.flash('error', '删除失败')
+                          }).then(function() {
+                            // 传参
+                            url = '/checkin?idcard='+CustomerId.toString()+'&name='+name.toString()+'&phone='+phone.toString()
+                            +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
+                            +'&RoomNumber='+RoomNumber.toString()+'&isBook='+isBook.toString()+'&isVIP='+isVIP.toString()+'&idx='+idx
+                            return res.redirect(url)
+                          })
+                      }
+                  })
+                  .catch(function (e) {
+                    // 入住信息已存在，跳回checkIn
+                    // ？？？不会处理一个人预定多条
+                    if (e.message.match('duplicate key')) {
+                      req.flash('error', '入住信息已存在')
+                      return res.redirect('/checkin')
+                    }
+                    next(e)
+                  }) 
+              })
+              
+        })
       //}
     })
 

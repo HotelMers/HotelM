@@ -480,14 +480,15 @@ footer p {
   padding-bottom:4px;
   width: 80px;
   height: 25px;
-  background-color: #dedede;
+  color: white;
+  background-color: #4fc08d;
   border:1px solid #ffffff;
 }
 
-.avail_room_title {
-  margin-top: 30px;
+.avail_room_title h2{
   margin-left: 120px;
   font-size: 2em;
+  margin-bottom: -15px;
 }
 
 /*对管理客房中导航栏进行设置*/
@@ -498,13 +499,15 @@ footer p {
   margin-left: -120px;
   border-radius:20px;
 }
+
 .manage_room ul{
   list-style-type: none;
   text-align:center;
   width: 100%;
   height: 100%;
-  border-radius:20px;
-  background: rgb(209, 40, 10);
+  border-radius:10px;
+  background:  #4fc08d;
+  color: white;
 }
 .manage_room li {
   float:left;
@@ -582,7 +585,7 @@ footer p {
   border-bottom-width: 2px;
   border-bottom-style: solid;
   margin-left:160px;
-  margin-top: 30px;
+  margin-top: 20px;
   width: 740px;
   border-bottom-color:rgb(235, 242, 224);
 }
@@ -601,6 +604,9 @@ footer p {
   text-align: center;
   color: rgb(149, 170, 109);
 }
+#room_info th {
+  color: black;
+}
 
 #room_info tr:nth-child(even) {
   background: rgb(230, 238, 214);
@@ -611,13 +617,22 @@ footer p {
 }
 
 .overflow {
-  height: 380px;
+  height: 340px;
   width: 87%;
   overflow: auto;
+  bottom: 10px;
+}
+.overflow h2 {
+  margin-left: 450px;
 }
 .icon_pic {
   float: left;
   margin-left: 20px;
+}
+.icon_pic img {
+  height: 30px;
+  width: 30px;
+  margin-left: 5px;
 }
 .link p{
   float:left;
@@ -639,4 +654,62 @@ footer p {
 
 .myFrm22 {
   width: 100px;
+}
+
+#tableExcel {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  margin-left:190px;
+  margin-top: 30px;
+  width: 740px;
+  border-bottom-color:rgb(235, 242, 224);
+}
+
+#tableExcel thead, #tableExcel tr{
+  border-top-width: 2px;
+  border-top-style: solid;
+  margin-left:120px;
+  margin-top: 30px;
+  border-top-color:rgb(235, 242, 224);
+}
+
+#tableExcel td, #tableExcel th {
+  font-size: 1.1em;
+  padding: 5px 10px;
+  text-align: center;
+  color: rgb(149, 170, 109);
+}
+
+#tableExcel th {
+  color: #000;
+}
+
+#tableExcel tr:nth-child(even) {
+  background: rgb(230, 238, 214);
+}
+
+#tableExcel tr:nth-child(odd) {
+  background: #FFF;
+}
+
+.overflow h3 {
+  margin-left: 490px;
+  margin-top: 35px;
+  margin-bottom: -20px;
+}
+
+input.btn.btn-primary.center-block {
+  font-size: 15px;
+  border-radius: 10%;
+  transition-duration: 0.2s;
+  background-color: #4fc08d;
+  color: #fff;
+  height: 30px;
+  width: 120px;
+  margin-top: 15px;
+  margin-left: -200px;
+}
+.title h2 {
+  margin-left: 450px;
+  margin-bottom: 5px;
 }

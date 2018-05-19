@@ -82,30 +82,29 @@
               </div>
             </div>
     </div>
-
-    <table id="tableExcel" width="100%" class="table table-hover" >    
-    <thead>    
-        <th colspan="5" align="center">财务报表</th>    
-    </thead>    
-    <thead>    
-        <th>房间号</th>    
-        <th>房间类型</th>    
-        <th>入住时间</th>    
-        <th>退房时间</th>
-        <th>总收入房费</th>   
-    </thead>  
-    <% if (flag) {%>
-      <% for(var i = 0; i < CheckInfo.length; i++) {%>
-      <tr>
-        <td><%= CheckInfo[i].RoomNumber %></td>
-        <td><%= CheckInfo[i].roomtype %></td>
-        <td><%= CheckInfo[i].startdate %></td>
-        <td><%= CheckInfo[i].enddate %></td>
-        <td><%= CheckInfo[i].payment %></td>
-      </tr>
-      <%}%>
-    <%}%>
-</table> 
+    <div class="overflow">
+      <h3>财务情况预览表</h3>
+        <table id="tableExcel" width="100%" class="table table-hover" >       
+            <thead>    
+                <th>房间号</th>    
+                <th>房间类型</th>    
+                <th>入住时间</th>    
+                <th>退房时间</th>
+                <th>总收入房费</th>   
+            </thead>  
+            <% if (flag) {%>
+              <% for(var i = 0; i < CheckInfo.length; i++) {%>
+              <tr>
+                <td><%= CheckInfo[i].RoomNumber %></td>
+                <td><%= CheckInfo[i].roomtype %></td>
+                <td><%= CheckInfo[i].startdate %></td>
+                <td><%= CheckInfo[i].enddate %></td>
+                <td><%= CheckInfo[i].payment %></td>
+              </tr>
+              <%}%>
+            <%}%>
+        </table> 
+    </div>
 
 <a id="dlink"  style="display:none;"></a>  
 <input type="hidden" name="" value="财务报表" class="center-block form-control" style="margin-bottom: 20px; text-align: center" id="submit" onclick="submt()">      

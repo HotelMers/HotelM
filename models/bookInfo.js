@@ -65,13 +65,13 @@ module.exports = {
 
 
   // 删除一个预订信息 用客户id和索引
-  deleteInfoByidAndIdx: function deleteInfoByid (id, idx) {
-    return BookInfo.deleteOne({ 'id': id , 'idx': Number(idx)}).exec()
+  deleteInfoByidAndIdx: function deleteInfoByidAndIdx (id, idx) {
+    return BookInfo.deleteMany({ 'id': id , 'idx': Number(idx)}).exec()
   },
 
   // 删除一个预订信息 用客户id
   deleteInfoByid: function deleteInfoByid (id) {
-    return BookInfo.deleteOne({ 'id': id }).exec()
+    return BookInfo.deleteMany({ 'id': id }).exec()
   },
 
   deleteAll: function deleteAll() {

@@ -77,6 +77,10 @@
                             <input placeholder="VIP为1，非VIP为0" type="hidden" name="isVIP" value=<%=isVIP%>>
                           </div>
                           <div class="field required">
+                            <!--label>订单号</label-->
+                            <input placeholder="" type="hidden" name="idx" value=<%=idx%>>
+                          </div>
+                          <div class="field required">
                             <label>姓名</label>
                             <input placeholder="姓名" type="text" name="name" value=<%=customer.name%>>
                           </div>
@@ -123,8 +127,9 @@
             <th>房间类型</th>
             <th>起始时间</th>
             <th>结束时间</th>
-            <th>操作</th>
+            <th>登记入住</th>
         </thead>
+        <form method="post" id='myFrm2'> <!--id = "myFrm2" -->
         <% for(var i = 0; i < allbookinfos.length; i++){%>
         <tr>
             <td><%= allbookinfos[i].id %></td>
@@ -135,14 +140,13 @@
             <td><%= allbookinfos[i].enddate %></td>
             <!-- <td><%= allbookinfos[i].idx %></td> -->
             <td>
-              <form method="post" id='myFrm2'> <!--id = "myFrm2" -->
                 <input type="hidden" name="cusid"  value=<%=customer.id%>>
-                <input type="hidden" name="idx"  value=<%= allbookinfos[i].idx %>>
-                <input type="submit" width=80  value="登记入住">
-              </form>
+                <!-- <input type="hidden" name="idx"  value=<%= allbookinfos[i].idx %>> -->
+                <input type="submit" width=80 name="idx" value=<%= allbookinfos[i].idx %>>
             <td>
         </tr>
         <%}%>
+        </form>
         </table >
         </div>
 

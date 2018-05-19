@@ -6,19 +6,6 @@ const checkLogin = require('../middlewares/check').checkLogin
 const BookModel = require('../models/bookInfo')
 const emptyRoomNumber = require('../models/emptyRoomNumber')
 const DateHelper = require('../middlewares/dateHelper')
-
-// var toDate = function(stringDate) {
-//     var stringDate= Number(stringDate);
-
-//     // 初始化方法 new Date(yyyy,month,dd)
-//     // start_date
-//     var year= stringDate/ 10000;
-//     var month= (stringDate% 10000)/ 100;
-//     var day= (stringDate% 10000)% 100;
-//     var date1= new Date()
-//     date1.setFullYear(year,month,day)
-//     return date1;
-//   }
   
 module.exports = {
   // get，查询会员前
@@ -80,6 +67,9 @@ module.exports = {
     const startdate = req.fields.starttime
     const enddate = req.fields.endtime
 
+    // 校验参数
+    // 获取当前日期时间，用于和入住日期进行比较，避免入住日期早于当前日期
+    var today = DateHelper.todayTostring();
 
     // 校验参数
     try {
@@ -92,69 +82,49 @@ module.exports = {
       if (!score.length || isNaN(score)) {
         throw new Error('积分填写有误')
       }
+      if (startdate.length != 8) {
+        throw new Error('入住时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
+      }
+      if (enddate.length != 8) {
+        throw new Error('退房时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
+      }
+      if (Number(startdate)-Number(enddate) > 0) {
+        throw new Error('退房时间不能早于入住时间!')
+      }
+      if (Number(today)-Number(startdate) > 0) {
+        throw new Error('入住时间不能早于今日!')
+      }
+      var endayoffset = Number(DateHelper.dayoffsetBetweenTwoday(new Date(), DateHelper.toDate(enddate)))
+      if (endayoffset > 30) {
+        throw new Error('不能登记超过30天的预定')
+      } 
     } catch (e) {
       req.flash('error', e.message)
       return res.redirect('back')
     }
 
-    // 将时间转换为 date
-
-    // var date_start= toDate(startdate)
-    // var date_end= toDate(enddate)
-    // console.log(date_start)
-
-    // 待写入数据库的房间信息
-    
-
-    var begindays= new Number(startdate)
-    begindays= begindays% 100;
-    var finaldays= new Number(enddate)
-    finaldays= finaldays% 100;
-    var month_temp= new Number(startdate)
-    month_temp= (month_temp/ 100)%100;
-
-    if (begindays> finaldays) {
-        url = '/bookroom?idcard='+id.toString()+'&name='+name.toString()+'&score='+score.toString()+'&phone='+phone.toString()
-            +'&roomtype='+roomtype.toString()+'&startdate='+startdate.toString()+'&enddate='+enddate.toString()
-        req.flash('error', 'you fill the wrong time')
-        return res.redirect(url)
-        // return res.redirect('/bookroom')
-    }
-
-    // var startdays= toDate(startdate)
-    // var enddays= toDate(enddate)
-
-    
-    // 先查询是否还有空房,有空房才进行相关操作
-    for (var i = begindays; i < finaldays; i++) {
-        // 
-      emptyRoomNumber.getEmptyRoomNumberByDays(2018,Math.round(month_temp),i)
+    // 先查询是否还有空房,有空房才进行相关操作,
+    var offset = Number(DateHelper.dayoffsetBetweenTwoday(DateHelper.toDate(startdate), DateHelper.toDate(enddate)))
+    var hasRoom = true;
+    for (var i = 0; i < offset; i++) {
+      (function (i, res, req) {
+        var date = DateHelper.getDateAfterDays(DateHelper.toDate(startdate),i);
+　　    emptyRoomNumber.getEmptyRoomNumberByDays(date.year,date.month,date.day)
         .then(function(result) {
-            if (roomtype== '单人房') {
-                if (result.singleRoom>= 1) {
-                    emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                } else {
-                    req.flash('error', '没有足够的单人房房间')
-                    return res.redirect('/manage')
-                }
-            } else if (roomtype== '大床房') {
-                if (result.bigRoom>= 1) {
-                    emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                } else {
-                    req.flash('error', '没有足够的big房间')
-                    return res.redirect('/manage')
-                }
-            } else if (roomtype== '双人房') {
-                if (result.doubleRoom>= 1) {
-                    emptyRoomNumber.reduceNumberByDateAndType(2018,Math.round(month_temp),i,roomtype);
-                } else {
-                    req.flash('error', '没有足够的double房间')
-                    return res.redirect('/manage')
-                }
+            if ((roomtype== '单人房' && result.singleRoom <= 0) ||
+                (roomtype== '大床房' && result.bigRoom <= 0) || 
+                 (roomtype== '双人房' && result.doubleRoom <= 0) ) {
+                hasRoom = false;
+                throw new Error('没有足够的房间')
+                return res.redirect('/manage')
             }
-
+        }).catch(function(e) {
+          req.flash('error', e.message)
+          return res.redirect('/manage')
         })
+      })(i, res, req);
     }
+
     // 用户信息写入数据库
     let bookinfo = {
         id: id,
@@ -164,22 +134,25 @@ module.exports = {
         startdate: Number(startdate),
         enddate: Number(enddate)
       }
-
+      var temp= Number(startdate)
     BookModel.create(bookinfo)
-        .then(function (result) {
-          req.flash('success', '预定成功')
-          // req.flash('success', startdate)
-          res.redirect('/manage')
-        })
-        .catch(function (e) {
-          // 预定失败
-          req.flash('error', '预定失败')
-          return res.redirect('/bookroom')
-          next(e)
-        }) 
-        
-    // 一个月内
+    .then(function (result) {
+      //检查完有空房，将空房数量-1
+      if (hasRoom) {
+        emptyRoomNumber.reduceNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype)
+        req.flash('success', '预定：'+roomtype+'数量-1')
+      }
+      req.flash('success', '入住时间：'+startdate+',退房时间：'+enddate+',预定成功')
+      // req.flash('success', begindays)
+      res.redirect('/manage')
+    })
+    .catch(function (e) {
+      // 预定失败
+      req.flash('error', '预定失败')
+      req.flash('error', e.message)
+      return res.redirect('/bookroom')
+      next(e)
+    }) 
   }
 
 }
-// 

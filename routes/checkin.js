@@ -339,7 +339,7 @@ module.exports = {
               })
             } else {  // 是vip 
 
-              add_score = add_score*offset
+              add_score = add_origin_score*offset
               CusModel.getCusById(CustomerId)
                 .then(function(customer) {
 
@@ -364,7 +364,7 @@ module.exports = {
                 // 改变已分配房号的状态（无人入住->入住）
                 RoomModel.setStatusByRoomNumer(RoomNumber, CustomerId).then(function() {
                   // 入住信息写入数据库
-                  req.flash('error',JSON.stringify(checkInfo))
+                  // req.flash('error',JSON.stringify(checkInfo))
                   CheckInfoModel.create(checkInfo)
                   .then(function (result) { 
                       req.flash('success', '添加入住信息成功！房间号：'+RoomNumber+'入住时间：'+startdate+',退房时间：'+enddate+'。 房费共计：'+checkInfo.payment+'元')

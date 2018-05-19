@@ -71,6 +71,7 @@
     <div class="blank"></div>
     
     <!--  所有房间信息  -->
+    <div class="title"><h2>房间入住情况一览表</h2></div>
     <div class="overflow">
     <table id="room_info">
     <thead>
@@ -79,14 +80,14 @@
         <!-- <th>房间价格</th> -->
         <th>住客号</th>
     </thead>
-    <% for(var i = 0; i < rooms.length; i++){%>
-    <tr>
+      <% for(var i = 0; i < rooms.length; i++){%>
+      <tr>
         <td><%= rooms[i].number %></td>
         <td><%= rooms[i].type %></td>
         <!-- <td><%= rooms[i].value %></td> -->
         <td><%= rooms[i].status %></td>
-    </tr>
-    <%}%>
+      </tr>
+      <%}%>
     </table >
     </div>
     

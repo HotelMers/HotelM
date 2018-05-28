@@ -11,7 +11,7 @@ module.exports = {
   // get，查询会员前
   bookroomPage: function(req, res) {
     // var roomnum = req.query.RoomNumber
-    var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
+    var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
     res.render('bookroom',{ customer : customer, bookinfo : bookinfo});
@@ -36,7 +36,7 @@ module.exports = {
           url = '/bookroom?idcard='+id.toString()
           return res.redirect(url)   
         } else {
-          url = '/bookroom?idcard='+id.toString()+'&name='+(result.name).toString()+'&score='+(result.score).toString()+'&phone='+(result.phone).toString()
+          url = '/bookroom?idcard='+id.toString()+'&name='+(result.name).toString()+'&phone='+(result.phone).toString()
           req.flash('success', '该会员存在')
           return res.redirect(url)
         }
@@ -52,7 +52,7 @@ module.exports = {
 
   bookroomPageHascustomers: function(req, res) {
     // var roomnum = req.query.RoomNumber
-    var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
+    var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
     res.render('bookroom',{ customer : customer, bookinfo : bookinfo});
@@ -61,7 +61,7 @@ module.exports = {
   bookroomSubmitHascustomers: function (req, res, next) {
     const id = req.fields.idcard
     const name = req.fields.name
-    const score = req.fields.score
+    // const score = req.fields.score
     const phone = req.fields.phone
     const roomtype = req.fields.roomtype
     const startdate = req.fields.starttime
@@ -79,9 +79,9 @@ module.exports = {
       if (!roomtype.length || (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房")) {
         throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
       }
-      if (!score.length || isNaN(score)) {
-        throw new Error('积分填写有误')
-      }
+      // if (!score.length || isNaN(score)) {
+      //   throw new Error('积分填写有误')
+      // }
       if (startdate.length != 8) {
         throw new Error('入住时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
       }

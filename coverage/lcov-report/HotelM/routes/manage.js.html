@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for HotelM\routes\manage.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">HotelM/routes/</a> manage.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.08% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>19/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.08% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>19/26</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express')
+const router = express.Router()
+const RoomModel = require('../models/rooms')
+const EmptyRoomModel = require('../models/emptyRoomNumber')
+const bi = require('../models/bookInfo')
+const ci = require('../models/checkInfo')
+const customers = require('../models/customers')
+&nbsp;
+module.exports = {
+  managePage: function managePage(req, res) {
+    EmptyRoomModel.getAllEmptyRoomNumber()
+    .then(function(numbers) {
+      var Numbers
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!numbers) {
+<span class="cstat-no" title="statement not covered" >        Numbers = {month: -1, day:-1,bigRoom:-1,singleRoom:-1,doubleRoom:-1}</span>
+      }
+      Numbers = numbers;
+      for (var i = 0; i &lt; 30 &amp;&amp; i &lt; Numbers.length;i++) {
+       (function(dayoffset) {
+         Numbers[dayoffset].days=Numbers[dayoffset].month+"月"+Numbers[dayoffset].day+"日";
+          Numbers[dayoffset].bigRoom=Numbers[dayoffset].bigRoom+" * "+Numbers[dayoffset].bigPrice+"元"
+          Numbers[dayoffset].singleRoom=Numbers[dayoffset].singleRoom+" * "+Numbers[dayoffset].singlePrice+"元"
+          Numbers[dayoffset].doubleRoom=Numbers[dayoffset].doubleRoom+" * "+Numbers[dayoffset].doublePrice+"元"
+       })(i)
+      }
+      res.render('manage',{numbers:Numbers})
+    })//.then(function(){
+    //   res.render('manageroom',{rooms:rooms})
+    // })
+    
+  },
+&nbsp;
+  clear: <span class="fstat-no" title="function not covered" >function clear(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >    EmptyRoomModel.deleteAll();</span>
+<span class="cstat-no" title="statement not covered" >    customers.deleteAll();</span>
+<span class="cstat-no" title="statement not covered" >    bi.deleteAll();</span>
+<span class="cstat-no" title="statement not covered" >    ci.deleteAll();</span>
+<span class="cstat-no" title="statement not covered" >    RoomModel.deleteAll();</span>
+<span class="cstat-no" title="statement not covered" >    res.redirect('manage');</span>
+  },
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 11 2018 20:14:31 GMT+0800 (中国标准时间)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

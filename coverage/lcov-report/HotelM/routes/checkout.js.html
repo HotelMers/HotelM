@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for HotelM\routes\checkout.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">HotelM/routes/</a> checkout.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20.83% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>10/48</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20.83% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>10/48</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express')
+const router = express.Router()
+&nbsp;
+const CusModel = require('../models/customers')
+const RoomModel =require('../models/rooms')
+const CheckInfoModel =require('../models/checkInfo')
+const BookInfoModel =require('../models/bookInfo')
+const checkLogin = require('../middlewares/check').checkLogin
+const EmptyRoomModel = require('../models/emptyRoomNumber')
+const DateHelper = require('../middlewares/dateHelper')
+&nbsp;
+module.exports = {
+	searchroomidPage: <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+		// var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
+<span class="cstat-no" title="statement not covered" >    	var checkinfo = { roomid: req.query.roomid, CustomerId: req.query.idcard, name:req.query.name, phone:req.query.phone, </span>
+      roomtype:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate, payment: req.query.payment}
+<span class="cstat-no" title="statement not covered" >    	res.render("checkout",{ checkinfo : checkinfo});</span>
+    	
+  	},
+  	// 查询房间按钮
+  	searchroomidSubmit: <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+  		//
+  		// var checkinfo_temp
+<span class="cstat-no" title="statement not covered" >		const number= req.fields.roomid.toString()</span>
+  		// 通过房间号获取checkinfo的信息
+<span class="cstat-no" title="statement not covered" >    	CheckInfoModel.getCheckInfoByRoomandstatus(Number(number), 1)</span>
+			.then(<span class="fstat-no" title="function not covered" >function (result) {</span>
+<span class="cstat-no" title="statement not covered" >				if (!result) {</span>
+<span class="cstat-no" title="statement not covered" >					req.flash('error', '房间号不存在')</span>
+<span class="cstat-no" title="statement not covered" >					url = '/checkout?roomid='+number.toString()</span>
+<span class="cstat-no" title="statement not covered" >					return res.redirect(url)</span>
+			    } else {
+<span class="cstat-no" title="statement not covered" >			    	if (result.isValid== 1) {</span>
+<span class="cstat-no" title="statement not covered" >				    	 req.flash('success', result.isValid)</span>
+<span class="cstat-no" title="statement not covered" >				    	url = '/checkout?idcard='+(result.CustomerId).toString()+'&amp;roomid='+number.toString()+'&amp;name='+(result.name).toString()+'&amp;phone='+(result.phone).toString()</span>
+				        +'&amp;roomtype='+(result.roomtype).toString()+'&amp;startdate='+(result.startdate).toString()+'&amp;enddate='+(result.enddate).toString()
+				        +'&amp;RoomNumber='+(result.RoomNumber).toString()+'&amp;payment='+(result.payment).toString()
+<span class="cstat-no" title="statement not covered" >				        return res.redirect(url)</span>
+				    } else {
+				    	// req.flash('error', result.isValid)
+<span class="cstat-no" title="statement not covered" >				    	req.flash('error', '房间号不存在')</span>
+<span class="cstat-no" title="statement not covered" >						url = '/checkout?roomid='+number.toString()</span>
+<span class="cstat-no" title="statement not covered" >						return res.redirect(url)</span>
+				    }
+		    	}
+			})
+			
+  	},
+  	//get 
+  	searchroomidPageHasinfo: <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >	  var checkinfo = { CustomerId: req.query.idcard, name:req.query.name, phone:req.query.phone, </span>
+      type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate, payment: req.query.payment}
+<span class="cstat-no" title="statement not covered" >    	res.render("checkout",{ checkinfo : checkinfo});</span>
+    	
+  	},
+  	//post,退房按钮
+	checkoutSubmitHasinfo: <span class="fstat-no" title="function not covered" >function (req, res, next) {</span>
+&nbsp;
+		//number是房间号，暂时不知道是哪个属性值得到
+<span class="cstat-no" title="statement not covered" >		const number= req.fields.roomid</span>
+<span class="cstat-no" title="statement not covered" >		const startdate= req.fields.starttime</span>
+<span class="cstat-no" title="statement not covered" >		const enddate= req.fields.endtime</span>
+<span class="cstat-no" title="statement not covered" >		const roomtype= req.fields.roomtype.toString()</span>
+<span class="cstat-no" title="statement not covered" >		var zero= 0</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >	  	RoomModel.setStatusByRoomNumer(Number(number),zero.toString())</span>
+		.then(<span class="fstat-no" title="function not covered" >function (result) {</span>
+<span class="cstat-no" title="statement not covered" >	        if (result.modifiedCount&gt;=1) {</span>
+	          // 写入 flash
+<span class="cstat-no" title="statement not covered" >	          req.flash('success', '修改房间状态成功')</span>
+	        } else {
+	        	// 无该房间则跳回添加页
+<span class="cstat-no" title="statement not covered" >	          req.flash('error', '修改失败')</span>
+	        }
+	        
+	    })
+	    .catch(<span class="fstat-no" title="function not covered" >function (e) {</span>
+	        // 异常 跳回添加页
+<span class="cstat-no" title="statement not covered" >	        req.flash('error', e.message)</span>
+<span class="cstat-no" title="statement not covered" >	        next(e)</span>
+	    })
+	    .then(<span class="fstat-no" title="function not covered" >function(){</span>
+	    		// req.flash('success', Number(number))
+<span class="cstat-no" title="statement not covered" >			CheckInfoModel.setvalidByRoomNumer(Number(number),Number(startdate),Number(enddate))</span>
+				.then(<span class="fstat-no" title="function not covered" >function (result) {</span>
+<span class="cstat-no" title="statement not covered" >					req.flash('success', '房号:'+Number(number))</span>
+<span class="cstat-no" title="statement not covered" >					if (!result) {</span>
+<span class="cstat-no" title="statement not covered" >						req.flash('error', 'fail')</span>
+				    } else {
+<span class="cstat-no" title="statement not covered" >				    	req.flash('success', '入住信息状态改变成功')</span>
+			    	}
+				})
+				.catch(<span class="fstat-no" title="function not covered" >function (e) {</span>
+<span class="cstat-no" title="statement not covered" >					req.flash('error', 'fail')</span>
+				})
+				.then(<span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >					EmptyRoomModel.addNumberBetweenDaysByType(DateHelper.toDate(startdate), DateHelper.toDate(enddate), roomtype.toString())</span>
+<span class="cstat-no" title="statement not covered" >		            req.flash('success', '对应'+roomtype+'数量+1')</span>
+<span class="cstat-no" title="statement not covered" >					req.flash('success', '删除成功')</span>
+<span class="cstat-no" title="statement not covered" >					return res.redirect('/manage')</span>
+				})
+				
+	    })
+	}
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 11 2018 20:14:31 GMT+0800 (中国标准时间)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

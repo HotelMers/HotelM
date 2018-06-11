@@ -13,15 +13,17 @@ var searchcusRouter = require("./searchcus.js")
 var checkinRouter = require("./checkin.js")
 var financeRouter = require("./finance.js")
 const checkLogin = require('../middlewares/check').checkLogin
+const checkNotLogin = require('../middlewares/check').checkNotLogin
+
 
 module.exports = function(app) {
-    app.get('/signin', function(req, res, next) {
-        signinRouter["signInPage"](req, res, next);
+    app.get('/signin', checkNotLogin, function(req, res, next) {
+        signinRouter["signinPage"](req, res, next);
     })
-    app.post('/signin', function(req, res, next) {
-        signinRouter["singInCheck"](req, res, next);
+    app.post('/signin', checkNotLogin, function(req, res, next) {
+        signinRouter["signinCheck"](req, res, next);
     })
-    app.get('/signout', function(req, res, next) {
+    app.get('/signout', checkLogin, function(req, res, next) {
         signoutRouter["signoutPage"](req, res, next);
     })
     app.get('/signup', function(req, res, next) {

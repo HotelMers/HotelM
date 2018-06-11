@@ -4,7 +4,7 @@
   "description": "a system to manage a hotel",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "config-lite": "^2.1.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^0.8.2",
+    "debug": "^3.1.0",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
     "express-formidable": "^1.0.0",
@@ -25,5 +26,13 @@
     "sha1": "^1.1.1",
     "underscore": "^1.9.0",
     "winston": "^2.4.1"
+  },
+  "devDependencies": {
+    "has-color": "^0.2.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "require_optional": "^1.0.1",
+    "strip-ansi": "^4.0.0",
+    "supertest": "^3.1.0"
   }
 }

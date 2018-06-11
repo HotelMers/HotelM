@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for HotelM\routes\index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">HotelM/routes/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">63.74% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>58/91</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">13.16% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">63.74% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>58/91</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// include your file here
+var signinRouter = require("./signin.js")
+var manageRouter = require("./manage.js")
+var signoutRouter = require("./signout.js")
+var signupRouter = require("./signup.js")
+var balanceRouter = require("./balance.js")
+var bookroomRouter = require("./bookroom.js")
+var checkoutRouter = require("./checkout.js")
+var manageroomRouter = require("./manageroom.js")
+var balanceClearRouter = require("./balanceclear.js")
+var balanceRouter = require("./balance.js")
+var searchcusRouter = require("./searchcus.js")
+var checkinRouter = require("./checkin.js")
+var financeRouter = require("./finance.js")
+const checkLogin = require('../middlewares/check').checkLogin
+const checkNotLogin = require('../middlewares/check').checkNotLogin
+&nbsp;
+&nbsp;
+module.exports = function(app) {
+    app.get('/signin', checkNotLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        signinRouter["signinPage"](req, res, next);</span>
+    })
+    app.post('/signin', checkNotLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        signinRouter["signinCheck"](req, res, next);</span>
+    })
+    app.get('/signout', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        signoutRouter["signoutPage"](req, res, next);</span>
+    })
+    app.get('/signup', function(req, res, next) {
+        signupRouter["signupPage"](req, res, next);
+    })
+    app.post('/signup', function(req, res, next) {
+        signupRouter["signupAndCreateUser"](req, res, next);
+    })
+&nbsp;
+    // manage
+    app.get('/manage', checkLogin, function(req, res) {
+        manageRouter["managePage"](req, res);
+    })
+    app.post('/manage', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        manageRouter["clear"](req, res);</span>
+    })
+&nbsp;
+    // manage room
+    app.get('/manageroom', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["manageroomPage"](req, res);</span>
+    })
+    app.get('/manageroom/addroom', <span class="fstat-no" title="function not covered" >function(req, res,next) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["addroomPage"](req, res,next);</span>
+    })
+    app.post('/manageroom/addroom', <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["addroomSubmit"](req, res,next);</span>
+    })
+    app.get('/manageroom/deleteroom', <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["deleteroomPage"](req, res);</span>
+    })
+    app.post('/manageroom/deleteroom', <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["deleteroomSubmit"](req, res);</span>
+    })
+    app.get('/manageroom/updateroom', <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["updateroomPage"](req, res);</span>
+    })
+    app.post('/manageroom/updateroom', <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["updateroomSubmit"](req, res);</span>
+    })
+    app.get('/manageroom/resetroom', <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["resetroomPage"](req, res);</span>
+    })
+    app.post('/manageroom/resetroom', <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        manageroomRouter["resetroomSubmit"](req, res);</span>
+    })
+&nbsp;
+    // balance 盘点结算
+    app.get('/balance', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        balanceClearRouter["balanceclearPage"](req, res);</span>
+    })
+    app.post('/balance', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        balanceClearRouter["balanceclearSubmit"](req, res, next);</span>
+    })
+&nbsp;
+    // searchcus 查询会员
+    app.get('/searchcus', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        searchcusRouter["searchvipPage"](req, res);</span>
+    }) 
+    app.post('/searchcus', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        searchcusRouter["searchvipSubmit"](req, res, next);</span>
+    }) 
+&nbsp;
+    // checkin
+    app.get('/checkin', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        checkinRouter["checkInPage"](req, res);</span>
+    })
+    app.post('/checkin', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        checkinRouter["checkInGetBookInfoIndex"](req, res, next);</span>
+    })
+     app.post('/checkin/searchVIP', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        checkinRouter["checkInsearchVIP"](req, res, next);</span>
+    })
+    app.get('/checkin/getRoom', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        checkinRouter["checkInWritePage"](req, res);</span>
+    })
+    app.post('/checkin/getRoom', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        checkinRouter["checkInWrite"](req, res, next);</span>
+    })
+    app.post('/checkin/getbookInfo', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        checkinRouter["checkInGetBookInfo"](req, res, next);</span>
+    })
+&nbsp;
+&nbsp;
+    app.get('/bookroom', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        bookroomRouter["bookroomPage"](req, res);</span>
+    })
+    app.post('/bookroom', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        bookroomRouter["bookroomSubmit"](req, res,next);</span>
+    })
+    app.get('/bookroom/getcustomer', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        bookroomRouter["bookroomPageHascustomers"](req, res);</span>
+    })
+    app.post('/bookroom/getcustomer', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        bookroomRouter["bookroomSubmitHascustomers"](req, res,next);</span>
+    })
+&nbsp;
+    app.get('/checkout', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        checkoutRouter["searchroomidPage"](req, res);</span>
+    })
+    app.post('/checkout', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        checkoutRouter["searchroomidSubmit"](req, res,next);</span>
+    })
+     app.get('/checkout/getcheck', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        checkoutRouter["searchroomidPageHasinfo"](req, res);</span>
+    })
+    app.post('/checkout/getcheck', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        checkoutRouter["checkoutSubmitHasinfo"](req, res,next);</span>
+    })
+    
+    // 财务报表
+    app.get('/finance', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >        financeRouter["financePage"](req, res);</span>
+    })
+    app.post('/finance', checkLogin, <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >        financeRouter["financeSubmit"](req, res, next);</span>
+    })
+    // add more router
+    // 404 page
+    app.use(function (req, res) {
+      if (!res.headersSent) {
+        res.status(404).render('404')
+      }
+    })
+}
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 11 2018 20:14:31 GMT+0800 (中国标准时间)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

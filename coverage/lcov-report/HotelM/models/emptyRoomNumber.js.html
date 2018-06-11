@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for HotelM\models\emptyRoomNumber.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">HotelM/models/</a> emptyRoomNumber.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">17.5% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>14/80</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">3.57% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">22.58% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/31</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">17.72% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>14/79</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const EmptyRoomNumber = require('../lib/mongo').EmptyRoomNumber
+const RoomModel = require('../models/rooms')
+const dateHelper = require('../middlewares/dateHelper')
+&nbsp;
+module.exports = {
+  // 通过月日获得该天的剩余房间量/房价 month, day都是number，表示月/日
+  getEmptyRoomNumberByDays: <span class="fstat-no" title="function not covered" >function getEmptyRoomNumberByDays (year, month, day) {</span>
+<span class="cstat-no" title="statement not covered" >    return EmptyRoomNumber.findOne({'year':year, 'month': month, 'day':day }).exec()</span>
+  },
+&nbsp;
+  initializeEmptyRoomNumber: function initializeEmptyRoomNumber () {
+    return Promise.resolve().then(function() {
+      var today = new Date();
+      for (var i = 0; i &lt; 30; i++) {
+        (function (dayoff) {
+          var date = dateHelper.getDateAfterDays(today,dayoff); 
+          EmptyRoomNumber.find({'year':date.year,'month': date.month, 'day':date.day}).then(function(nums) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (nums.length==0) {
+<span class="cstat-no" title="statement not covered" >              module.exports.create(date.year, date.month, date.day)</span>
+            }
+          })
+        })(i);
+      }
+    }).then(function(){
+      return Promise.resolve()
+    });
+  },
+&nbsp;
+  // 获得30天内的剩余房间量
+  getAllEmptyRoomNumber: function getAllEmptyRoomNumber () {
+    return module.exports.initializeEmptyRoomNumber()
+    .then(function(){
+      return EmptyRoomNumber.find().sort({"year":1,"month":1,"day":1});
+    })
+  },
+&nbsp;
+  // 增加一天的记录
+  create: <span class="fstat-no" title="function not covered" >function create (year,month,day) {</span>
+<span class="cstat-no" title="statement not covered" >    RoomModel.getSingleRoomNumber().then(<span class="fstat-no" title="function not covered" >function(snum) {</span></span>
+<span class="cstat-no" title="statement not covered" >      numbers = {year:year,month:month,day:day,singleRoom:snum,doubleRoom:0,bigRoom:0,singlePrice:199,doublePrice:299,bigPrice:399}</span>
+<span class="cstat-no" title="statement not covered" >      RoomModel.getDoubleRoomNumber().then(<span class="fstat-no" title="function not covered" >function(dnum) {</span></span>
+<span class="cstat-no" title="statement not covered" >        numbers.doubleRoom = dnum</span>
+<span class="cstat-no" title="statement not covered" >        RoomModel.getBigRoomNumber().then(<span class="fstat-no" title="function not covered" >function(bnum) {</span></span>
+<span class="cstat-no" title="statement not covered" >          numbers.bigRoom = bnum</span>
+<span class="cstat-no" title="statement not covered" >          EmptyRoomNumber.create(numbers).exec()</span>
+        })
+      })
+    })
+  },
+&nbsp;
+  // 左移一天 在日结的时候调用
+  update: <span class="fstat-no" title="function not covered" >function update() {</span>
+    // 删除已过期的记录
+<span class="cstat-no" title="statement not covered" >    var today = new Date();</span>
+<span class="cstat-no" title="statement not covered" >    var year= today.getFullYear();</span>
+<span class="cstat-no" title="statement not covered" >    var month = today.getMonth()+1;</span>
+<span class="cstat-no" title="statement not covered" >    var day = today.getDate();</span>
+<span class="cstat-no" title="statement not covered" >    EmptyRoomNumber.remove( { "year" : { $lt :year } } ).exec();</span>
+<span class="cstat-no" title="statement not covered" >    EmptyRoomNumber.remove( { "year" :{$eq :year},"month":{ $lt :month } } ).exec();</span>
+<span class="cstat-no" title="statement not covered" >    EmptyRoomNumber.remove( { "year" :{$eq :year},"month":{$eq :month}, "day": { $lt :day }  } ).exec();</span>
+<span class="cstat-no" title="statement not covered" >    return {'year':year,'month': month, 'day':day} </span>//返回日结的日期
+  },
+&nbsp;
+  // 减少某天某个房间类型的数量  预定时调用/无预定入住时调用 参数type是string,其他是number
+  reduceNumberByDateAndType: <span class="fstat-no" title="function not covered" >function reduceNumberByDateAndType(year,month,day,type) {</span>
+<span class="cstat-no" title="statement not covered" >  	EmptyRoomNumber.findOne({'year':year,'month': month, 'day':day}).then(<span class="fstat-no" title="function not covered" >function(num) {</span></span>
+<span class="cstat-no" title="statement not covered" >      if (type == "大房" &amp;&amp; num.bigRoom &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'bigRoom':num.bigRoom-1}}).exec();</span>
+      } else <span class="cstat-no" title="statement not covered" >if (type == "单人房" &amp;&amp; num.singleRoom &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'singleRoom':num.singleRoom-1}}).exec();</span>
+      } else <span class="cstat-no" title="statement not covered" >if (type == "双人房" &amp;&amp; num.doubleRoom &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'doubleRoom':num.doubleRoom-1}}).exec();</span>
+      }
+    })
+  },
+&nbsp;
+  // 增加某天某个房间类型的数量  取消预定时调用/退房时调用  参数type是string,其他是number
+  addNumberByDateAndType: <span class="fstat-no" title="function not covered" >function addNumberByDateAndType(year,month,day,type) {</span>
+<span class="cstat-no" title="statement not covered" >    EmptyRoomNumber.findOne({'year':year,'month': month, 'day':day}).then(<span class="fstat-no" title="function not covered" >function(num) {</span></span>
+<span class="cstat-no" title="statement not covered" >      if (type == "大房") {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'bigRoom':num.bigRoom+1}}).exec();</span>
+      } else <span class="cstat-no" title="statement not covered" >if (type == "单人房") {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'singleRoom':num.singleRoom+1}}).exec();</span>
+      } else <span class="cstat-no" title="statement not covered" >if (type == "双人房") {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'doubleRoom':num.doubleRoom+1}}).exec();</span>
+      }
+    })
+  },
+&nbsp;
+  // 增加两个日期之间某个房间类型的数量  取消预定时调用/退房时调用
+  // 参数startDate和endDate是date类型, 参数type是string类型
+  addNumberBetweenDaysByType: <span class="fstat-no" title="function not covered" >function addNumberBetweenDaysByType(startDate,endDate,type) {</span>
+<span class="cstat-no" title="statement not covered" >    var days = dateHelper.dayoffsetBetweenTwoday(startDate,endDate);</span>
+<span class="cstat-no" title="statement not covered" >    for (var i = 0; i &lt; days; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      (<span class="fstat-no" title="function not covered" >function (dayoff) {</span></span>
+<span class="cstat-no" title="statement not covered" >        var date = dateHelper.getDateAfterDays(startDate,dayoff); </span>
+<span class="cstat-no" title="statement not covered" >        module.exports.addNumberByDateAndType(date.year,date.month,date.day,type);</span>
+      })(i);
+    }
+  },
+&nbsp;
+  // 减少两个日期之间某个房间类型的数量  预定时调用/无预定入住时调用
+  // 参数startDate和endDate是date类型, 参数type是string类型
+  reduceNumberBetweenDaysByType: <span class="fstat-no" title="function not covered" >function reduceNumberBetweenDaysByType(startDate,endDate,type) {</span>
+<span class="cstat-no" title="statement not covered" >    var days = dateHelper.dayoffsetBetweenTwoday(startDate,endDate);</span>
+<span class="cstat-no" title="statement not covered" >    for (var i = 0; i &lt; days; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      (<span class="fstat-no" title="function not covered" >function (dayoff) {</span></span>
+<span class="cstat-no" title="statement not covered" >        var date = dateHelper.getDateAfterDays(startDate,dayoff); </span>
+<span class="cstat-no" title="statement not covered" >        module.exports.reduceNumberByDateAndType(date.year,date.month,date.day,type);</span>
+      })(i);
+    }
+  },
+&nbsp;
+  // 增加某个房间类型的数量  管理客房中增加客房时调用
+  addNumberByType: <span class="fstat-no" title="function not covered" >function addNumberByType(type) {</span>
+<span class="cstat-no" title="statement not covered" >    var today = new Date();</span>
+<span class="cstat-no" title="statement not covered" >    for(var i = 0; i &lt; 30; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      (<span class="fstat-no" title="function not covered" >function(dayoff) {</span></span>
+<span class="cstat-no" title="statement not covered" >        date = dateHelper.getDateAfterDays(today,dayoff)</span>
+<span class="cstat-no" title="statement not covered" >        module.exports.addNumberByDateAndType(date.year,date.month,date.day,type);</span>
+      })(i);
+    }
+  },
+&nbsp;
+  // 减少某个房间类型的数量  管理客房中减少客房时调用
+  reduceNumberByType: <span class="fstat-no" title="function not covered" >function reduceNumberByType(type) {</span>
+<span class="cstat-no" title="statement not covered" >    var today = new Date();</span>
+<span class="cstat-no" title="statement not covered" >    for(var i = 0; i &lt; 30; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      (<span class="fstat-no" title="function not covered" >function(dayoff) {</span></span>
+<span class="cstat-no" title="statement not covered" >        date = dateHelper.getDateAfterDays(today,dayoff)</span>
+<span class="cstat-no" title="statement not covered" >        module.exports.reduceNumberByDateAndType(date.year,date.month,date.day,type);</span>
+      })(i);
+    }
+  },
+&nbsp;
+  hasEmptyRoomBetweenDaysByType: <span class="fstat-no" title="function not covered" >function hasEmptyRoomBetweenDaysByType(startDate,endDate,type) {</span>
+    // var offset = dateHelper.dayoffsetBetweenTwoday(startDate, endDate); 
+    // for (var i = 0; i &lt; offset; i++) {
+    //   (function(dayoff) {
+    //     var date = dateHelper.getDateAfterDays(startDate,dayoff);
+    //     module.exports.getEmptyRoomNumberByDays(date.year,date.month,date.day).then(function(result) {
+    //       if ((type == '单人房' &amp;&amp; result.singleRoom &gt; 0) ||
+    //           (type == '双人房' &amp;&amp; result.doubleRoom == 0) ||
+    //           (type == '大房' &amp;&amp; result.bigRoom == 0)) {
+    //         // 这里应该返回'false'
+    //       }
+    //     })
+    //   })(i)
+    // }
+  },
+&nbsp;
+  // 修改某段时间内某种类型房间的房价
+  // 参数startDate和endDate是date类型, 参数type是string类型
+  updatePriceBetweenDaysByType: <span class="fstat-no" title="function not covered" >function updatePriceBetweenDaysByType(startDate,endDate,type,price) {</span>
+<span class="cstat-no" title="statement not covered" >    var days = dateHelper.dayoffsetBetweenTwoday(startDate,endDate);</span>
+<span class="cstat-no" title="statement not covered" >    if (days &gt; 30) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="cstat-no" title="statement not covered" >    for (var i = 0; i &lt;= days; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      (<span class="fstat-no" title="function not covered" >function (dayoff) {</span></span>
+<span class="cstat-no" title="statement not covered" >        var date = dateHelper.getDateAfterDays(startDate,dayoff); </span>
+<span class="cstat-no" title="statement not covered" >        module.exports.updatePriceByDateAndType(date.year,date.month,date.day,type,Number(price));</span>
+      })(i);
+    }
+  },
+&nbsp;
+  // 修改某天某种类型房间的房价
+  updatePriceByDateAndType: <span class="fstat-no" title="function not covered" >function updatePriceByDateAndType(year,month,day,type,price) {</span>
+<span class="cstat-no" title="statement not covered" >    EmptyRoomNumber.findOne({'year':year,'month': month, 'day':day}).then(<span class="fstat-no" title="function not covered" >function(num) {</span></span>
+<span class="cstat-no" title="statement not covered" >      if (type == "大房") {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'bigPrice':price}}).exec();</span>
+      } else <span class="cstat-no" title="statement not covered" >if (type == "单人房") {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'singlePrice':price}}).exec();</span>
+      } else <span class="cstat-no" title="statement not covered" >if (type == "双人房") {</span>
+<span class="cstat-no" title="statement not covered" >        EmptyRoomNumber.update({'year':year,'month': month, 'day':day},{$set:{'doublePrice':price}}).exec();</span>
+      }
+    })
+  },
+&nbsp;
+  deleteAll: <span class="fstat-no" title="function not covered" >function deleteAll() {</span>
+<span class="cstat-no" title="statement not covered" >    EmptyRoomNumber.remove({}).exec()</span>
+  },
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 11 2018 20:14:31 GMT+0800 (中国标准时间)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

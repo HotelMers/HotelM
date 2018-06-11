@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for HotelM\routes\searchcus.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">HotelM/routes/</a> searchcus.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">27.27% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>6/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">27.27% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>6/22</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// checkInSearchById
+const express = require('express')
+const router = express.Router()
+&nbsp;
+const CusModel = require('../models/customers')
+const BookModel = require('../models/bookInfo')
+const checkLogin = require('../middlewares/check').checkLogin
+&nbsp;
+&nbsp;
+module.exports = {
+  //GET 根据填写的信息，查找用户，返回用户信息
+  searchvipPage: <span class="fstat-no" title="function not covered" >function(req, res) {</span>
+<span class="cstat-no" title="statement not covered" >    var customer = {id:req.query.id, name:req.query.name, score:req.query.score, phone:req.query.phone}</span>
+<span class="cstat-no" title="statement not covered" >    res.render('searchcus', {customer:customer});</span>
+  },
+  //POST 根据填写的信息，查找用户，返回用户信息
+  searchvipSubmit: <span class="fstat-no" title="function not covered" >function(req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >    const id = req.fields.idcard</span>
+&nbsp;
+    //校验参数
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      if (id.length != 18) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error('无效身份证号')</span>
+      }
+    } catch (e) {
+<span class="cstat-no" title="statement not covered" >      req.flash('error', '无效身份证号')</span>
+<span class="cstat-no" title="statement not covered" >      return res.redirect('searchcus')</span>
+    }
+    
+<span class="cstat-no" title="statement not covered" >    CusModel.getCusById(id)</span>
+      .then(<span class="fstat-no" title="function not covered" >function (customer) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!customer) {</span>
+<span class="cstat-no" title="statement not covered" >          req.flash('error', '会员不存在')</span>
+<span class="cstat-no" title="statement not covered" >          url = '/searchcus?idcard='+id.toString()</span>
+<span class="cstat-no" title="statement not covered" >          return res.redirect(url)</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >          url = '/searchcus?idcard'+id.toString()+'&amp;id='+(customer.id).toString()+'&amp;name='+(customer.name).toString()+'&amp;score='+(customer.score).toString()+'&amp;phone='+(customer.phone).toString()</span>
+<span class="cstat-no" title="statement not covered" >          req.flash('success', '会员存在')</span>
+<span class="cstat-no" title="statement not covered" >          return res.redirect(url)</span>
+        }
+        //req.flash('success', '查询成功')
+        //res.redirect('searchcus')
+        //res.render('searchcus.ejs', {id:customer.id, name:customer.name, phone:customer.phone, score:customer.score})
+        //es.render('searchcus.ejs', {customer:customer})
+      })
+&nbsp;
+  },
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 11 2018 20:14:31 GMT+0800 (中国标准时间)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

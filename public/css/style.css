@@ -698,7 +698,7 @@ footer p {
   margin-bottom: -20px;
 }
 
-input.btn.btn-primary.center-block {
+input.center-block.form-control {
   font-size: 15px;
   border-radius: 10%;
   transition-duration: 0.2s;

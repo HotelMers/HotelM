@@ -73,15 +73,15 @@ module.exports = {
 
     // 校验参数
     try {
-      if (id.length!= 18 || isNaN(id)) {
+      if (id.length!= 18 || isNaN(Number(id))) {
         throw new Error('请填写身份证:数字')
       }
       if (!roomtype.length || (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房")) {
         throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
       }
-      // if (!score.length || isNaN(score)) {
-      //   throw new Error('积分填写有误')
-      // }
+      if (phone.length != 11 || isNaN(Number(phone))) {
+        throw new Error('无效手机号')
+      }
       if (startdate.length != 8) {
         throw new Error('入住时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
       }
@@ -94,10 +94,14 @@ module.exports = {
       if (Number(today)-Number(startdate) > 0) {
         throw new Error('入住时间不能早于今日!')
       }
+      if (((Number(startdate)%10000)/100)> 12) {
+        throw new Error('月份小于等于12')
+      }
       var endayoffset = Number(DateHelper.dayoffsetBetweenTwoday(new Date(), DateHelper.toDate(enddate)))
       if (endayoffset > 30) {
         throw new Error('不能登记超过30天的预定')
       } 
+      
     } catch (e) {
       req.flash('error', e.message)
       return res.redirect('back')

@@ -9,6 +9,56 @@ const EmptyRoomModel = require('../models/emptyRoomNumber')
 const checkLogin = require('../middlewares/check').checkLogin
 const DateHelper = require('../middlewares/dateHelper')
 
+function monthIsValid(month) {
+  if (Number(month) <= 12 && Number(month) > 0) {
+    return true
+  }
+  else {
+    return false
+  }
+}
+function dayIsValid(day, month, year) {
+  var flag = 0
+  switch (Number(month)) {
+    case 01:case 03:case 05:case 07:case 08:case 10:case 12: 
+      if (Number(day) <= 31 && Number(day) > 0) {
+        flag = 1
+      }
+      break;
+    case 04:case 06:case 09:case 11:
+      if (Number(day) <= 30 && Number(day) > 0) {
+        flag = 1
+      }
+      break;
+    case 02:
+      if (isLeap(year)) {
+        if (Number(day) <= 29 && Number(day) > 0) {
+          flag = 1
+        }
+      }
+      else {
+        if (Number(day) <= 28 && Number(day) > 0) {
+          flag = 1
+        }
+      }
+      break;
+    default:
+      break;
+
+  }
+  if (flag == 1) {
+    return true;
+  }
+  else {
+    return false
+  }
+}
+
+function isLeap(year) {
+  var y = number(year) 
+  return (y%100!=0&&y%4==0)||(y%400 == 0)
+}
+
 module.exports = {
   // GET
   checkInPage: function (req, res) {
@@ -214,6 +264,12 @@ module.exports = {
       }
       if (Number(today)-Number(startdate) > 0) {
         throw new Error('入住时间不能早于今日!')
+      }
+      if (!monthIsValid(enddate.slice(4,6))) {
+        throw new Error('月份错误！请输入1-12月!')
+      }
+      if (!dayIsValid(enddate.slice(6,8), enddate.slice(4,6), enddate.slice(0,4))) {
+        throw new Error('日期错误！该日期不存在!')
       }
       var endayoffset = Number(DateHelper.dayoffsetBetweenTwoday(new Date(), DateHelper.toDate(enddate)))
       if (endayoffset > 30) {

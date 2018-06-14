@@ -61,6 +61,9 @@ module.exports = {
       if (!number.length || isNaN(number)) {
         throw new Error('请填写房间号:数字')
       }
+      if (number.length != 3) {
+        throw new Error('请填写3位数房间号')
+      }
       if (!type.length || (type!= "单人房"&&type!= "双人房"&&type!= "大房")) {
         throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
       }

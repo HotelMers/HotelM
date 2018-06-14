@@ -11,7 +11,7 @@ module.exports = {
   // get，查询会员前
   bookroomPage: function(req, res) {
     // var roomnum = req.query.RoomNumber
-    var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
+    var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
     res.render('bookroom',{ customer : customer, bookinfo : bookinfo});
@@ -36,7 +36,7 @@ module.exports = {
           url = '/bookroom?idcard='+id.toString()
           return res.redirect(url)   
         } else {
-          url = '/bookroom?idcard='+id.toString()+'&name='+(result.name).toString()+'&score='+(result.score).toString()+'&phone='+(result.phone).toString()
+          url = '/bookroom?idcard='+id.toString()+'&name='+(result.name).toString()+'&phone='+(result.phone).toString()
           req.flash('success', '该会员存在')
           return res.redirect(url)
         }
@@ -52,7 +52,7 @@ module.exports = {
 
   bookroomPageHascustomers: function(req, res) {
     // var roomnum = req.query.RoomNumber
-    var customer = {id:req.query.idcard, name:req.query.name, score: req.query.score,phone:req.query.phone}
+    var customer = {id:req.query.idcard, name:req.query.name, phone:req.query.phone}
     var bookinfo = { id :"", name:req.query.name, phone:req.query.phone, 
       type:req.query.roomtype, startdate:req.query.startdate, enddate:req.query.enddate}
     res.render('bookroom',{ customer : customer, bookinfo : bookinfo});
@@ -61,7 +61,7 @@ module.exports = {
   bookroomSubmitHascustomers: function (req, res, next) {
     const id = req.fields.idcard
     const name = req.fields.name
-    const score = req.fields.score
+    // const score = req.fields.score
     const phone = req.fields.phone
     const roomtype = req.fields.roomtype
     const startdate = req.fields.starttime
@@ -73,14 +73,14 @@ module.exports = {
 
     // 校验参数
     try {
-      if (id.length!= 18 || isNaN(id)) {
+      if (id.length!= 18 || isNaN(Number(id))) {
         throw new Error('请填写身份证:数字')
       }
       if (!roomtype.length || (roomtype!= "单人房"&&roomtype!= "双人房"&&roomtype!= "大房")) {
         throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
       }
-      if (!score.length || isNaN(score)) {
-        throw new Error('积分填写有误')
+      if (phone.length != 11 || isNaN(Number(phone))) {
+        throw new Error('无效手机号')
       }
       if (startdate.length != 8) {
         throw new Error('入住时间格式错误！正确格式为：（8位阿拉伯数字表示）YYYYMMDD')
@@ -94,10 +94,14 @@ module.exports = {
       if (Number(today)-Number(startdate) > 0) {
         throw new Error('入住时间不能早于今日!')
       }
+      if (((Number(startdate)%10000)/100)> 12) {
+        throw new Error('月份小于等于12')
+      }
       var endayoffset = Number(DateHelper.dayoffsetBetweenTwoday(new Date(), DateHelper.toDate(enddate)))
       if (endayoffset > 30) {
         throw new Error('不能登记超过30天的预定')
       } 
+      
     } catch (e) {
       req.flash('error', e.message)
       return res.redirect('back')

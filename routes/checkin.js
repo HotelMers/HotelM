@@ -26,7 +26,7 @@ module.exports = {
       BookModel.getBookInfoById(customer.id)
       .then(function(allbookinfos){
         if (!allbookinfos) allbookinfos = {}
-        else if (allbookinfos.length != 0) req.flash("success", '预订信息查询成功')
+        else if (allbookinfos.length != 0) req.flash("success", '')
         //req.flash('success', JSON.stringify(allbookinfos))
         //req.flash('success', JSON.stringify(customer))
         res.render('checkin', { customer : customer, bookinfo : bookinfo, roomnum: roomnum,
@@ -63,7 +63,7 @@ module.exports = {
     
     BookModel.getBookInfoById(CustomerId)
     .then(function (allbookinfos){
-      if (allbookinfos && allbookinfos != 0) req.flash("success", '预订信息查询成功')
+      if (allbookinfos && allbookinfos != 0) req.flash("success", '')
       url = '/checkin?idcard='+CustomerId.toString();
       return res.redirect(url)
     })

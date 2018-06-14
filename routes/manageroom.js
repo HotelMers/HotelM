@@ -46,7 +46,7 @@ module.exports = {
   },
 
   // get /manageroom/addroomPage 添加房间
-  addroomPage: function(req, res) {
+  addroomPage: function(req, res,next) {
     res.render("addroom");
   },
 
@@ -60,6 +60,9 @@ module.exports = {
     try {
       if (!number.length || isNaN(number)) {
         throw new Error('请填写房间号:数字')
+      }
+      if (number.length != 3) {
+        throw new Error('请填写3位数房间号')
       }
       if (!type.length || (type!= "单人房"&&type!= "双人房"&&type!= "大房")) {
         throw new Error('房间类型填写有误，正确格式为：单人房/双人房/大房')
@@ -99,12 +102,12 @@ module.exports = {
       })
   },
 
-  // get /manageroom/addroomPage 删除房间
+  // get /manageroom/deleteroomPage 删除房间
   deleteroomPage: function(req, res) {
     res.render("deleteroom");
   },
 
-  // post /manageroom/addroomPage 删除房间
+  // post /manageroom/deleteroomPage 删除房间
   deleteroomSubmit: function(req, res, next) {
     const number = req.fields.roomnumber
     let mapassword = req.fields.mapassword
@@ -153,18 +156,18 @@ module.exports = {
         })
     })
   },
-  // get /manageroom/addroomPage 修改房间
+  // get /manageroom/updateroomPage 修改房间
   updateroomPage: function(req, res) {
     res.render("updateroom");
   },
 
-  // post /manageroom/addroomPage 修改房间
+  // post /manageroom/updateroomPage 修改房间
   updateroomSubmit: function (req, res, next) {
+    const startdate = req.fields.starttime.toString()
+    const enddate = req.fields.endtime.toString()
     const type = req.fields.roomtype
     const price = req.fields.roomvalue.toString()
     let mapassword = req.fields.mapassword
-    const startdate = req.fields.starttime.toString()
-    const enddate = req.fields.endtime.toString()
 
     // 校验参数
     // 获取当前日期时间，用于和入住日期进行比较

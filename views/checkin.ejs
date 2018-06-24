@@ -97,8 +97,15 @@
                             <input placeholder="入住时间（格式：YYYYMMDD）" type="text" name="starttime " disabled = true value=<%=bookinfo.startdate%>>
                           </div>
                           <div class="field required">
-                              <label>退房时间</label>
-                              <input placeholder="退房时间（格式：YYYYMMDD）" type="text" name="endtime" value=<%=bookinfo.enddate%>>
+                            <label>退房时间</label>
+                            <input placeholder="退房时间（格式：YYYYMMDD）" type="text" id="endtime" name="endtime" value=<%=bookinfo.enddate%>>
+                            <script src="../middleware/laydate/laydate.js"></script>
+                            <script>
+                            //执行一个laydate实例
+                            laydate.render({
+                              elem: '#endtime' //指定元素
+                            });
+                            </script>
                             </div>
                           <div class="field required">
                             <label>房间号</label>
@@ -154,3 +161,5 @@
       </div>
     </div>
 <%- include('footerci') %>
+
+
